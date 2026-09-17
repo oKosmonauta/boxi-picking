@@ -1,0 +1,2996 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Boxi Picking Trainer — CAD Mercado Livre</title>
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --bg-page: #f8fafc;
+      --bg-subtle: #f1f5f9;
+      --meli-yellow: #ffe600;
+      --meli-yellow-dark: #ca8a04;
+      --shelf-blue: #1e3a8a;
+      --shelf-orange: #ea580c;
+      --boxi-blue: #0284c7;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 25px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    /* Header */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .brand-text {
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-text span {
+      color: var(--boxi-blue);
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+    }
+
+    .pill-badge {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .pill-badge.bump { transform: scale(1.25); }
+
+    .pill-badge.fire {
+      color: #ea580c;
+      background: #fff7ed;
+      border-color: #ffedd5;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      padding-bottom: 24px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cartão de Endereço Gamificado */
+    .address-card {
+      background: #ffffff;
+      border: 2px solid var(--meli-yellow);
+      border-radius: 16px;
+      padding: 8px 10px;
+      text-align: center;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 15px rgba(255, 230, 0, 0.25);
+      position: relative;
+    }
+
+    .address-sub-info {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .address-hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .hero-cell {
+      background: var(--bg-subtle);
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 4px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hero-cell.pop-anim {
+      animation: popCell 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popCell {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    .hero-cell.modulo-box {
+      border-color: #38bdf8;
+      background: #f0f9ff;
+    }
+
+    .hero-cell.andar-box {
+      border-color: #fdba74;
+      background: #fff7ed;
+    }
+
+    .hero-cell.bin-box {
+      border-color: #facc15;
+      background: #fefce8;
+    }
+
+    .hero-label {
+      font-size: 0.6rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-val {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .hero-tag {
+      font-size: 0.55rem;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-top: 2px;
+    }
+
+    .tag-par { background: #dbeafe; color: #1e40af; }
+    .tag-impar { background: #fee2e2; color: #991b1b; }
+
+    /* Stage Card */
+    .stage-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 16px;
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .landmark-bar {
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      background: #f8fafc;
+      z-index: 15;
+    }
+
+    .landmark-bar.outbound {
+      color: #0f172a;
+      background: #fef9c3;
+      border-color: #fef08a;
+    }
+
+    .landmark-bar.inbound {
+      color: #0369a1;
+      background: #f0f9ff;
+      border-color: #e0f2fe;
+    }
+
+    /* Banner Central de Transição */
+    .direction-center-flare {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      padding: 12px 16px;
+      border-radius: 16px;
+      text-align: center;
+      z-index: 90;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .direction-center-flare.show-outbound {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 3px solid var(--meli-yellow);
+      animation: bounceOutbound 1.2s ease forwards;
+    }
+
+    .direction-center-flare.show-inbound {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      border: 3px solid #ffffff;
+      animation: bounceInbound 1.2s ease forwards;
+    }
+
+    @keyframes bounceOutbound {
+      0% { transform: translateY(-30%) scale(0.7); opacity: 0; }
+      30% { transform: translateY(-70%) scale(1.08); opacity: 1; }
+      60% { transform: translateY(-50%) scale(1); opacity: 1; }
+      100% { transform: translateY(-50%) scale(0.9); opacity: 0; }
+    }
+
+    @keyframes bounceInbound {
+      0% { transform: translateY(-70%) scale(0.7); opacity: 0; }
+      30% { transform: translateY(-30%) scale(1.08); opacity: 1; }
+      60% { transform: translateY(-50%) scale(1); opacity: 1; }
+      100% { transform: translateY(-50%) scale(0.9); opacity: 0; }
+    }
+
+    /* Corredor das Estantes */
+    .corridor-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1366 / 768;
+      background: #f8fafc;
+      overflow: hidden;
+      margin: auto 0;
+    }
+
+    /* CAMADA DE FUNDO: REDE PRETA + GRADE AMARELA + ESTEIRA ALTA */
+    .corridor-horizon-scene {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .horizon-mesh-net {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 40%;
+      background: repeating-linear-gradient(45deg, rgba(15,23,42,0.45), rgba(15,23,42,0.45) 2.5px, rgba(51,65,85,0.55) 2.5px, rgba(51,65,85,0.55) 5px);
+      opacity: 0.35;
+      filter: blur(1.5px);
+    }
+
+    .horizon-yellow-fence {
+      position: absolute;
+      bottom: 37%;
+      left: 0;
+      right: 0;
+      height: 38px;
+      background: repeating-linear-gradient(0deg, #ca8a04, #ca8a04 2px, transparent 2px, transparent 7px),
+                  repeating-linear-gradient(90deg, #ca8a04, #ca8a04 2px, transparent 2px, transparent 12px);
+      opacity: 0.4;
+      filter: blur(1px);
+    }
+
+    .conveyor-straight-track {
+      position: absolute;
+      bottom: 36%;
+      left: 0;
+      right: 0;
+      height: 18px;
+      background: #090d16;
+      border-top: 3px solid var(--meli-yellow);
+      border-bottom: 2px solid #334155;
+      box-shadow: 0 -3px 12px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .conveyor-track-rollers {
+      width: 100%;
+      height: 7px;
+      background: repeating-linear-gradient(90deg, #1e293b, #1e293b 6px, #475569 6px, #475569 12px);
+      animation: rollerSlide 1s linear infinite;
+    }
+
+    @keyframes rollerSlide {
+      from { background-position: 0 0; }
+      to { background-position: 24px 0; }
+    }
+
+    .conveyor-box-runner {
+      position: absolute;
+      bottom: calc(36% + 9px);
+      width: 54px;
+      height: 40px;
+      animation: boxTravel 7s linear infinite;
+    }
+
+    .conveyor-box-runner.box-2 { animation-delay: -2.4s; }
+    .conveyor-box-runner.box-3 { animation-delay: -4.8s; }
+
+    @keyframes boxTravel {
+      0% { left: -70px; }
+      100% { left: 110%; }
+    }
+
+    .conveyor-pop-anim {
+      animation: conveyorPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes conveyorPop {
+      0% { transform: scale(0.7) translateY(15px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .inbound-wall-hub {
+      position: absolute;
+      bottom: 35%;
+      left: 25%;
+      right: 25%;
+      background: rgba(3, 105, 161, 0.95);
+      border: 2px solid #38bdf8;
+      border-radius: 6px;
+      padding: 6px 4px;
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* CAMADA DA FRENTE: IMAGEM DAS ESTANTES (OPACA, COBRINDO AS CAIXAS) */
+    .shelves-foreground-img {
+      position: absolute;
+      inset: 0;
+      background-image: url('estantes.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ZONAS INTERATIVAS DE TOQUE */
+    .shelf-click-zone {
+      position: absolute;
+      top: 2%;
+      bottom: 2%;
+      width: 34%;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 8px;
+      z-index: 10;
+      transition: transform 0.15s;
+    }
+
+    .shelf-click-zone:active { transform: scale(0.94); }
+    .shelf-click-zone.left { left: 1%; }
+    .shelf-click-zone.right { right: 1%; }
+
+    .shelf-floating-badge {
+      background: #ffffff;
+      border: 2px solid var(--shelf-blue);
+      border-radius: 10px;
+      padding: 6px 8px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+
+    .shelf-floating-badge.target-highlight {
+      border: 3px solid var(--meli-yellow);
+      background: #fef08a;
+      box-shadow: 0 0 16px var(--meli-yellow);
+      animation: pulseBadge 0.8s infinite alternate;
+    }
+
+    @keyframes pulseBadge {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .shelf-floating-badge.swap-anim {
+      animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes badgePop {
+      0% { transform: scale(0.7) rotate(-6deg); }
+      50% { transform: scale(1.15) rotate(4deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+
+    .shelf-floating-badge span {
+      font-size: 0.62rem;
+      font-weight: 800;
+      display: block;
+    }
+
+    .shelf-floating-badge strong {
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    /* Zoom da Estante Real (estante.jpg - 1792 x 2390) */
+    .shelf-zoom-view {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      z-index: 20;
+      flex-direction: column;
+      padding: 8px;
+      overflow-y: auto;
+    }
+
+    .shelf-zoom-view.active { display: flex; }
+
+    .shelf-zoom-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .shelf-photo-container {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      aspect-ratio: 1792 / 2390;
+      background-image: url('estante.jpg');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform-origin 0.5s ease;
+    }
+
+    /* SETA COMPACTA NO TOPO */
+    .shelf-top-arrow-bar {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 28px;
+      padding: 0 14px;
+      background: #0f172a;
+      border: 2px solid var(--meli-yellow);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.74rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      z-index: 35;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+      pointer-events: none;
+      white-space: nowrap;
+      animation: pillFloat 1.2s infinite alternate ease-in-out;
+    }
+
+    @keyframes pillFloat {
+      from { transform: translateX(-50%) translateY(0); }
+      to { transform: translateX(-50%) translateY(-2px); }
+    }
+
+    /* Zonas de Andares */
+    .floor-row-zone {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      cursor: pointer;
+      border: 2px dashed transparent;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 8px;
+      z-index: 25;
+      transition: all 0.15s;
+    }
+
+    .floor-row-zone:active {
+      background: rgba(250, 204, 21, 0.35);
+      border-color: var(--meli-yellow-dark);
+      transform: scale(0.98);
+    }
+
+    .floor-row-zone.target-spotlight {
+      background: rgba(250, 204, 21, 0.25);
+      border: 3px solid var(--meli-yellow);
+      box-shadow: 0 0 16px var(--meli-yellow);
+      animation: neonPulse 0.9s infinite alternate;
+    }
+
+    @keyframes neonPulse {
+      from { border-color: var(--meli-yellow); box-shadow: 0 0 8px var(--meli-yellow); }
+      to { border-color: #ffffff; box-shadow: 0 0 20px var(--meli-yellow); }
+    }
+
+    .floor-row-tag {
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--shelf-orange);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    /* Hotspot de Gavetas */
+    .hotspot-cell {
+      position: absolute;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1.5px solid transparent;
+      border-radius: 4px;
+      z-index: 26;
+      transition: background-color 0.12s, border-color 0.12s, transform 0.1s;
+    }
+
+    .hotspot-cell:active {
+      background: rgba(250, 204, 21, 0.6);
+      border-color: #ca8a04;
+      transform: scale(0.9);
+    }
+
+    .hotspot-cell.dimmed-out {
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .hotspot-cell.target-spotlight {
+      background: rgba(250, 204, 21, 0.55);
+      border: 2px solid var(--boxi-blue);
+      box-shadow: 0 0 14px var(--meli-yellow);
+      animation: neonPulse 0.8s infinite alternate;
+    }
+
+    .hotspot-cell.show-numbers {
+      background: rgba(254, 240, 138, 0.55);
+      border: 1.5px solid rgba(202, 138, 4, 0.9);
+      color: #713f12;
+      font-size: 0.7rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-shadow: 0 1px 1px #fff;
+    }
+
+    /* Efeitos de Toque e Dopamina */
+    .click-ripple-fx {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 3px solid var(--meli-yellow);
+      background: rgba(255, 230, 0, 0.35);
+      transform: translate(-50%, -50%) scale(0.2);
+      pointer-events: none;
+      z-index: 999;
+      animation: rippleBurst 0.4s ease-out forwards;
+    }
+
+    @keyframes rippleBurst {
+      to { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+    }
+
+    .floating-dopamine-text {
+      position: fixed;
+      font-family: 'SF Mono', system-ui, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #ea580c;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      pointer-events: none;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      animation: floatUpFade 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes floatUpFade {
+      0% { transform: translate(-50%, -20%) scale(0.7); opacity: 0; }
+      40% { transform: translate(-50%, -70%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -120%) scale(1); opacity: 0; }
+    }
+
+    .timer-track {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .timer-fill {
+      height: 100%;
+      width: 100%;
+      background: var(--success);
+      transition: width 0.1s linear, background-color 0.25s;
+    }
+
+    /* Botões */
+    .btn {
+      background: var(--shelf-blue);
+      color: #ffffff;
+      border: none;
+      padding: 13px 16px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(30, 58, 138, 0.2);
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-yellow {
+      background: var(--meli-yellow);
+      color: #0f172a;
+      box-shadow: 0 3px 8px rgba(255, 230, 0, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border-color);
+      color: var(--text-main);
+      box-shadow: none;
+    }
+
+    .btn-outline:active { background: var(--bg-subtle); }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border-radius: 8px;
+    }
+
+    /* Boxi Flutuante no Rodapé */
+    .boxi-side-coach {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 100;
+      background: #ffffff;
+      border: 2px solid var(--boxi-blue);
+      border-radius: 16px;
+      padding: 8px 12px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.25);
+      cursor: pointer;
+      animation: slideUpSide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes slideUpSide {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .boxi-side-coach.active { display: flex; }
+
+    .boxi-side-avatar {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .boxi-emoji-bubble {
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      background: var(--meli-yellow);
+      border: 1px solid #ca8a04;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: emojiPop 0.8s infinite alternate;
+    }
+
+    @keyframes emojiPop {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-3px) scale(1.15); }
+    }
+
+    .boxi-side-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .boxi-side-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--boxi-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .boxi-side-text {
+      font-size: 0.76rem;
+      color: var(--text-main);
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .boxi-side-hint {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--boxi-blue);
+      margin-top: 2px;
+    }
+
+    /* Modal de Diálogo da Boxi */
+    .boxi-story-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .boxi-story-overlay.active { display: flex; }
+
+    .boxi-story-avatar {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 16px;
+      animation: boxiFloat 2.4s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    @keyframes boxiFloat {
+      from { transform: translateY(0) rotate(-2deg); }
+      to { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .boxi-story-bubble {
+      background: #ffffff;
+      border: 2px solid var(--boxi-blue);
+      border-radius: 18px;
+      padding: 18px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(2, 132, 199, 0.15);
+      margin-bottom: 16px;
+    }
+
+    .boxi-story-bubble h3 {
+      font-size: 1.15rem;
+      color: var(--boxi-blue);
+      margin-bottom: 6px;
+      font-weight: 900;
+    }
+
+    .boxi-story-bubble p {
+      font-size: 0.92rem;
+      color: var(--text-main);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    .tap-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--boxi-blue);
+      animation: blinkHint 1s infinite alternate;
+    }
+
+    @keyframes blinkHint {
+      from { opacity: 0.5; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(2px); }
+    }
+
+    .tour-spotlight-ring {
+      position: absolute;
+      border: 4px solid var(--boxi-blue);
+      border-radius: 16px;
+      box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.7), 0 0 15px var(--meli-yellow);
+      pointer-events: none;
+      z-index: 250;
+      transition: all 0.35s ease-out;
+      display: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 250;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-sheet {
+      background: #ffffff;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 16px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      animation: slideUp 0.2s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+    <header>
+      <div class="brand-box" onclick="App.handleMenuClick()">
+        <div id="miniBoxi" style="width:28px; height:28px;"></div>
+        <div class="brand-text"><span>BOXI</span> PICKING</div>
+      </div>
+      <div class="header-badges">
+        <div class="pill-badge fire" id="badgeStreak">
+          🔥 <span id="hdrStreak">0</span>
+        </div>
+        <div class="pill-badge" id="badgeLevel">
+          ⭐ <span id="hdrLevel">Novato</span>
+        </div>
+        <button class="btn-icon" id="btnAudio" onclick="AudioEngine.toggle()" title="Som">🔊</button>
+        <button class="btn-icon" onclick="App.handleMenuClick()" title="Menu">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- View 1: Menu Principal -->
+      <section id="screen-menu" class="screen active">
+        <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #e0f2fe; border-radius:14px; padding:10px 12px; box-shadow:0 4px 12px rgba(2,132,199,0.08); margin-bottom:12px;">
+          <div id="boxiMenu" style="width:58px; height:58px; flex-shrink:0;"></div>
+          <div style="font-size:0.84rem; line-height:1.35; color:var(--text-main);">
+            <strong>Oi! Eu sou a Boxi. ^^</strong><br />
+            Vamos aprender a fazer picking do mais fácil até virar mestre!
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button class="btn btn-yellow" onclick="App.startEndless()">
+            ▶ CONTINUAR TREINAMENTO INFINITO
+          </button>
+          <button class="btn btn-outline" onclick="App.restartTutorial()">
+            ❓ REINICIAR / REVER TUTORIAL
+          </button>
+          <button class="btn btn-outline" onclick="App.nav('practice')">
+            🎯 TREINO LIVRE (COM DICAS)
+          </button>
+          <button class="btn btn-outline" onclick="App.nav('speed')">
+            ⚡ DESAFIO DE VELOCIDADE
+          </button>
+          <button class="btn btn-outline" onclick="App.nav('stats')">
+            📊 MINHAS ESTATÍSTICAS
+          </button>
+        </div>
+      </section>
+
+      <!-- View 2: Treinamento Infinito, Tutorial e Treino Livre -->
+      <section id="screen-game" class="screen">
+        <div class="address-card" id="gameAddressCard">
+          <div class="address-sub-info" id="gameAddressSubInfo">
+            <span>MEZANINO: <b id="gMz">1</b></span> • <span>RUA: <b id="gRua">45</b></span>
+          </div>
+          <div class="address-hero-grid" id="gameHeroGrid">
+            <div class="hero-cell modulo-box" id="cellModulo">
+              <span class="hero-label">MÓDULO</span>
+              <span class="hero-val" id="gModulo">032</span>
+              <span class="hero-tag tag-par" id="gModuloTag">PAR</span>
+            </div>
+            <div class="hero-cell andar-box" id="cellAndar">
+              <span class="hero-label">ANDAR</span>
+              <span class="hero-val" id="gAndar">03</span>
+            </div>
+            <div class="hero-cell bin-box" id="cellBin">
+              <span class="hero-label">BIN</span>
+              <span class="hero-val" id="gBin">07</span>
+            </div>
+          </div>
+          <div class="timer-track" id="gameTimerTrack">
+            <div class="timer-fill" id="gameTimerFill"></div>
+          </div>
+        </div>
+
+        <div class="stage-card" id="gameStageCard">
+          <div class="landmark-bar outbound" id="gameLandmark">OLHANDO PARA O OUTBOUND</div>
+
+          <!-- BANNER DE TRANSIÇÃO ULTRA VISÍVEL NO CENTRO -->
+          <div class="direction-center-flare" id="directionFlare">
+            <span id="flareIcon" style="font-size:1.8rem;">⬆️</span>
+            <strong id="flareTitle" style="font-size:1rem; color:#ffe600; letter-spacing:0.5px;">OLHANDO PARA O OUTBOUND</strong>
+            <span id="flareSub" style="font-size:0.75rem; color:#ffffff; margin-top:2px;">(ESTEIRA AO FUNDO)</span>
+          </div>
+
+          <!-- Corredor -->
+          <div class="corridor-wrapper" id="gameCorridor">
+            <!-- CAMADA DE FUNDO: REDE PRETA + GRADE AMARELA + NOVA ESTEIRA HORIZONTAL ALTA -->
+            <div class="corridor-horizon-scene" id="corridorHorizonScene">
+              <div class="horizon-mesh-net"></div>
+              <div class="horizon-yellow-fence"></div>
+              
+              <!-- Esteira e Caixas Amarelas Fiéis (OUTBOUND) -->
+              <div id="horizonOutboundTrack" class="conveyor-straight-track conveyor-pop-anim">
+                <div class="conveyor-track-rollers"></div>
+              </div>
+
+              <!-- Caixas Totes do Mercado Livre com etiqueta 0B7 passando -->
+              <div id="conveyorTotesContainer">
+                <div class="conveyor-box-runner box-1">
+                  <svg viewBox="0 0 70 54" width="100%" height="100%">
+                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
+                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
+                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
+                    <g transform="translate(27, 27.5)">
+                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
+                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
+                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
+                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
+                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
+                    </g>
+                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">0B7</text>
+                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
+                  </svg>
+                </div>
+
+                <div class="conveyor-box-runner box-2">
+                  <svg viewBox="0 0 70 54" width="100%" height="100%">
+                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
+                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
+                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
+                    <g transform="translate(27, 27.5)">
+                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
+                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
+                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
+                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
+                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
+                    </g>
+                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">A4F</text>
+                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
+                  </svg>
+                </div>
+
+                <div class="conveyor-box-runner box-3">
+                  <svg viewBox="0 0 70 54" width="100%" height="100%">
+                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
+                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
+                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
+                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
+                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
+                    <g transform="translate(27, 27.5)">
+                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
+                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
+                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
+                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
+                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
+                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
+                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
+                    </g>
+                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">1C9</text>
+                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="inbound-wall-hub" id="horizonInboundWall" style="display:none;">
+                ÁREA DO INBOUND (RECEIVING / PA)
+              </div>
+            </div>
+
+            <!-- CAMADA DA FRENTE: IMAGEM DAS ESTANTES -->
+            <div class="shelves-foreground-img"></div>
+
+            <!-- ZONAS INTERATIVAS DE TOQUE -->
+            <div class="shelf-click-zone left" id="zoneShelfLeft" onclick="GameCore.pickSide('left')">
+              <div class="shelf-floating-badge" id="badgeShelfLeft">
+                <span id="gamePillLeftType">LADO ESQUERDO</span>
+                <strong id="gamePillLeftSpec">Módulo</strong>
+              </div>
+            </div>
+
+            <div class="shelf-click-zone right" id="zoneShelfRight" onclick="GameCore.pickSide('right')">
+              <div class="shelf-floating-badge" id="badgeShelfRight">
+                <span id="gamePillRightType">LADO DIREITO</span>
+                <strong id="gamePillRightSpec">Módulo</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- MZ TOP VIEW -->
+          <div id="mzTopViewContainer" style="display:none; position:absolute; inset:0; background:#0b1120; z-index:22; flex-direction:column; padding:8px 8px 75px 8px; overflow:hidden;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; padding:0 4px;">
+              <strong style="color:var(--meli-yellow); font-size:0.8rem; letter-spacing:0.5px;">MAPA SUPERIOR DO MEZANINO (MZ)</strong>
+              <span style="font-size:0.65rem; color:#94a3b8;">66 Ruas • 110 Módulos • 3 Avenidas</span>
+            </div>
+            <div id="mzSvgStage" style="flex:1; width:100%; border:2px solid #334155; border-radius:10px; background:#020617; position:relative; overflow:hidden;"></div>
+          </div>
+
+          <!-- Zoom da Estante Real (estante.jpg - 1792x2390) -->
+          <div class="shelf-zoom-view" id="gameShelfZoom">
+            <div class="shelf-zoom-nav">
+              <div>
+                <strong style="color:var(--shelf-blue); font-size:0.85rem;" id="gameZoomTitle">ESTANTE</strong>
+                <span style="font-size:0.7rem; color:var(--text-muted); margin-left:6px;" id="gameZoomSub">Andares de baixo para cima</span>
+              </div>
+              <button class="btn btn-outline btn-sm" id="btnReturnToCorridor" onclick="GameCore.returnToCorridor()">⬅ Corredor</button>
+            </div>
+            <div class="shelf-photo-container" id="gamePhotoContainer">
+              <div class="shelf-top-arrow-bar" id="shelfTopArrow">
+                <span id="shelfTopArrowText">➔ 1 ➔ 6 (Esq ➔ Dir) ➔</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <button class="btn btn-outline btn-sm" id="btnPauseOrQuit" onclick="App.handlePauseOrQuit()">Pausar</button>
+          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted);" id="gameTimerText">60.0s</span>
+        </div>
+      </section>
+
+      <!-- View 3: Treino Livre -->
+      <section id="screen-practice" class="screen">
+        <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:14px; padding:16px;">
+          <h3 style="color:var(--shelf-blue); font-size:1rem; margin-bottom:12px;">Configurar Treino Livre</h3>
+
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Mezanino Alvo:</label>
+          <select id="selPracticeMz" style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; font-size:0.9rem; margin-bottom:14px; background:#fff;">
+            <option value="any">Qualquer Mezanino (MZ0 a MZ3)</option>
+            <option value="0">MZ0 — Térreo (Inbound / Esteira)</option>
+            <option value="1">MZ1 — Nível 1</option>
+            <option value="2">MZ2 — Nível 2</option>
+            <option value="3">MZ3 — Nível 3</option>
+          </select>
+
+          <div style="margin-bottom:16px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+              <input type="checkbox" id="chkShowNumbers" checked />
+              <span><strong>Exibir números por cima das gavetas</strong></span>
+            </label>
+          </div>
+
+          <button class="btn btn-yellow" style="width:100%;" onclick="PracticeCore.start()">
+            Iniciar Treino Livre
+          </button>
+        </div>
+      </section>
+
+      <!-- View 4: Desafio de Velocidade -->
+      <section id="screen-speed" class="screen">
+        <h3 style="color:var(--shelf-blue); font-size:1rem; margin-bottom:12px;">Desafio de Velocidade</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:14px;">
+          Encontre os endereços no menor tempo possível sem ajuda visual!
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button class="btn btn-yellow" onclick="SpeedCore.start(10)">Sprint: 10 Endereços</button>
+          <button class="btn btn-outline" onclick="SpeedCore.start(25)">Padrão: 25 Endereços</button>
+          <button class="btn btn-outline" onclick="SpeedCore.start(50)">Maratona: 50 Endereços</button>
+        </div>
+      </section>
+
+      <!-- View 5: Estatísticas -->
+      <section id="screen-stats" class="screen">
+        <h3 style="font-size:1.1rem; color:var(--shelf-blue); margin-bottom:10px;">Histórico de Desempenho</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
+            <span style="font-size:0.7rem; color:var(--text-muted);">MELHOR SEQUÊNCIA</span>
+            <div style="font-size:1.5rem; font-weight:900; color:#ea580c;" id="stStreak">🔥 0</div>
+          </div>
+          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
+            <span style="font-size:0.7rem; color:var(--text-muted);">PRECISÃO</span>
+            <div style="font-size:1.5rem; font-weight:900; color:var(--success);" id="stAcc">100%</div>
+          </div>
+          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
+            <span style="font-size:0.7rem; color:var(--text-muted);">BIPES TOTAIS</span>
+            <div style="font-size:1.5rem; font-weight:900;" id="stTotal">0</div>
+          </div>
+          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
+            <span style="font-size:0.7rem; color:var(--text-muted);">TEMPO MÉDIO</span>
+            <div style="font-size:1.5rem; font-weight:900; color:#0284c7;" id="stAvg">0.0s</div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" style="width:100%; margin-bottom:8px; border-color:var(--danger); color:var(--danger);" onclick="App.resetProgress()">
+          🗑️ Resetar Todo o Progresso
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="App.nav('menu')">Voltar ao Menu</button>
+      </section>
+    </main>
+
+    <!-- BOXI NO CANTINHO (WIDGET FLUTUANTE) -->
+    <div class="boxi-side-coach" id="boxiSideCoach" onclick="TutorialEngine.advanceSideCoach()">
+      <div class="boxi-side-avatar">
+        <div id="boxiSideAvatarGraphic" style="width:100%; height:100%;"></div>
+        <div class="boxi-emoji-bubble" id="boxiEmojiBubble">💡</div>
+      </div>
+      <div class="boxi-side-content">
+        <div class="boxi-side-title">
+          <span id="sideCoachTitle">Boxi Instrutora</span>
+          <span style="font-size:0.7rem; font-weight:normal; color:var(--text-muted);">Toque ➔</span>
+        </div>
+        <div class="boxi-side-text" id="sideCoachText">Explicação aqui...</div>
+        <div class="boxi-side-hint" id="sideCoachHint">Toque para avançar ➔</div>
+      </div>
+    </div>
+
+    <!-- TELA CHEIA PARA DIÁLOGOS DA BOXI -->
+    <div class="boxi-story-overlay" id="boxiStoryOverlay" onclick="TutorialEngine.advanceDialogue()">
+      <div class="boxi-story-avatar">
+        <div id="boxiBigAvatar" style="width:100%; height:100%;"></div>
+        <div class="boxi-emoji-bubble" style="top:-12px; right:-8px; font-size:1.2rem; width:32px; height:32px;" id="storyEmojiBubble">🎉</div>
+      </div>
+      <div class="boxi-story-bubble">
+        <h3 id="storyBubbleTitle">Oi, operador!</h3>
+        <p id="storyBubbleText">Texto da Boxi...</p>
+      </div>
+      <div class="tap-hint" id="storyTapHint">Toque na tela para continuar ➔</div>
+    </div>
+
+    <div class="tour-spotlight-ring" id="tourRing"></div>
+
+    <!-- Modal Padrão / Confirmação -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-sheet">
+        <div id="boxiModal" style="width:62px; height:62px;"></div>
+        <h4 id="modalTitle" style="font-size:1.15rem;">Mensagem</h4>
+        <p id="modalBody" style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;"></p>
+        <div id="modalButtons" style="display:flex; flex-direction:column; gap:8px; width:100%;">
+          <button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Core & Feedback Háptico -->
+  <script>
+    const AudioEngine = {
+      enabled: true,
+      ctx: null,
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      },
+
+      toggle() {
+        this.enabled = !this.enabled;
+        document.getElementById('btnAudio').textContent = this.enabled ? '🔊' : '🔇';
+      },
+
+      playTone(freq, dur, type = 'sine') {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+      },
+
+      success(streak = 1) {
+        const base = 880 + Math.min(600, streak * 25);
+        this.playTone(base, 0.08, 'sine');
+        setTimeout(() => this.playTone(base * 1.33, 0.12, 'triangle'), 60);
+      },
+
+      error() {
+        this.playTone(220, 0.22, 'sawtooth');
+      },
+
+      scanner() {
+        this.playTone(2400, 0.04, 'square');
+      },
+
+      swoosh() {
+        this.playTone(320, 0.15, 'sine');
+      }
+    };
+
+    const FeedbackEngine = {
+      vibrate(pattern = 15) {
+        if (navigator.vibrate) {
+          try { navigator.vibrate(pattern); } catch(e) {}
+        }
+      },
+
+      burst(x, y, color = '#ffe600') {
+        const ripple = document.createElement('div');
+        ripple.className = 'click-ripple-fx';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.style.borderColor = color;
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 420);
+      },
+
+      showDopamine(x, y, text, color = '#ea580c') {
+        const floater = document.createElement('div');
+        floater.className = 'floating-dopamine-text';
+        floater.style.left = `${x}px`;
+        floater.style.top = `${y}px`;
+        floater.style.color = color;
+        floater.textContent = text;
+        document.body.appendChild(floater);
+        setTimeout(() => floater.remove(), 700);
+      }
+    };
+
+    document.addEventListener('pointerdown', (e) => {
+      FeedbackEngine.burst(e.clientX, e.clientY);
+    });
+  </script>
+
+  <!-- Boxi Visual Engine -->
+  <script>
+    const BoxiDrawer = {
+      draw(containerId, mood = 'normal') {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+
+        let eyeMarkup = '';
+
+        if (mood === 'joy') {
+          eyeMarkup = `
+            <path d="M 20 40 Q 27 22 34 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+            <path d="M 46 40 Q 53 22 60 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+          `;
+        } else if (mood === 'wink') {
+          eyeMarkup = `
+            <path d="M 20 38 Q 27 24 34 38" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+            <circle cx="53" cy="36" r="6" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+          `;
+        } else if (mood === 'curious') {
+          eyeMarkup = `
+            <circle cx="27" cy="36" r="8" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+            <circle cx="53" cy="36" r="5" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+          `;
+        } else if (mood === 'oops') {
+          eyeMarkup = `
+            <ellipse cx="27" cy="40" rx="5" ry="8" fill="#ffffff" transform="rotate(-15 27 40)"/>
+            <ellipse cx="53" cy="40" rx="5" ry="8" fill="#ffffff" transform="rotate(15 53 40)"/>
+          `;
+        } else {
+          eyeMarkup = `
+            <path d="M 22 36 C 22 24, 32 24, 32 36 C 32 48, 22 48, 22 36 Z" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+            <path d="M 48 36 C 48 24, 58 24, 58 36 C 58 48, 48 48, 48 36 Z" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+          `;
+        }
+
+        const svg = `
+          <svg viewBox="0 0 80 80" width="100%" height="100%">
+            <ellipse cx="40" cy="74" rx="26" ry="4" fill="#cbd5e1" opacity="0.6"/>
+            <rect x="12" y="14" width="56" height="54" rx="12" fill="#0284c7" stroke="#0369a1" stroke-width="2.5"/>
+            <rect x="34" y="14" width="12" height="10" rx="2" fill="#ffe600" opacity="0.95"/>
+            ${eyeMarkup}
+            <circle cx="18" cy="48" r="4" fill="#38bdf8" opacity="0.45"/>
+            <circle cx="62" cy="48" r="4" fill="#38bdf8" opacity="0.45"/>
+          </svg>
+        `;
+        el.innerHTML = svg;
+      }
+    };
+  </script>
+
+  <!-- Warehouse Engine -->
+  <script>
+    const WarehouseEngine = {
+      floorLevels: [
+        { level: 1, top: 66.8, height: 10.4 },
+        { level: 2, top: 52.8, height: 11.2 },
+        { level: 3, top: 39.4, height: 11.2 },
+        { level: 4, top: 26.5, height: 9.8  },
+        { level: 5, top: 14.5, height: 9.0  }
+      ],
+
+      generate(options = {}) {
+        const mz = options.mz !== undefined && options.mz !== 'any' ? parseInt(options.mz) : Math.floor(Math.random() * 4);
+        const rua = options.rua || (Math.floor(Math.random() * 66) + 1);
+        const modulo = options.modulo || (Math.floor(Math.random() * 110) + 1);
+        const andar = options.andar || (Math.floor(Math.random() * 5) + 1);
+
+        let maxBin = 6;
+        if (andar === 2 || andar === 3) maxBin = 12;
+        const bin = Math.floor(Math.random() * maxBin) + 1;
+        const facing = options.facing || (Math.random() > 0.5 ? 'OUTBOUND' : 'INBOUND');
+
+        return {
+          mz,
+          rua,
+          modulo,
+          andar,
+          bin,
+          facing,
+          code: `MZ-${mz}-${String(rua).padStart(2, '0')}-${String(modulo).padStart(3, '0')}-${String(andar).padStart(2, '0')}-${String(bin).padStart(2, '0')}`,
+          isEven: modulo % 2 === 0
+        };
+      },
+
+      getSides(facing) {
+        return facing === 'INBOUND'
+          ? { left: 'ODD', right: 'EVEN' }
+          : { left: 'EVEN', right: 'ODD' };
+      },
+
+      buildFloorRowHotspots(containerId, onFloorClick) {
+        const stage = document.getElementById(containerId);
+        stage.querySelectorAll('.floor-row-zone').forEach(el => el.remove());
+        stage.querySelectorAll('.hotspot-cell').forEach(el => el.remove());
+
+        this.floorLevels.forEach(f => {
+          const row = document.createElement('div');
+          row.className = 'floor-row-zone';
+          row.id = `floorRowZone_${f.level}`;
+          row.style.top = `${f.top}%`;
+          row.style.height = `${f.height}%`;
+          row.innerHTML = `<span class="floor-row-tag">ANDAR ${f.level}</span>`;
+
+          row.onclick = (e) => {
+            e.stopPropagation();
+            FeedbackEngine.vibrate(20);
+            onFloorClick(f.level);
+          };
+          stage.appendChild(row);
+        });
+      },
+
+      buildImageHotspots(containerId, isEvenBuilding, onBinClick, showNumbers = false, targetFloorOnly = null) {
+        const stage = document.getElementById(containerId);
+        stage.querySelectorAll('.floor-row-zone').forEach(el => el.remove());
+        stage.querySelectorAll('.hotspot-cell').forEach(el => el.remove());
+
+        const colStart = 8.8;
+        const colWidth = 13.4;
+        const colGap = 0.4;
+
+        for (let l = 1; l <= 5; l++) {
+          const isDimmed = (targetFloorOnly !== null && l !== targetFloorOnly);
+
+          if (l === 2 || l === 3) {
+            const topY = l === 3 ? 39.4 : 52.8;
+            const botY = l === 3 ? 45.4 : 58.8;
+            const h = 5.2;
+
+            for (let c = 0; c < 6; c++) {
+              const effectiveCol = isEvenBuilding ? c : (5 - c);
+              const binTop = effectiveCol * 2 + 1;
+              const binBot = effectiveCol * 2 + 2;
+              const x = colStart + c * (colWidth + colGap);
+
+              stage.appendChild(this.createHotspot(l, binTop, x, topY, colWidth, h, onBinClick, showNumbers, isDimmed));
+              stage.appendChild(this.createHotspot(l, binBot, x, botY, colWidth, h, onBinClick, showNumbers, isDimmed));
+            }
+          } else {
+            let y = 66.8;
+            let h = 10.4;
+            if (l === 4) { y = 26.5; h = 9.8; }
+            if (l === 5) { y = 14.5; h = 9.0; }
+
+            for (let c = 0; c < 6; c++) {
+              const binNum = isEvenBuilding ? (c + 1) : (6 - c);
+              const x = colStart + c * (colWidth + colGap);
+              stage.appendChild(this.createHotspot(l, binNum, x, y, colWidth, h, onBinClick, showNumbers, isDimmed));
+            }
+          }
+        }
+      },
+
+      createHotspot(level, binNum, x, y, w, h, onClick, showNumbers, isDimmed = false) {
+        const spot = document.createElement('div');
+        spot.className = 'hotspot-cell' + (showNumbers ? ' show-numbers' : '') + (isDimmed ? ' dimmed-out' : '');
+        spot.style.left = `${x}%`;
+        spot.style.top = `${y}%`;
+        spot.style.width = `${w}%`;
+        spot.style.height = `${h}%`;
+        spot.dataset.level = level;
+        spot.dataset.bin = binNum;
+
+        if (showNumbers && !isDimmed) {
+          spot.textContent = String(binNum).padStart(2, '0');
+        }
+
+        spot.onclick = (e) => {
+          e.stopPropagation();
+          FeedbackEngine.vibrate(25);
+          onClick(level, binNum, e.clientX, e.clientY);
+        };
+        return spot;
+      },
+
+      updateShelfTopArrow(elementId, isEven) {
+        const arrow = document.getElementById(elementId);
+        if (!arrow) return;
+        arrow.style.display = 'flex';
+        if (isEven) {
+          arrow.innerHTML = `<span style="color:var(--meli-yellow); font-size:1rem;">➔</span> <strong>1 ➔ 6</strong> (Esq ➔ Dir) <span style="color:var(--meli-yellow); font-size:1rem;">➔</span>`;
+        } else {
+          arrow.innerHTML = `<span style="color:var(--meli-yellow); font-size:1rem;">⬅</span> <strong>6 ⬅ 1</strong> (Dir ➔ Esq) <span style="color:var(--meli-yellow); font-size:1rem;">⬅</span>`;
+        }
+      }
+    };
+  </script>
+
+  <!-- Gerenciador de Interface e Endereços -->
+  <script>
+    const GameUI = {
+      resetToCleanState() {
+        document.getElementById('mzTopViewContainer').style.display = 'none';
+        document.getElementById('btnReturnToCorridor').style.display = 'block';
+        document.getElementById('cellModulo').style.display = 'flex';
+        document.getElementById('cellAndar').style.display = 'flex';
+        document.getElementById('cellBin').style.display = 'flex';
+        document.getElementById('gameTimerTrack').style.display = 'block';
+        document.getElementById('btnPauseOrQuit').textContent = "Pausar";
+
+        const photo = document.getElementById('gamePhotoContainer');
+        photo.style.transformOrigin = '50% 50%';
+        photo.style.transform = 'scale(1)';
+
+        document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
+        document.querySelectorAll('.hotspot-cell').forEach(el => {
+          el.classList.remove('target-spotlight');
+          el.classList.remove('dimmed-out');
+        });
+      },
+
+      renderAddress(addr) {
+        document.getElementById('gameAddressSubInfo').textContent = `MEZANINO: ${addr.mz} • RUA: ${String(addr.rua).padStart(2, '0')}`;
+        document.getElementById('gModulo').textContent = String(addr.modulo).padStart(3, '0');
+        document.getElementById('gAndar').textContent = String(addr.andar).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(addr.bin).padStart(2, '0');
+
+        const tag = document.getElementById('gModuloTag');
+        tag.className = addr.isEven ? "hero-tag tag-par" : "hero-tag tag-impar";
+        tag.textContent = addr.isEven ? "PAR" : "ÍMPAR";
+
+        GameCore.bumpCell('cellModulo');
+        GameCore.bumpCell('cellAndar');
+        GameCore.bumpCell('cellBin');
+      }
+    };
+  </script>
+
+  <!-- Tutorial Engine (Com 2 Exemplos 100% Guiados e Explicados) -->
+  <script>
+    const TutorialEngine = {
+      active: false,
+      stepIndex: 0,
+      floorStreak: 0,
+      floorTarget: 1,
+      aptStreak: 0,
+      currentAptLevel: 1,
+      currentAptBin: 1,
+      randomArrowIsEven: true,
+      topViewStep: 1,
+      tourStep: 0,
+      guidedExampleStep: 0, // 1 a 6
+
+      startProgressiveTutorial() {
+        this.abort();
+        this.active = true;
+        this.stepIndex = 0;
+        App.nav('game');
+
+        document.getElementById('btnPauseOrQuit').textContent = "Sair do Treino";
+
+        this.showStory(
+          "Oi, eu sou a Boxi! ^^",
+          "Vou te ensinar tintim por tintim como fazer picking no CAD do Mercado Livre!<br><br>Vou ficar no cantinho apontando cada parte na estante real, sem cobrir sua tela!",
+          "joy",
+          "🚀"
+        );
+      },
+
+      abort() {
+        this.active = false;
+        this.stepIndex = 0;
+        this.floorStreak = 0;
+        this.aptStreak = 0;
+        this.hideStory();
+        this.hideSideCoach();
+        document.getElementById('tourRing').style.display = 'none';
+        document.getElementById('badgeShelfLeft').classList.remove('target-highlight');
+        document.getElementById('badgeShelfRight').classList.remove('target-highlight');
+        GameUI.resetToCleanState();
+      },
+
+      requestAbort() {
+        BoxiDrawer.draw('boxiModal', 'wink');
+        document.getElementById('modalTitle').textContent = "Sair do Tutorial?";
+        document.getElementById('modalBody').innerHTML = "Tem certeza de que deseja sair do tutorial agora? ^^<br><br>Você pode <strong>reiniciar ele do zero</strong> quando quiser pelo menu principal!";
+        
+        const container = document.getElementById('modalButtons');
+        container.innerHTML = `
+          <button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar Tutorial</button>
+          <button class="btn btn-outline" style="width:100%; border-color:var(--danger); color:var(--danger);" onclick="TutorialEngine.confirmAbort()">Sim, Sair do Treino</button>
+        `;
+
+        document.getElementById('modalOverlay').classList.add('active');
+      },
+
+      confirmAbort() {
+        App.closeModal();
+        this.abort();
+        App.nav('menu');
+      },
+
+      showStory(title, text, mood = 'normal', emoji = '💡') {
+        document.getElementById('storyBubbleTitle').textContent = title;
+        document.getElementById('storyBubbleText').innerHTML = text;
+        document.getElementById('storyEmojiBubble').textContent = emoji;
+        BoxiDrawer.draw('boxiBigAvatar', mood);
+        document.getElementById('boxiStoryOverlay').classList.add('active');
+      },
+
+      hideStory() {
+        document.getElementById('boxiStoryOverlay').classList.remove('active');
+      },
+
+      showSideCoach(title, text, mood = 'normal', emoji = '👀', hint = "Toque para avançar ➔") {
+        document.getElementById('sideCoachTitle').textContent = title;
+        document.getElementById('sideCoachText').innerHTML = text;
+        document.getElementById('sideCoachHint').textContent = hint;
+        document.getElementById('boxiEmojiBubble').textContent = emoji;
+        BoxiDrawer.draw('boxiSideAvatarGraphic', mood);
+        document.getElementById('boxiSideCoach').classList.add('active');
+      },
+
+      hideSideCoach() {
+        document.getElementById('boxiSideCoach').classList.remove('active');
+      },
+
+      advanceDialogue() {
+        if (!this.active) return;
+        this.stepIndex++;
+
+        if (this.stepIndex === 1) {
+          this.startFloorTour();
+        } else if (this.stepIndex === 2) {
+          this.startAptDrillL2R();
+        } else if (this.stepIndex === 3) {
+          this.startAptDrillR2L();
+        } else if (this.stepIndex === 4) {
+          this.startAptRandomArrowPhase();
+        } else if (this.stepIndex === 5) {
+          this.startTopViewPhase();
+        } else if (this.stepIndex === 6) {
+          // Inicia os 2 Exemplos 100% Guiados
+          this.startGuidedExamples();
+        } else if (this.stepIndex === 7) {
+          this.startCadAddressExplanation();
+        } else if (this.stepIndex === 8) {
+          this.startTourPhase();
+        } else if (this.stepIndex >= 9) {
+          this.abort();
+          App.state.tutorialCompleted = true;
+          App.save();
+          App.nav('menu');
+        }
+      },
+
+      advanceSideCoach() {
+        if (!this.active) return;
+        if (this.stepIndex === 1) {
+          this.nextFloorTourStep();
+        } else if (this.stepIndex === 5) {
+          this.nextTopViewTourStep();
+        }
+      },
+
+      /* PASSO 1: TOUR DOS ANDARES */
+      startFloorTour() {
+        this.hideStory();
+        document.getElementById('gameCorridor').style.display = 'none';
+        document.getElementById('gameShelfZoom').classList.add('active');
+        document.getElementById('btnReturnToCorridor').style.display = 'none';
+        document.getElementById('shelfTopArrow').style.display = 'none';
+
+        document.getElementById('gameAddressSubInfo').textContent = "CONHECENDO OS ANDARES";
+        document.getElementById('cellModulo').style.display = 'none';
+        document.getElementById('cellBin').style.display = 'none';
+        document.getElementById('cellAndar').style.display = 'flex';
+        document.getElementById('gameTimerTrack').style.display = 'none';
+        document.getElementById('gameTimerText').textContent = "Explicação";
+
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', () => {});
+        this.floorExplainingStep = 1;
+        this.highlightFloorStep(1);
+      },
+
+      highlightFloorStep(level) {
+        document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
+        const targetRow = document.getElementById(`floorRowZone_${level}`);
+        if (targetRow) targetRow.classList.add('target-spotlight');
+
+        document.getElementById('gAndar').textContent = `0${level}`;
+        GameCore.bumpCell('cellAndar');
+
+        if (level === 1) {
+          this.showSideCoach(
+            "Ó, esse é o Andar 1! 🟡",
+            "Ele fica rente ao chão, na base! Tem 6 gavetas grandes amarelas. <strong>Conte sempre de baixo para cima!</strong>",
+            "wink",
+            "👇"
+          );
+        } else if (level === 2) {
+          this.showSideCoach(
+            "Subindo: Andares 2 e 3! 📦",
+            "Logo acima ficam os Andares 2 e 3. Eles são divididos em <strong>12 gavetinhas</strong> (ímpares em cima, pares embaixo)!",
+            "curious",
+            "👀"
+          );
+        } else if (level === 4) {
+          this.showSideCoach(
+            "Mais acima: Andar 4! 🏬",
+            "O Andar 4 tem 6 posições com gavetas amarelas ou divisórias para produtos médios.",
+            "normal",
+            "⬆️"
+          );
+        } else if (level === 5) {
+          this.showSideCoach(
+            "Lá no alto: Andar 5! 🚀",
+            "O Andar 5 é <strong>aberto no topo</strong>, sem teto! Usado para produtos compridos que ultrapassam a altura.",
+            "joy",
+            "⭐"
+          );
+        }
+      },
+
+      nextFloorTourStep() {
+        if (this.floorExplainingStep === 1) {
+          this.floorExplainingStep = 2;
+          this.highlightFloorStep(2);
+        } else if (this.floorExplainingStep === 2) {
+          this.floorExplainingStep = 4;
+          this.highlightFloorStep(4);
+        } else if (this.floorExplainingStep === 4) {
+          this.floorExplainingStep = 5;
+          this.highlightFloorStep(5);
+        } else {
+          document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
+          this.hideSideCoach();
+          this.startFloorChallenge10();
+        }
+      },
+
+      /* PASSO 2: DESAFIO DE 10 ANDARES */
+      startFloorChallenge10() {
+        this.floorStreak = 0;
+        document.getElementById('gameAddressSubInfo').textContent = "TREINO: SÓ O ANDAR";
+        document.getElementById('gameTimerText').textContent = "Passo 1: Fixando Andares";
+
+        App.showModal(
+          "Desafio dos Andares! 🎯",
+          "Agora que você sabe acertar os andares, <strong>vamos tentar acertar 10 seguidas!</strong><br><br>Não se preocupe com erros, esse momento é só para memorizar!",
+          () => {
+            this.nextFloorTarget();
+          }
+        );
+      },
+
+      nextFloorTarget() {
+        let newLevel = Math.floor(Math.random() * 5) + 1;
+        while (newLevel === this.floorTarget) {
+          newLevel = Math.floor(Math.random() * 5) + 1;
+        }
+        this.floorTarget = newLevel;
+
+        document.getElementById('gAndar').textContent = String(this.floorTarget).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+
+        document.getElementById('gameZoomTitle').textContent = `ACERTE O ANDAR (${this.floorStreak}/10)`;
+        document.getElementById('gameZoomSub').textContent = "Conte as barras laranjas de baixo para cima!";
+
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          this.checkFloorClick(clickedLevel);
+        });
+      },
+
+      checkFloorClick(clickedLevel) {
+        if (clickedLevel === this.floorTarget) {
+          this.floorStreak++;
+          AudioEngine.success(this.floorStreak);
+          FeedbackEngine.vibrate([30, 40, 30]);
+
+          const rowEl = document.getElementById(`floorRowZone_${clickedLevel}`);
+          if (rowEl) {
+            const rect = rowEl.getBoundingClientRect();
+            FeedbackEngine.showDopamine(rect.left + rect.width / 2, rect.top, `+100 XP! ⭐`);
+          }
+
+          if (this.floorStreak >= 10) {
+            this.showStory(
+              "Uhuul! Você acertou 10/10! ^^",
+              "Mandou muito bem! Agora você já tem certeza absoluta de que os andares contam de 1 a 5, sempre <strong>DE BAIXO PARA CIMA</strong>.<br><br>Agora vamos complicar um pouquinho: <strong>adicionando os apartamentos (BINs)!</strong><br>Lembre-se: primeiro você escolhe o andar, e depois só as gavetas dele vão aparecer!",
+              "joy",
+              "🎯"
+            );
+          } else {
+            this.nextFloorTarget();
+          }
+        } else {
+          AudioEngine.error();
+          FeedbackEngine.vibrate(50);
+          App.showModal(
+            "Atenção ao Andar!",
+            `Você tocou no Andar ${clickedLevel}. O endereço pede o <strong>Andar ${this.floorTarget}</strong>! Lembre-se: o <strong>Andar 1 é a base</strong> de baixo para cima.`
+          );
+        }
+      },
+
+      /* PASSO 3: APARTAMENTOS ESQ -> DIR (10 ACERTOS) */
+      startAptDrillL2R() {
+        this.aptStreak = 0;
+        this.hideStory();
+        document.getElementById('cellBin').style.display = 'flex';
+        this.nextAptDrillTarget(true);
+      },
+
+      nextAptDrillTarget(isLeftToRight) {
+        this.currentAptLevel = Math.floor(Math.random() * 5) + 1;
+        let maxBin = (this.currentAptLevel === 2 || this.currentAptLevel === 3) ? 12 : 6;
+        this.currentAptBin = Math.floor(Math.random() * maxBin) + 1;
+
+        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', isLeftToRight);
+
+        document.getElementById('gameAddressSubInfo').textContent = `1º ESCOLHA O ANDAR (${this.aptStreak}/10)`;
+        document.getElementById('gAndar').textContent = String(this.currentAptLevel).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(this.currentAptBin).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+
+        document.getElementById('gameZoomTitle').textContent = `1º TOQUE NO ANDAR ${this.currentAptLevel}`;
+        document.getElementById('gameZoomSub').textContent = "Primeiro selecione a linha do andar!";
+
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          if (clickedLevel === this.currentAptLevel) {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.openBinsForTargetFloor(isLeftToRight);
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.currentAptLevel}!`);
+          }
+        });
+      },
+
+      openBinsForTargetFloor(isLeftToRight) {
+        document.getElementById('gameAddressSubInfo').textContent = isLeftToRight
+          ? `2º ESCOLHA A BIN (ESQ ➔ DIR) [${this.aptStreak}/10]`
+          : `2º ESCOLHA A BIN (DIR ➔ ESQ) [${this.aptStreak}/10]`;
+
+        GameCore.bumpCell('cellBin');
+        document.getElementById('gameZoomTitle').textContent = `2º TOQUE NA BIN ${String(this.currentAptBin).padStart(2, '0')}`;
+        document.getElementById('gameZoomSub').textContent = isLeftToRight 
+          ? "Conte da esquerda para a direita!"
+          : "Conte da direita para a esquerda!";
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', isLeftToRight, (lvl, bin, cx, cy) => {
+          if (lvl === this.currentAptLevel && bin === this.currentAptBin) {
+            this.aptStreak++;
+            AudioEngine.success(this.aptStreak);
+            FeedbackEngine.vibrate([20, 30, 20]);
+            FeedbackEngine.showDopamine(cx, cy, `🔥 ACERTOU! [${this.aptStreak}/10]`, '#16a34a');
+
+            if (this.aptStreak >= 10) {
+              if (isLeftToRight) {
+                this.showStory(
+                  "Uhuul! 10 de 10 seguidos! ^^",
+                  "Sensacional! Você já sabe achar o andar e contar da esquerda para a direita!<br><br>Mas sabia que no CAD muitas estantes são contadas <strong>DO OUTRO LADO</strong>: da <strong>DIREITA para a ESQUERDA</strong>?<br>Vamos treinar: acerte mais <strong>10 vezes</strong> desse outro lado!",
+                  "joy",
+                  "🔥"
+                );
+              } else {
+                this.showStory(
+                  "Sensacional! 10/10 de novo! ^^",
+                  "Você dominou os dois sentidos de contagem!<br><br>E olha no topo da estante: nossa <strong>SETA COMPACTA</strong> estará lá durante todo o jogo para te mostrar a direção!<br><br>Agora ela vai mudar aleatoriamente. Fique de olho nela, escolha o andar primeiro e acerte mais <strong>10 vezes</strong>!",
+                  "joy",
+                  "⭐"
+                );
+              }
+            } else {
+              setTimeout(() => this.nextAptDrillTarget(isLeftToRight), 300);
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(60);
+            App.showModal("Atenção à BIN!", `Você está no Andar ${this.currentAptLevel}. Procure a BIN ${this.currentAptBin}!`);
+          }
+        }, true, this.currentAptLevel);
+      },
+
+      /* PASSO 4: 10 ACERTOS DIREITA -> ESQUERDA */
+      startAptDrillR2L() {
+        this.aptStreak = 0;
+        this.hideStory();
+        this.nextAptDrillTarget(false);
+      },
+
+      /* PASSO 5: 10 ACERTOS COM SETA ALEATÓRIA */
+      startAptRandomArrowPhase() {
+        this.aptStreak = 0;
+        this.hideStory();
+        this.nextAptRandomTarget();
+      },
+
+      nextAptRandomTarget() {
+        this.randomArrowIsEven = Math.random() > 0.5;
+        this.currentAptLevel = Math.floor(Math.random() * 5) + 1;
+        let maxBin = (this.currentAptLevel === 2 || this.currentAptLevel === 3) ? 12 : 6;
+        this.currentAptBin = Math.floor(Math.random() * maxBin) + 1;
+
+        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', this.randomArrowIsEven);
+
+        document.getElementById('gameAddressSubInfo').textContent = `1º ESCOLHA O ANDAR (${this.aptStreak}/10)`;
+        document.getElementById('gAndar').textContent = String(this.currentAptLevel).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(this.currentAptBin).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+
+        document.getElementById('gameZoomTitle').textContent = `1º TOQUE NO ANDAR ${this.currentAptLevel}`;
+        document.getElementById('gameZoomSub').textContent = "Primeiro selecione o andar pedido!";
+
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          if (clickedLevel === this.currentAptLevel) {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.openBinsForRandomArrow();
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.currentAptLevel}!`);
+          }
+        });
+      },
+
+      openBinsForRandomArrow() {
+        document.getElementById('gameAddressSubInfo').textContent = `2º VEJA A SETA E TOQUE NA BIN (${this.aptStreak}/10)`;
+        GameCore.bumpCell('cellBin');
+
+        const dirText = this.randomArrowIsEven ? "1 ➔ 6" : "6 ⬅ 1";
+        document.getElementById('gameZoomTitle').textContent = `2º TOQUE NA BIN ${String(this.currentAptBin).padStart(2, '0')}`;
+        document.getElementById('gameZoomSub').textContent = `Seta no topo: ${dirText}!`;
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', this.randomArrowIsEven, (lvl, bin, cx, cy) => {
+          if (lvl === this.currentAptLevel && bin === this.currentAptBin) {
+            this.aptStreak++;
+            AudioEngine.success(this.aptStreak);
+            FeedbackEngine.vibrate([20, 30, 20]);
+            FeedbackEngine.showDopamine(cx, cy, `🎯 COMBO x${this.aptStreak}!`, '#ca8a04');
+
+            if (this.aptStreak >= 10) {
+              this.showStory(
+                "Uhuul! 10/10 na leitura da seta! ^^",
+                "Agora que você já domina a estante, <strong>vamos falar dos Módulos (antigo prédio)!</strong><br><br>Vamos para o mezanino aprender a achar Módulos pares e ímpares e fazer <strong>2 EXEMPLOS COMPLETOS GUIADOS PASSO A PASSO</strong>!",
+                "joy",
+                "🏬"
+              );
+            } else {
+              setTimeout(() => this.nextAptRandomTarget(), 300);
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            const dir = this.randomArrowIsEven ? "da ESQUERDA para a DIREITA" : "da DIREITA para a ESQUERDA";
+            App.showModal("Olhe a Seta no Topo!", `A seta indica que a contagem é ${dir}!`);
+          }
+        }, true, this.currentAptLevel);
+      },
+
+      /* PASSO 6: VISÃO AÉREA DO MEZANINO (MZ TOP VIEW) */
+      startTopViewPhase() {
+        this.topViewStep = 1;
+        this.hideStory();
+
+        document.getElementById('gameShelfZoom').classList.remove('active');
+        document.getElementById('gameCorridor').style.display = 'none';
+        document.getElementById('mzTopViewContainer').style.display = 'flex';
+
+        this.renderSvgDiagram();
+        this.applyTopViewStep(1);
+      },
+
+      renderSvgDiagram() {
+        const stage = document.getElementById('mzSvgStage');
+        stage.innerHTML = `
+          <svg viewBox="0 0 400 320" width="100%" height="100%" style="overflow:visible;">
+            <rect x="10" y="10" width="380" height="300" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+
+            <g id="svgGrpOutbound">
+              <rect x="15" y="15" width="370" height="32" rx="4" fill="#020617" stroke="#ca8a04" stroke-width="1.5"/>
+              <text x="200" y="36" fill="#ffe600" font-size="10.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">⬅ OUTBOUND (ESTEIRA PRETA • MÓDULO 110) ➡</text>
+            </g>
+
+            <g id="svgGrpStreets" stroke="#475569" stroke-width="1.2" opacity="0.6">
+              <line x1="45" y1="52" x2="45" y2="268"/>
+              <line x1="85" y1="52" x2="85" y2="268"/>
+              <line x1="125" y1="52" x2="125" y2="268"/>
+              <line x1="165" y1="52" x2="165" y2="268"/>
+              <line x1="205" y1="52" x2="205" y2="268"/>
+              <line x1="245" y1="52" x2="245" y2="268"/>
+              <line x1="285" y1="52" x2="285" y2="268"/>
+              <line x1="325" y1="52" x2="325" y2="268"/>
+              <line x1="365" y1="52" x2="365" y2="268"/>
+            </g>
+
+            <g id="svgGrpStreetLabels" fill="#38bdf8" font-size="8" font-weight="900" text-anchor="middle">
+              <text x="45" y="264">RUA 66</text>
+              <text x="205" y="264">⟵ AS RUAS AUMENTAM PARA A ESQUERDA (1 até 66) ⟶</text>
+              <text x="365" y="264">RUA 1</text>
+            </g>
+
+            <g id="svgGrpAvenues">
+              <rect x="15" y="98" width="370" height="18" fill="#334155" opacity="0.9"/>
+              <line x1="15" y1="107" x2="385" y2="107" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
+              <text x="35" y="111" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 1</text>
+
+              <rect x="15" y="162" width="370" height="18" fill="#334155" opacity="0.9"/>
+              <line x1="15" y1="171" x2="385" y2="171" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
+              <text x="35" y="175" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 2</text>
+
+              <rect x="15" y="226" width="370" height="18" fill="#334155" opacity="0.9"/>
+              <line x1="15" y1="235" x2="385" y2="235" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
+              <text x="35" y="239" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 3</text>
+            </g>
+
+            <g id="svgGrpInbound">
+              <rect x="15" y="274" width="370" height="32" rx="4" fill="#0369a1" opacity="0.9"/>
+              <text x="200" y="294" fill="#ffffff" font-size="10.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">⬅ INBOUND (RECEIVING / PA • MÓDULO 001) ➡</text>
+            </g>
+
+            <g id="svgGrpOperator" transform="translate(205, 171)">
+              <polygon id="svgVisionCone" points="0,0 -40,-95 40,-95" fill="#ffe600" opacity="0.35"/>
+              <circle cx="0" cy="0" r="7" fill="#ffe600" stroke="#000" stroke-width="2"/>
+              <g id="svgSideBadges">
+                <rect x="-85" y="-14" width="62" height="26" rx="6" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5"/>
+                <text id="svgTextLeft" x="-54" y="2" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">PAR (2, 4..)</text>
+
+                <rect x="23" y="-14" width="62" height="26" rx="6" fill="#991b1b" stroke="#ffffff" stroke-width="1.5"/>
+                <text id="svgTextRight" x="54" y="2" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">ÍMPAR (1, 3..)</text>
+              </g>
+            </g>
+
+            <rect id="svgHighlightBox" x="0" y="0" width="0" height="0" rx="6" fill="none" stroke="#ffe600" stroke-width="3" style="display:none; filter: drop-shadow(0 0 8px #ffe600);"/>
+          </svg>
+        `;
+      },
+
+      applyTopViewStep(step) {
+        const box = document.getElementById('svgHighlightBox');
+        const opCone = document.getElementById('svgVisionCone');
+        const opBadges = document.getElementById('svgSideBadges');
+        const textLeft = document.getElementById('svgTextLeft');
+        const textRight = document.getElementById('svgTextRight');
+
+        if (step === 1) {
+          box.style.display = 'block';
+          box.setAttribute('x', '12');
+          box.setAttribute('y', '12');
+          box.setAttribute('width', '376');
+          box.setAttribute('height', '38');
+          opBadges.style.display = 'none';
+          opCone.style.display = 'none';
+
+          this.showSideCoach(
+            "1. A Esteira e o Outbound! 🏭",
+            "Aqui em cima fica o <strong>OUTBOUND</strong>! Repare na LINHA PRETA com roletes: é a ESTEIRA que leva os pedidos prontos. O <strong>módulo 110</strong> fica coladinho nela!",
+            "curious",
+            "🏭",
+            "Avançar para o Inbound ➔"
+          );
+        } else if (step === 2) {
+          box.setAttribute('x', '12');
+          box.setAttribute('y', '271');
+          box.setAttribute('width', '376');
+          box.setAttribute('height', '38');
+
+          this.showSideCoach(
+            "2. O Inbound (Receiving/PA)! 📦",
+            "Aqui embaixo fica o <strong>INBOUND</strong>, onde chegam as mercadorias. Os módulos <strong>sempre começam no número 1</strong> aqui e aumentam em direção à esteira (1 até 110)!",
+            "wink",
+            "📦",
+            "Avançar para as Ruas ➔"
+          );
+        } else if (step === 3) {
+          box.setAttribute('x', '35');
+          box.setAttribute('y', '46');
+          box.setAttribute('width', '340');
+          box.setAttribute('height', '226');
+
+          this.showSideCoach(
+            "3. As 66 Ruas do Picking! 🛣️",
+            "Essas linhas verticais são as <strong>RUAS</strong>! Elas vão da <strong>Rua 66 na esquerda até a Rua 1 na direita</strong>! Olhando para a esteira, as ruas aumentam para a esquerda!",
+            "normal",
+            "🛣️",
+            "Ver as Avenidas ➔"
+          );
+        } else if (step === 4) {
+          box.setAttribute('x', '12');
+          box.setAttribute('y', '92');
+          box.setAttribute('width', '376');
+          box.setAttribute('height', '158');
+
+          this.showSideCoach(
+            "4. As 3 Grandes Avenidas! 🚦",
+            "Esses 3 caminhos horizontais largos cortam as ruas perpendicularmente: são as <strong>3 AVENIDAS</strong>! Graças a elas você atravessa o galpão sem precisar andar 110 módulos inteiros!",
+            "joy",
+            "🚦",
+            "Ver Par e Ímpar ➔"
+          );
+        } else if (step === 5) {
+          box.style.display = 'none';
+          opCone.style.display = 'block';
+          opBadges.style.display = 'block';
+          opCone.setAttribute('points', '0,0 -40,-95 40,-95');
+          textLeft.textContent = 'PAR (2, 4..)';
+          textRight.textContent = 'ÍMPAR (1, 3..)';
+
+          this.showSideCoach(
+            "5. Olhando para a Esteira (Outbound)! 👀",
+            "Olhando para a esteira lá na frente:<br>• <strong>Esquerda = Módulos PARES</strong> (contagem 1 ➔ 6)<br>• <strong>Direita = Módulos ÍMPARES</strong> (contagem 6 ⬅ 1)",
+            "wink",
+            "👀",
+            "E se virar para trás? ➔"
+          );
+        } else if (step === 6) {
+          opCone.setAttribute('points', '0,0 -40,95 40,95');
+          textLeft.textContent = 'ÍMPAR (1, 3..)';
+          textRight.textContent = 'PAR (2, 4..)';
+
+          this.showSideCoach(
+            "6. Virado para o Inbound! 🔄",
+            "Se virar 180° de costas para a esteira, tudo inverte:<br>• <strong>Esquerda = ÍMPARES</strong><br>• <strong>Direita = PARES</strong>",
+            "joy",
+            "🔄",
+            "Fazer os 2 Exemplos Guiados! ➔"
+          );
+        } else {
+          this.hideSideCoach();
+          document.getElementById('mzTopViewContainer').style.display = 'none';
+          this.advanceDialogue();
+        }
+      },
+
+      nextTopViewTourStep() {
+        this.topViewStep++;
+        this.applyTopViewStep(this.topViewStep);
+      },
+
+      /* NOVO PASSO: 2 EXEMPLOS DE ENDEREÇO COMPLETO 100% GUIADOS E EXPLICADOS */
+      startGuidedExamples() {
+        this.hideStory();
+        this.hideSideCoach();
+
+        document.getElementById('mzTopViewContainer').style.display = 'none';
+        document.getElementById('gameShelfZoom').classList.remove('active');
+        document.getElementById('gameCorridor').style.display = 'block';
+
+        this.guidedExampleStep = 1;
+        this.runGuidedExample1_Corridor();
+      },
+
+      /* EXEMPLO 1: MÓDULO PAR (032) - OUTBOUND */
+      runGuidedExample1_Corridor() {
+        const addrEx1 = {
+          mz: 1, rua: 22, modulo: 32, andar: 2, bin: 4, isEven: true, facing: 'OUTBOUND'
+        };
+
+        GameUI.renderAddress(addrEx1);
+        document.getElementById('gameAddressSubInfo').textContent = "EXEMPLO 1: MÓDULO PAR (GUIADO 100%)";
+        document.getElementById('gameLandmark').textContent = "OLHANDO PARA O OUTBOUND (ESTEIRA NO MEIO)";
+
+        document.getElementById('horizonOutboundTrack').style.display = 'flex';
+        document.getElementById('conveyorTotesContainer').style.display = 'block';
+        document.getElementById('horizonInboundWall').style.display = 'none';
+
+        document.getElementById('gamePillLeftSpec').textContent = "LADO PAR";
+        document.getElementById('gamePillRightSpec').textContent = "LADO ÍMPAR";
+
+        document.getElementById('badgeShelfLeft').classList.add('target-highlight');
+
+        this.showSideCoach(
+          "Exemplo 1: Escolha a Estante! 💡",
+          "O endereço pede <strong>Módulo 032</strong> (PAR)! Como estamos virados para o <strong>OUTBOUND (esteira no fundo)</strong>, os pares ficam à <strong>ESQUERDA</strong>!<br>Toque na estante da <strong>ESQUERDA</strong>!",
+          "wink",
+          "👈",
+          "Toque na Estante Esquerda"
+        );
+      },
+
+      runGuidedExample1_Floor() {
+        document.getElementById('badgeShelfLeft').classList.remove('target-highlight');
+        document.getElementById('gameCorridor').style.display = 'none';
+        document.getElementById('gameShelfZoom').classList.add('active');
+
+        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 1 — 1º PASSO: O ANDAR";
+        document.getElementById('gameZoomSub').textContent = "Regra de ouro: primeiro selecione o andar!";
+
+        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', true);
+
+        // Destaca a linha do Andar 2
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          if (clickedLevel === 2) {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.runGuidedExample1_Bin();
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção ao Andar!", "O endereço pede o <strong>Andar 02</strong>! Toque no segundo nível de baixo para cima!");
+          }
+        });
+
+        const r2 = document.getElementById('floorRowZone_2');
+        if (r2) r2.classList.add('target-spotlight');
+
+        this.showSideCoach(
+          "1º Passo: Toque no Andar 02! 🟡",
+          "Na estante, <strong>primeiro a gente acha o andar</strong>! O endereço pede <strong>Andar 02</strong>. Toque na barra destacada!",
+          "curious",
+          "2️⃣",
+          "Toque no Andar 2"
+        );
+      },
+
+      runGuidedExample1_Bin() {
+        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 1 — 2º PASSO: A BIN";
+        document.getElementById('gameZoomSub').textContent = "Módulo PAR = Seta Esq ➔ Dir. Ache a BIN 04!";
+
+        // Revela apenas as gavetas do andar 2 e destaca a BIN 4
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', true, (lvl, bin, cx, cy) => {
+          if (lvl === 2 && bin === 4) {
+            AudioEngine.success(1);
+            FeedbackEngine.vibrate([20, 30, 20]);
+            FeedbackEngine.showDopamine(cx, cy, "PERFEITO! +100 XP! ⭐", "#16a34a");
+
+            this.showStory(
+              "Sensacional! Exemplo 1 Concluído! ^^",
+              "Viu como tudo se encaixou?<br><br>1. Módulo <strong>032 é PAR</strong> ➔ estante da esquerda olhando para a esteira.<br>2. Primeiro o <strong>Andar 02</strong>.<br>3. Módulo Par tem <strong>seta da Esquerda para a Direita</strong> ➔ BIN 04 localizada!<br><br>Agora vamos para o <strong>Exemplo 2: Módulo ÍMPAR!</strong>",
+              "joy",
+              "🎯"
+            );
+            this.guidedExampleStep = 2;
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(60);
+            App.showModal("Ache a BIN 04!", "Módulo PAR conta da esquerda para a direita. Toque na gaveta 04 destacada!");
+          }
+        }, true, 2);
+
+        const b4 = document.querySelector('.hotspot-cell[data-level="2"][data-bin="4"]');
+        if (b4) b4.classList.add('target-spotlight');
+
+        this.showSideCoach(
+          "2º Passo: Toque na BIN 04! 🎯",
+          "Como o <strong>Módulo 032 é PAR</strong>, a seta aponta da <strong>esquerda para a direita</strong>! Toque na gaveta <strong>04</strong> destacada!",
+          "joy",
+          "4️⃣",
+          "Toque na BIN 4"
+        );
+      },
+
+      /* EXEMPLO 2: MÓDULO ÍMPAR (015) - OUTBOUND */
+      runGuidedExample2_Corridor() {
+        this.hideStory();
+        this.hideSideCoach();
+
+        document.getElementById('gameShelfZoom').classList.remove('active');
+        document.getElementById('gameCorridor').style.display = 'block';
+
+        const addrEx2 = {
+          mz: 1, rua: 22, modulo: 15, andar: 4, bin: 3, isEven: false, facing: 'OUTBOUND'
+        };
+
+        GameUI.renderAddress(addrEx2);
+        document.getElementById('gameAddressSubInfo').textContent = "EXEMPLO 2: MÓDULO ÍMPAR (GUIADO 100%)";
+        document.getElementById('badgeShelfRight').classList.add('target-highlight');
+
+        this.showSideCoach(
+          "Exemplo 2: Módulo Ímpar! 💡",
+          "O endereço agora pede <strong>Módulo 015</strong> (ÍMPAR)! Ainda olhando para o <strong>OUTBOUND (esteira)</strong>, os ímpares ficam na estante da <strong>DIREITA</strong>!<br>Toque na estante da <strong>DIREITA</strong>!",
+          "wink",
+          "👉",
+          "Toque na Estante Direita"
+        );
+      },
+
+      runGuidedExample2_Floor() {
+        document.getElementById('badgeShelfRight').classList.remove('target-highlight');
+        document.getElementById('gameCorridor').style.display = 'none';
+        document.getElementById('gameShelfZoom').classList.add('active');
+
+        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 2 — 1º PASSO: O ANDAR";
+        document.getElementById('gameZoomSub').textContent = "Primeiro o andar: ache o Andar 04!";
+
+        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', false);
+
+        // Destaca a linha do Andar 4
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          if (clickedLevel === 4) {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.runGuidedExample2_Bin();
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção ao Andar!", "O endereço pede o <strong>Andar 04</strong>! Toque no quarto nível de baixo para cima!");
+          }
+        });
+
+        const r4 = document.getElementById('floorRowZone_4');
+        if (r4) r4.classList.add('target-spotlight');
+
+        this.showSideCoach(
+          "1º Passo: Andar 04! 🏬",
+          "O endereço pede <strong>Andar 04</strong>! Toque na barra do Andar 04 de baixo para cima!",
+          "curious",
+          "4️⃣",
+          "Toque no Andar 4"
+        );
+      },
+
+      runGuidedExample2_Bin() {
+        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 2 — 2º PASSO: A BIN";
+        document.getElementById('gameZoomSub').textContent = "Módulo ÍMPAR = Seta Dir ⬅ Esq! A gaveta 01 começa na direita!";
+
+        // Revela apenas as gavetas do andar 4 e destaca a BIN 3
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', false, (lvl, bin, cx, cy) => {
+          if (lvl === 4 && bin === 3) {
+            AudioEngine.success(1);
+            FeedbackEngine.vibrate([20, 30, 20]);
+            FeedbackEngine.showDopamine(cx, cy, "EXCELENTE! +100 XP! ⭐", "#16a34a");
+
+            this.showStory(
+              "Espetacular! Você dominou o picking! ^^",
+              "Olha como tudo ficou claro:<br><br>1. Módulo <strong>015 é ÍMPAR</strong> ➔ estante da direita olhando para a esteira.<br>2. Primeiro o <strong>Andar 04</strong>.<br>3. Módulo Ímpar tem <strong>seta da Direita para a Esquerda</strong> (gaveta 01 na ponta direita) ➔ BIN 03 localizada!<br><br>Agora vou te mostrar como ler a etiqueta real do CAD!",
+              "joy",
+              "🏆"
+            );
+            this.guidedExampleStep = 3;
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(60);
+            App.showModal("Ache a BIN 03!", "Lembre-se: Módulo ÍMPAR começa a gaveta 01 na ponta direita! Toque na gaveta 03 destacada!");
+          }
+        }, true, 4);
+
+        const b3 = document.querySelector('.hotspot-cell[data-level="4"][data-bin="3"]');
+        if (b3) b3.classList.add('target-spotlight');
+
+        this.showSideCoach(
+          "2º Passo: BIN 03 com Seta Invertida! 🎯",
+          "Como o <strong>Módulo 015 é ÍMPAR</strong>, a seta no topo aponta da <strong>direita para a esquerda</strong>! A gaveta 01 fica na ponta direita. Toque na gaveta <strong>03</strong>!",
+          "joy",
+          "3️⃣",
+          "Toque na BIN 3"
+        );
+      },
+
+      handleCorridorPick(side) {
+        if (!this.active) return false;
+
+        if (this.guidedExampleStep === 1) {
+          if (side === 'left') {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.runGuidedExample1_Floor();
+            return true;
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção!", "Módulo 032 é PAR! Olhando para a esteira, os pares ficam na estante da ESQUERDA!");
+            return true;
+          }
+        } else if (this.guidedExampleStep === 2) {
+          if (side === 'right') {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.runGuidedExample2_Floor();
+            return true;
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção!", "Módulo 015 é ÍMPAR! Olhando para a esteira, os ímpares ficam na estante da DIREITA!");
+            return true;
+          }
+        }
+        return false;
+      },
+
+      /* PASSO 7: EXPLICAÇÃO DO ENDEREÇO REAL DO CAD */
+      startCadAddressExplanation() {
+        this.hideSideCoach();
+        this.showStory(
+          "O Endereço Real no CAD 📱",
+          "No dia a dia do CAD, o handheld vai mostrar os QR Codes assim:<br><br>" +
+          "<strong style='font-size:1.1rem; color:#0284c7;'>MZ-1-45-005-03-01</strong><br><br>" +
+          "• <strong>MZ-1:</strong> Mezanino 1<br>" +
+          "• <strong>45:</strong> Rua 45<br>" +
+          "• <strong>005:</strong> Módulo 5 (Ímpar)<br>" +
+          "• <strong>03:</strong> Andar 3 da estante<br>" +
+          "• <strong>01:</strong> Apartamento/BIN 1<br><br>" +
+          "<em>Por enquanto, no nosso treino, vamos focar sempre em: saber se o Módulo é par ou ímpar, o andar e então o apartamento!</em>",
+          "joy",
+          "💡"
+        );
+      },
+
+      /* PASSO 8: TOUR FINAL */
+      startTourPhase() {
+        this.tourStep = 0;
+        this.hideStory();
+
+        document.getElementById('gMz').textContent = "1";
+        document.getElementById('gRua').textContent = "45";
+        document.getElementById('gModulo').textContent = "005";
+        document.getElementById('gModuloTag').className = "hero-tag tag-impar";
+        document.getElementById('gModuloTag').textContent = "ÍMPAR";
+        document.getElementById('gAndar').textContent = "03";
+        document.getElementById('gBin').textContent = "01";
+
+        this.nextTourStep();
+      },
+
+      nextTourStep() {
+        const ring = document.getElementById('tourRing');
+        const card = document.getElementById('gameAddressCard');
+        const corridor = document.getElementById('gameCorridor');
+
+        if (this.tourStep === 0) {
+          this.highlightElement(card, "1. Painel de Foco Operacional", "Aqui você bate o olho rápido: Módulo, Andar e BIN sempre em destaque para máxima agilidade!");
+        } else if (this.tourStep === 1) {
+          const track = document.getElementById('gameTimerTrack');
+          track.style.display = 'block';
+          this.highlightElement(track, "2. Barra de Tempo e Combo", "Seu tempo por bipada! Conforme você acerta sem errar, ganha combos 🔥 e sobe de nível!");
+        } else if (this.tourStep === 2) {
+          this.highlightElement(corridor, "3. As Estantes do Corredor", "Aqui você escolhe a estante do Módulo, entra nela, toca no andar e retira na BIN!");
+        } else {
+          ring.style.display = 'none';
+          this.showStory(
+            "Tudo Pronto! Você é fera! 🎉 ^^",
+            "Tutorial concluído com sucesso! Agora você está pronto para o <strong>Treinamento Infinito</strong> e o <strong>Desafio de Velocidade</strong>!",
+            "joy",
+            "⭐"
+          );
+        }
+        this.tourStep++;
+      },
+
+      highlightElement(el, title, text) {
+        const rect = el.getBoundingClientRect();
+        const ring = document.getElementById('tourRing');
+        ring.style.display = 'block';
+        ring.style.top = `${rect.top - 4}px`;
+        ring.style.left = `${rect.left - 4}px`;
+        ring.style.width = `${rect.width + 8}px`;
+        ring.style.height = `${rect.height + 8}px`;
+
+        this.showStory(title, text, 'joy', '🔍');
+      }
+    };
+  </script>
+
+  <!-- Game Core -->
+  <script>
+    const GameCore = {
+      mode: 'endless',
+      addr: null,
+      sides: null,
+      timer: null,
+      timeLeft: 60,
+      maxTime: 60,
+      startTime: 0,
+      showNumbers: false,
+      shelfStep: 'floor',
+      lastFacing: 'OUTBOUND',
+
+      start(mode = 'endless', showNumbers = false) {
+        TutorialEngine.abort();
+        this.mode = mode;
+        this.showNumbers = showNumbers;
+        App.nav('game');
+
+        GameUI.resetToCleanState();
+        this.next();
+      },
+
+      calcTime(streak) {
+        const t = 8 + (52 / (1 + Math.pow(streak / 55, 1.25)));
+        return Math.max(8, Math.round(t * 10) / 10);
+      },
+
+      bumpCell(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('pop-anim');
+          void el.offsetWidth;
+          el.classList.add('pop-anim');
+        }
+      },
+
+      triggerDirectionFlare(facing) {
+        const flare = document.getElementById('directionFlare');
+        flare.className = 'direction-center-flare';
+        void flare.offsetWidth;
+
+        if (facing === 'OUTBOUND') {
+          document.getElementById('flareIcon').textContent = '⬆️';
+          document.getElementById('flareTitle').textContent = 'OLHANDO PARA O OUTBOUND';
+          document.getElementById('flareSub').textContent = '(ESTEIRA HORIZONTAL AO FUNDO)';
+          flare.classList.add('show-outbound');
+        } else {
+          document.getElementById('flareIcon').textContent = '⬇️';
+          document.getElementById('flareTitle').textContent = 'OLHANDO PARA O INBOUND';
+          document.getElementById('flareSub').textContent = '(SEM ESTEIRA • RECEIVING)';
+          flare.classList.add('show-inbound');
+        }
+
+        AudioEngine.swoosh();
+      },
+
+      next() {
+        this.returnToCorridor();
+
+        let opts = {};
+        if (this.mode === 'practice') {
+          const mz = document.getElementById('selPracticeMz').value;
+          if (mz !== 'any') opts.mz = mz;
+        }
+
+        this.addr = WarehouseEngine.generate(opts);
+        this.sides = WarehouseEngine.getSides(this.addr.facing);
+
+        if (this.addr.facing !== this.lastFacing) {
+          this.triggerDirectionFlare(this.addr.facing);
+          this.lastFacing = this.addr.facing;
+        }
+
+        GameUI.renderAddress(this.addr);
+
+        const outboundTrack = document.getElementById('horizonOutboundTrack');
+        const totesContainer = document.getElementById('conveyorTotesContainer');
+        const inboundWall = document.getElementById('horizonInboundWall');
+        const landmark = document.getElementById('gameLandmark');
+
+        if (this.addr.facing === 'OUTBOUND') {
+          landmark.className = 'landmark-bar outbound';
+          landmark.textContent = 'OLHANDO PARA O OUTBOUND (ESTEIRA NO HORIZONTE)';
+          outboundTrack.style.display = 'flex';
+          outboundTrack.classList.add('conveyor-pop-anim');
+          totesContainer.style.display = 'block';
+          inboundWall.style.display = 'none';
+          document.getElementById('gamePillLeftSpec').textContent = "LADO PAR";
+          document.getElementById('gamePillRightSpec').textContent = "LADO ÍMPAR";
+        } else {
+          outboundTrack.style.display = 'none';
+          totesContainer.style.display = 'none';
+          inboundWall.style.display = 'block';
+          document.getElementById('gamePillLeftSpec').textContent = "LADO ÍMPAR";
+          document.getElementById('gamePillRightSpec').textContent = "LADO PAR";
+        }
+
+        document.getElementById('badgeShelfLeft').classList.add('swap-anim');
+        document.getElementById('badgeShelfRight').classList.add('swap-anim');
+        setTimeout(() => {
+          document.getElementById('badgeShelfLeft').classList.remove('swap-anim');
+          document.getElementById('badgeShelfRight').classList.remove('swap-anim');
+        }, 400);
+
+        clearInterval(this.timer);
+        if (this.mode !== 'practice') {
+          this.maxTime = this.calcTime(App.state.streak);
+          this.timeLeft = this.maxTime;
+          this.updateTimer();
+          this.startTime = Date.now();
+          this.timer = setInterval(() => {
+            this.timeLeft -= 0.1;
+            if (this.timeLeft <= 0) {
+              this.timeLeft = 0;
+              this.onTimeout();
+            }
+            this.updateTimer();
+          }, 100);
+        } else {
+          document.getElementById('gameTimerText').textContent = 'Livre';
+          document.getElementById('gameTimerFill').style.width = '100%';
+        }
+      },
+
+      updateTimer() {
+        const pct = Math.max(0, (this.timeLeft / this.maxTime) * 100);
+        const fill = document.getElementById('gameTimerFill');
+        fill.style.width = `${pct}%`;
+        document.getElementById('gameTimerText').textContent = `${this.timeLeft.toFixed(1)}s`;
+        if (pct < 25) fill.style.backgroundColor = 'var(--danger)';
+        else if (pct < 50) fill.style.backgroundColor = 'var(--shelf-orange)';
+        else fill.style.backgroundColor = 'var(--success)';
+      },
+
+      pickSide(side) {
+        if (TutorialEngine.active && TutorialEngine.guidedExampleStep > 0) {
+          TutorialEngine.handleCorridorPick(side);
+          return;
+        }
+
+        const targetSide = (this.addr.isEven && this.sides.left === 'EVEN') ||
+                           (!this.addr.isEven && this.sides.left === 'ODD')
+                           ? 'left' : 'right';
+
+        if (side === targetSide) {
+          AudioEngine.scanner();
+          FeedbackEngine.vibrate(25);
+          this.zoomShelf();
+        } else {
+          FeedbackEngine.vibrate(60);
+          this.fail(
+            `O Módulo ${this.addr.modulo} é ${this.addr.isEven ? 'PAR' : 'ÍMPAR'}. ` +
+            `Olhando para o ${this.addr.facing}, este lado fica à ${targetSide === 'left' ? 'ESQUERDA' : 'DIREITA'}.`
+          );
+        }
+      },
+
+      /* DOIS PASSOS DENTRO DA ESTANTE (1º ANDAR, 2º GAVETAS DELE) */
+      zoomShelf() {
+        document.getElementById('gameCorridor').style.display = 'none';
+        const zoom = document.getElementById('gameShelfZoom');
+        zoom.classList.add('active');
+
+        this.shelfStep = 'floor';
+        document.getElementById('gameZoomTitle').textContent = `MÓDULO ${String(this.addr.modulo).padStart(3, '0')} — 1º ESCOLHA O ANDAR`;
+        document.getElementById('gameZoomSub').textContent = `Toque na linha do Andar ${this.addr.andar}!`;
+
+        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', this.addr.isEven);
+
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
+          if (clickedLevel === this.addr.andar) {
+            AudioEngine.scanner();
+            FeedbackEngine.vibrate(20);
+            this.openFloorBins();
+          } else {
+            FeedbackEngine.vibrate(50);
+            AudioEngine.error();
+            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.addr.andar} de baixo para cima!`);
+          }
+        });
+      },
+
+      openFloorBins() {
+        this.shelfStep = 'bin';
+        document.getElementById('gameZoomTitle').textContent = `MÓDULO ${String(this.addr.modulo).padStart(3, '0')} — 2º TOQUE NA BIN`;
+        document.getElementById('gameZoomSub').textContent = `Andar 0${this.addr.andar} confirmado! Ache a BIN ${this.addr.bin}`;
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', this.addr.isEven, (l, b, cx, cy) => {
+          this.checkBin(l, b, cx, cy);
+        }, this.showNumbers, this.addr.andar);
+      },
+
+      returnToCorridor() {
+        document.getElementById('gameCorridor').style.display = 'block';
+        document.getElementById('gameShelfZoom').classList.remove('active');
+      },
+
+      checkBin(level, binNum, cx, cy) {
+        if (level === this.addr.andar && binNum === this.addr.bin) {
+          clearInterval(this.timer);
+          AudioEngine.success(App.state.streak + 1);
+          FeedbackEngine.vibrate([20, 30, 20]);
+          FeedbackEngine.showDopamine(cx, cy, `🔥 +${25 + App.state.streak * 2} XP!`, '#16a34a');
+
+          const secs = Math.max(0.5, (Date.now() - this.startTime) / 1000);
+          App.addSuccess(secs);
+
+          if (this.mode === 'speed') {
+            SpeedCore.onSuccess();
+            return;
+          }
+
+          setTimeout(() => this.next(), 350);
+        } else {
+          FeedbackEngine.vibrate(60);
+          const dirMsg = this.addr.isEven ? "1 ➔ 6 (Esq ➔ Dir)" : "6 ⬅ 1 (Dir ➔ Esq)";
+          this.fail(`Você tocou na BIN ${binNum}, mas o endereço pede a BIN ${this.addr.bin}. Olhe a seta: ${dirMsg}!`);
+        }
+      },
+
+      fail(reason) {
+        clearInterval(this.timer);
+        AudioEngine.error();
+        App.addError();
+        App.showModal("Atenção ao Picking!", reason, () => this.next());
+      },
+
+      onTimeout() {
+        clearInterval(this.timer);
+        AudioEngine.error();
+        App.addError();
+        App.showModal("Tempo Esgotado! ⏱️", `O endereço era: ${this.addr.code}`, () => this.next());
+      }
+    };
+  </script>
+
+  <!-- Speed Core -->
+  <script>
+    const SpeedCore = {
+      target: 10,
+      done: 0,
+      startT: 0,
+
+      start(total) {
+        TutorialEngine.abort();
+        this.target = total;
+        this.done = 0;
+        this.startT = Date.now();
+        GameCore.start('speed', false);
+      },
+
+      onSuccess() {
+        this.done++;
+        if (this.done >= this.target) {
+          const secs = ((Date.now() - this.startT) / 1000).toFixed(1);
+          const avg = (secs / this.target).toFixed(2);
+          App.showModal(
+            "Desafio Concluído! 🏁 ^^",
+            `Você completou ${this.target} endereços em ${secs}s (Média: ${avg}s por BIN)!`,
+            () => App.nav('menu')
+          );
+        } else {
+          GameCore.next();
+        }
+      }
+    };
+  </script>
+
+  <!-- Practice Core -->
+  <script>
+    const PracticeCore = {
+      start() {
+        TutorialEngine.abort();
+        const showNums = document.getElementById('chkShowNumbers').checked;
+        GameCore.start('practice', showNums);
+      }
+    };
+  </script>
+
+  <!-- App Main Orchestrator -->
+  <script>
+    const App = {
+      state: {
+        tutorialCompleted: false,
+        streak: 0,
+        bestStreak: 0,
+        xp: 0,
+        successCount: 0,
+        errorCount: 0,
+        totalTime: 0
+      },
+
+      modalCb: null,
+
+      init() {
+        this.load();
+        this.updateHeader();
+
+        BoxiDrawer.draw('miniBoxi', 'normal');
+        BoxiDrawer.draw('boxiMenu', 'joy');
+        BoxiDrawer.draw('boxiModal', 'normal');
+
+        if (!this.state.tutorialCompleted) {
+          TutorialEngine.startProgressiveTutorial();
+        } else {
+          this.nav('menu');
+        }
+      },
+
+      load() {
+        try {
+          const d = localStorage.getItem('boxi_meli_cad_v18');
+          if (d) this.state = Object.assign(this.state, JSON.parse(d));
+        } catch(e) {}
+      },
+
+      save() {
+        try {
+          localStorage.setItem('boxi_meli_cad_v18', JSON.stringify(this.state));
+        } catch(e) {}
+        this.updateHeader();
+      },
+
+      getLevel(xp) {
+        if (xp >= 2000) return "Mestre CAD";
+        if (xp >= 1000) return "Especialista";
+        if (xp >= 450) return "Operador";
+        if (xp >= 150) return "Aprendiz";
+        return "Novato";
+      },
+
+      updateHeader() {
+        document.getElementById('hdrStreak').textContent = this.state.streak;
+        document.getElementById('hdrLevel').textContent = this.getLevel(this.state.xp);
+      },
+
+      nav(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const sc = document.getElementById(`screen-${id}`);
+        if (sc) sc.classList.add('active');
+
+        if (id === 'stats') this.renderStats();
+      },
+
+      handleMenuClick() {
+        if (TutorialEngine.active) {
+          TutorialEngine.requestAbort();
+        } else {
+          this.nav('menu');
+        }
+      },
+
+      handlePauseOrQuit() {
+        if (TutorialEngine.active) {
+          TutorialEngine.requestAbort();
+        } else {
+          this.nav('menu');
+        }
+      },
+
+      restartTutorial() {
+        TutorialEngine.startProgressiveTutorial();
+      },
+
+      startEndless() {
+        GameCore.start('endless', false);
+      },
+
+      addSuccess(secs) {
+        this.state.streak++;
+        if (this.state.streak > this.state.bestStreak) {
+          this.state.bestStreak = this.state.streak;
+        }
+        this.state.successCount++;
+        this.state.totalTime += secs;
+        this.state.xp += (20 + Math.min(40, this.state.streak * 2));
+        this.save();
+
+        const badge = document.getElementById('badgeStreak');
+        badge.classList.add('bump');
+        setTimeout(() => badge.classList.remove('bump'), 250);
+      },
+
+      addError() {
+        this.state.streak = 0;
+        this.state.errorCount++;
+        this.save();
+      },
+
+      renderStats() {
+        document.getElementById('stStreak').textContent = `🔥 ${this.state.bestStreak}`;
+        const total = this.state.successCount + this.state.errorCount;
+        document.getElementById('stTotal').textContent = total;
+        const acc = total > 0 ? Math.round((this.state.successCount / total) * 100) : 100;
+        document.getElementById('stAcc').textContent = `${acc}%`;
+        const avg = this.state.successCount > 0 ? (this.state.totalTime / this.state.successCount).toFixed(1) : "0.0";
+        document.getElementById('stAvg').textContent = `${avg}s`;
+      },
+
+      resetProgress() {
+        if (confirm("Deseja realmente resetar todas as suas estatísticas e progresso?")) {
+          localStorage.removeItem('boxi_meli_cad_v18');
+          location.reload();
+        }
+      },
+
+      showModal(title, msg, onOk = null) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalBody').innerHTML = msg;
+        
+        const container = document.getElementById('modalButtons');
+        container.innerHTML = `<button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar</button>`;
+
+        document.getElementById('modalOverlay').classList.add('active');
+        this.modalCb = onOk;
+      },
+
+      closeModal() {
+        document.getElementById('modalOverlay').classList.remove('active');
+        if (this.modalCb) {
+          const cb = this.modalCb;
+          this.modalCb = null;
+          cb();
+        }
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      App.init();
+    });
+  </script>
+</body>
+</html>
