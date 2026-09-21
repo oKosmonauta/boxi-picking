@@ -7,16 +7,18 @@
   <style>
     :root {
       --bg-white: #ffffff;
-      --bg-page: #f8fafc;
-      --bg-subtle: #f1f5f9;
+      --bg-page: #f1f5f9;
+      --bg-subtle: #e2e8f0;
+      --floor-grey: #94a3b8;
+      --floor-grey-light: #cbd5e1;
       --meli-yellow: #ffe600;
       --meli-yellow-dark: #ca8a04;
       --shelf-blue: #1e3a8a;
       --shelf-orange: #ea580c;
       --boxi-blue: #0284c7;
       --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
       --success: #16a34a;
       --danger: #dc2626;
       --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -51,14 +53,13 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: 0 0 25px rgba(0,0,0,0.06);
+      box-shadow: 0 0 25px rgba(0,0,0,0.08);
       overflow: hidden;
     }
 
-    /* Header */
     header {
       background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 2px solid var(--border-color);
       padding: 10px 14px;
       display: flex;
       align-items: center;
@@ -71,40 +72,35 @@
     .brand-box {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
     }
 
     .brand-text {
-      font-size: 1rem;
+      font-size: 1.15rem;
       font-weight: 900;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
     }
 
-    .brand-text span {
-      color: var(--boxi-blue);
-    }
+    .brand-text span { color: var(--boxi-blue); }
 
     .header-badges {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
+      gap: 8px;
     }
 
     .pill-badge {
       background: var(--bg-subtle);
-      border: 1px solid var(--border-color);
-      padding: 4px 8px;
+      border: 1.5px solid var(--border-color);
+      padding: 4px 10px;
       border-radius: 999px;
-      font-weight: 700;
+      font-weight: 900;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 4px;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      gap: 5px;
     }
-
-    .pill-badge.bump { transform: scale(1.25); }
 
     .pill-badge.fire {
       color: #ea580c;
@@ -115,19 +111,16 @@
     .btn-icon {
       background: none;
       border: none;
-      font-size: 1.15rem;
+      font-size: 1.35rem;
       cursor: pointer;
       padding: 4px;
-      border-radius: 6px;
     }
 
-    /* Main Container */
     main {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 12px;
-      padding-bottom: 24px;
+      padding: 8px 10px 14px;
       overflow-y: auto;
       position: relative;
     }
@@ -136,351 +129,194 @@
       display: none;
       flex-direction: column;
       flex: 1;
-      animation: fadeIn 0.2s ease-out;
     }
 
-    .screen.active {
-      display: flex;
-    }
+    .screen.active { display: flex; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Cartão de Endereço Gamificado */
-    .address-card {
-      background: #ffffff;
-      border: 2px solid var(--meli-yellow);
-      border-radius: 16px;
-      padding: 8px 10px;
-      text-align: center;
-      margin-bottom: 8px;
-      box-shadow: 0 4px 15px rgba(255, 230, 0, 0.25);
-      position: relative;
-    }
-
-    .address-sub-info {
-      font-size: 0.68rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .address-hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .hero-cell {
-      background: var(--bg-subtle);
-      border: 1.5px solid var(--border-color);
-      border-radius: 10px;
-      padding: 4px 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .hero-cell.pop-anim {
-      animation: popCell 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popCell {
-      0% { transform: scale(0.85); }
-      50% { transform: scale(1.18); }
-      100% { transform: scale(1); }
-    }
-
-    .hero-cell.modulo-box {
-      border-color: #38bdf8;
-      background: #f0f9ff;
-    }
-
-    .hero-cell.andar-box {
-      border-color: #fdba74;
-      background: #fff7ed;
-    }
-
-    .hero-cell.bin-box {
-      border-color: #facc15;
-      background: #fefce8;
-    }
-
-    .hero-label {
-      font-size: 0.6rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-val {
-      font-family: 'SF Mono', Menlo, Consolas, monospace;
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: var(--text-main);
-      line-height: 1.1;
-    }
-
-    .hero-tag {
-      font-size: 0.55rem;
-      font-weight: 900;
-      padding: 1px 5px;
-      border-radius: 4px;
-      margin-top: 2px;
-    }
-
-    .tag-par { background: #dbeafe; color: #1e40af; }
-    .tag-impar { background: #fee2e2; color: #991b1b; }
-
-    /* Stage Card */
+    /* ESTANTE NO TOPO */
     .stage-card {
       background: #ffffff;
-      border: 1.5px solid var(--border-color);
-      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      border-radius: 18px;
       position: relative;
       flex: 1;
+      min-height: 520px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      margin-bottom: 8px;
     }
 
-    .landmark-bar {
-      padding: 6px 10px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-      background: #f8fafc;
-      z-index: 15;
-    }
-
-    .landmark-bar.outbound {
-      color: #0f172a;
-      background: #fef9c3;
-      border-color: #fef08a;
-    }
-
-    .landmark-bar.inbound {
-      color: #0369a1;
-      background: #f0f9ff;
-      border-color: #e0f2fe;
-    }
-
-    /* Banner Central de Transição */
-    .direction-center-flare {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%) scale(0);
-      padding: 12px 16px;
-      border-radius: 16px;
-      text-align: center;
-      z-index: 90;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .direction-center-flare.show-outbound {
-      opacity: 1;
-      transform: translateY(-50%) scale(1);
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      border: 3px solid var(--meli-yellow);
-      animation: bounceOutbound 1.2s ease forwards;
-    }
-
-    .direction-center-flare.show-inbound {
-      opacity: 1;
-      transform: translateY(-50%) scale(1);
-      background: linear-gradient(135deg, #0369a1, #0284c7);
-      border: 3px solid #ffffff;
-      animation: bounceInbound 1.2s ease forwards;
-    }
-
-    @keyframes bounceOutbound {
-      0% { transform: translateY(-30%) scale(0.7); opacity: 0; }
-      30% { transform: translateY(-70%) scale(1.08); opacity: 1; }
-      60% { transform: translateY(-50%) scale(1); opacity: 1; }
-      100% { transform: translateY(-50%) scale(0.9); opacity: 0; }
-    }
-
-    @keyframes bounceInbound {
-      0% { transform: translateY(-70%) scale(0.7); opacity: 0; }
-      30% { transform: translateY(-30%) scale(1.08); opacity: 1; }
-      60% { transform: translateY(-50%) scale(1); opacity: 1; }
-      100% { transform: translateY(-50%) scale(0.9); opacity: 0; }
-    }
-
-    /* Corredor das Estantes */
+    /* CORREDOR DAS ESTANTES */
     .corridor-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 1366 / 768;
-      background: #f8fafc;
+      height: 100%;
+      background: #ffffff;
       overflow: hidden;
-      margin: auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* CAMADA DE FUNDO: REDE PRETA + GRADE AMARELA + ESTEIRA ALTA */
     .corridor-horizon-scene {
       position: absolute;
       inset: 0;
       z-index: 1;
-      overflow: hidden;
       pointer-events: none;
+      background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 48%, var(--floor-grey-light) 48.1%, var(--floor-grey) 100%);
     }
 
-    .horizon-mesh-net {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 40%;
-      background: repeating-linear-gradient(45deg, rgba(15,23,42,0.45), rgba(15,23,42,0.45) 2.5px, rgba(51,65,85,0.55) 2.5px, rgba(51,65,85,0.55) 5px);
-      opacity: 0.35;
-      filter: blur(1.5px);
-    }
-
-    .horizon-yellow-fence {
-      position: absolute;
-      bottom: 37%;
-      left: 0;
-      right: 0;
-      height: 38px;
-      background: repeating-linear-gradient(0deg, #ca8a04, #ca8a04 2px, transparent 2px, transparent 7px),
-                  repeating-linear-gradient(90deg, #ca8a04, #ca8a04 2px, transparent 2px, transparent 12px);
-      opacity: 0.4;
-      filter: blur(1px);
-    }
-
+    /* ESTEIRA HORIZONTAL AUMENTADA */
     .conveyor-straight-track {
       position: absolute;
-      bottom: 36%;
+      bottom: 27%;
       left: 0;
       right: 0;
-      height: 18px;
+      height: 32px;
       background: #090d16;
-      border-top: 3px solid var(--meli-yellow);
-      border-bottom: 2px solid #334155;
-      box-shadow: 0 -3px 12px rgba(0,0,0,0.5);
+      border-top: 4px solid var(--meli-yellow);
+      border-bottom: 3px solid #334155;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      z-index: 2;
     }
 
     .conveyor-track-rollers {
       width: 100%;
-      height: 7px;
-      background: repeating-linear-gradient(90deg, #1e293b, #1e293b 6px, #475569 6px, #475569 12px);
+      height: 14px;
+      background: repeating-linear-gradient(90deg, #1e293b, #1e293b 10px, #475569 10px, #475569 20px);
       animation: rollerSlide 1s linear infinite;
     }
 
     @keyframes rollerSlide {
       from { background-position: 0 0; }
-      to { background-position: 24px 0; }
+      to { background-position: 40px 0; }
+    }
+
+    #conveyorTotesContainer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
     }
 
     .conveyor-box-runner {
       position: absolute;
-      bottom: calc(36% + 9px);
-      width: 54px;
-      height: 40px;
-      animation: boxTravel 7s linear infinite;
+      bottom: calc(27% + 16px);
+      width: 60px;
+      height: 45px;
+      animation: boxTravel 6.5s linear infinite;
     }
 
-    .conveyor-box-runner.box-2 { animation-delay: -2.4s; }
-    .conveyor-box-runner.box-3 { animation-delay: -4.8s; }
+    .conveyor-box-runner.box-2 { animation-delay: -3.25s; }
 
     @keyframes boxTravel {
       0% { left: -70px; }
       100% { left: 110%; }
     }
 
-    .conveyor-pop-anim {
-      animation: conveyorPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes conveyorPop {
-      0% { transform: scale(0.7) translateY(15px); opacity: 0; }
-      100% { transform: scale(1) translateY(0); opacity: 1; }
-    }
-
-    .inbound-wall-hub {
-      position: absolute;
-      bottom: 35%;
-      left: 25%;
-      right: 25%;
-      background: rgba(3, 105, 161, 0.95);
-      border: 2px solid #38bdf8;
-      border-radius: 6px;
-      padding: 6px 4px;
-      text-align: center;
-      font-size: 0.65rem;
-      font-weight: 900;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    /* CAMADA DA FRENTE: IMAGEM DAS ESTANTES (OPACA, COBRINDO AS CAIXAS) */
     .shelves-foreground-img {
       position: absolute;
       inset: 0;
       background-image: url('estantes.png');
-      background-size: 100% 100%;
+      background-size: cover;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: center bottom;
       pointer-events: none;
       z-index: 5;
     }
 
-    /* ZONAS INTERATIVAS DE TOQUE */
+    /* PLACAS DE RUA */
+    .street-signboard {
+      position: absolute;
+      top: 55px;
+      height: 50px;
+      width: 140px;
+      background: #1e293b;
+      border: 2px solid #000;
+      border-radius: 6px;
+      display: flex;
+      align-items: stretch;
+      z-index: 8;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+    }
+
+    .street-signboard.left { left: 8px; }
+    .street-signboard.right { right: 8px; }
+
+    .street-signboard-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 10px;
+      gap: 4px;
+    }
+
+    .sign-bar-line {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+      width: 82%;
+    }
+
+    .sign-bar-line.short { width: 55%; }
+
+    .street-signboard-yellow-tag {
+      width: 58px;
+      background: var(--meli-yellow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-left: 2px solid #000;
+      color: #000;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .street-signboard-yellow-tag span { font-size: 0.72rem; letter-spacing: 0.5px; }
+    .street-signboard-yellow-tag strong { font-size: 1.35rem; }
+
+    /* ZONAS DE TOQUE SEM O ESCRITO PAR/ÍMPAR */
     .shelf-click-zone {
       position: absolute;
-      top: 2%;
+      top: 15%;
       bottom: 2%;
-      width: 34%;
+      width: 46%;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: flex-end;
       align-items: center;
-      padding-top: 8px;
+      padding-bottom: 22px;
       z-index: 10;
       transition: transform 0.15s;
     }
 
-    .shelf-click-zone:active { transform: scale(0.94); }
+    .shelf-click-zone:active { transform: scale(0.96); }
     .shelf-click-zone.left { left: 1%; }
     .shelf-click-zone.right { right: 1%; }
 
     .shelf-floating-badge {
       background: #ffffff;
-      border: 2px solid var(--shelf-blue);
-      border-radius: 10px;
-      padding: 6px 8px;
+      border: 2.5px solid var(--shelf-blue);
+      border-radius: 14px;
+      padding: 10px 14px;
       text-align: center;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.22);
       pointer-events: none;
-      transition: all 0.3s;
     }
 
     .shelf-floating-badge.target-highlight {
-      border: 3px solid var(--meli-yellow);
+      border: 3.5px solid var(--meli-yellow);
       background: #fef08a;
-      box-shadow: 0 0 16px var(--meli-yellow);
-      animation: pulseBadge 0.8s infinite alternate;
+      box-shadow: 0 0 18px var(--meli-yellow);
+      animation: pulseBadge 0.7s infinite alternate;
     }
 
     @keyframes pulseBadge {
@@ -488,28 +324,15 @@
       to { transform: scale(1.08); }
     }
 
-    .shelf-floating-badge.swap-anim {
-      animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes badgePop {
-      0% { transform: scale(0.7) rotate(-6deg); }
-      50% { transform: scale(1.15) rotate(4deg); }
-      100% { transform: scale(1) rotate(0); }
-    }
-
-    .shelf-floating-badge span {
-      font-size: 0.62rem;
-      font-weight: 800;
-      display: block;
-    }
-
     .shelf-floating-badge strong {
-      font-size: 0.8rem;
+      font-size: 1.05rem;
       font-weight: 900;
+      color: var(--text-main);
+      display: block;
+      letter-spacing: 0.2px;
     }
 
-    /* Zoom da Estante Real (estante.jpg - 1792 x 2390) */
+    /* ESTANTE REAL COM ZOOM */
     .shelf-zoom-view {
       display: none;
       position: absolute;
@@ -517,8 +340,7 @@
       background: #ffffff;
       z-index: 20;
       flex-direction: column;
-      padding: 8px;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     .shelf-zoom-view.active { display: flex; }
@@ -527,189 +349,317 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-bottom: 2px solid var(--border-color);
+      z-index: 30;
+      background: #ffffff;
+    }
+
+    .shelf-perspective-stage {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 40%, var(--floor-grey-light) 40.1%, var(--floor-grey) 100%);
     }
 
     .shelf-photo-container {
       position: relative;
+      height: 100%;
+      max-height: 560px;
       width: 100%;
-      max-width: 380px;
-      margin: 0 auto;
+      max-width: 420px;
       aspect-ratio: 1792 / 2390;
-      background-image: url('estante.jpg');
+      background-image: url('estante.png');
       background-size: 100% 100%;
       background-repeat: no-repeat;
-      background-position: center;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-      overflow: hidden;
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform-origin 0.5s ease;
+      background-position: center bottom;
+      z-index: 10;
+      filter: drop-shadow(0 14px 26px rgba(0,0,0,0.3));
+      margin-bottom: 0px;
+      flex-shrink: 0;
     }
 
-    /* SETA COMPACTA NO TOPO */
-    .shelf-top-arrow-bar {
+    .conveyor-lateral-straight {
       position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 28px;
-      padding: 0 14px;
-      background: #0f172a;
-      border: 2px solid var(--meli-yellow);
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 0.74rem;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.5px;
-      z-index: 35;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+      top: 0;
+      bottom: 0;
+      width: 160px;
+      z-index: 4;
       pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      background: #090d16;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+
+    .conveyor-lateral-straight.side-right {
+      right: -80px;
+      border-left: 6px solid var(--meli-yellow);
+    }
+
+    .conveyor-lateral-straight.side-left {
+      left: -80px;
+      border-right: 6px solid var(--meli-yellow);
+    }
+
+    .conveyor-rollers-vert {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        #1e293b,
+        #1e293b 12px,
+        #475569 12px,
+        #475569 24px
+      );
+    }
+
+    .side-right .conveyor-rollers-vert {
+      animation: rollersMoveDown 1s linear infinite;
+    }
+    @keyframes rollersMoveDown {
+      from { background-position: 0 0; }
+      to { background-position: 0 48px; }
+    }
+
+    .side-left .conveyor-rollers-vert {
+      animation: rollersMoveUp 1s linear infinite;
+    }
+    @keyframes rollersMoveUp {
+      from { background-position: 0 0; }
+      to { background-position: 0 -48px; }
+    }
+
+    .conveyor-vertical-boxes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .vert-tote-runner {
+      position: absolute;
+      width: 62px;
+      height: 46px;
+    }
+
+    .side-right .vert-tote-runner { left: 12px; }
+    .side-left .vert-tote-runner { right: 12px; }
+
+    .side-right .vert-tote-runner {
+      animation: vertToteScrollDown 4.5s linear infinite;
+    }
+    .side-right .vert-tote-runner.tote-2 { animation-delay: -2.25s; }
+
+    @keyframes vertToteScrollDown {
+      0% { top: -60px; }
+      100% { top: 105%; }
+    }
+
+    .side-left .vert-tote-runner {
+      animation: vertToteScrollUp 4.5s linear infinite;
+    }
+    .side-left .vert-tote-runner.tote-2 { animation-delay: -2.25s; }
+
+    @keyframes vertToteScrollUp {
+      0% { top: 105%; }
+      100% { top: -60px; }
+    }
+
+    .conveyor-signboard-straight {
+      position: absolute;
+      top: 16px;
+      background: #0f172a;
+      border: 2.5px solid var(--meli-yellow);
+      color: var(--meli-yellow);
+      font-size: 0.88rem;
+      font-weight: 900;
+      text-align: center;
+      padding: 7px 10px;
+      border-radius: 8px;
+      z-index: 15;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.65);
       white-space: nowrap;
-      animation: pillFloat 1.2s infinite alternate ease-in-out;
     }
 
-    @keyframes pillFloat {
-      from { transform: translateX(-50%) translateY(0); }
-      to { transform: translateX(-50%) translateY(-2px); }
-    }
+    .side-right .conveyor-signboard-straight { left: 8px; }
+    .side-left .conveyor-signboard-straight { right: 8px; }
 
-    /* Zonas de Andares */
+    /* ZONAS DOS ANDARES */
     .floor-row-zone {
       position: absolute;
-      left: 7%;
-      right: 7%;
+      left: 6%;
+      right: 6%;
       cursor: pointer;
-      border: 2px dashed transparent;
-      border-radius: 6px;
+      border: 2.5px dashed transparent;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding-left: 8px;
+      padding-left: 10px;
       z-index: 25;
       transition: all 0.15s;
     }
 
     .floor-row-zone:active {
-      background: rgba(250, 204, 21, 0.35);
-      border-color: var(--meli-yellow-dark);
+      background: rgba(250, 204, 21, 0.45);
       transform: scale(0.98);
     }
 
     .floor-row-zone.target-spotlight {
-      background: rgba(250, 204, 21, 0.25);
-      border: 3px solid var(--meli-yellow);
-      box-shadow: 0 0 16px var(--meli-yellow);
-      animation: neonPulse 0.9s infinite alternate;
+      background: rgba(250, 204, 21, 0.4);
+      border: 3.5px solid var(--meli-yellow);
+      box-shadow: 0 0 20px var(--meli-yellow);
+      animation: neonPulse 0.8s infinite alternate;
     }
 
     @keyframes neonPulse {
-      from { border-color: var(--meli-yellow); box-shadow: 0 0 8px var(--meli-yellow); }
-      to { border-color: #ffffff; box-shadow: 0 0 20px var(--meli-yellow); }
+      from { border-color: var(--meli-yellow); box-shadow: 0 0 10px var(--meli-yellow); }
+      to { border-color: #ffffff; box-shadow: 0 0 24px var(--meli-yellow); }
     }
 
     .floor-row-tag {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.92);
       color: #ffffff;
-      font-size: 0.72rem;
+      font-size: 0.92rem;
       font-weight: 900;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid var(--shelf-orange);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1.5px solid var(--shelf-orange);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
       pointer-events: none;
     }
 
-    /* Hotspot de Gavetas */
+    /* BINS */
     .hotspot-cell {
       position: absolute;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.01);
-      border: 1.5px solid transparent;
+      border: 2px solid transparent;
       border-radius: 4px;
       z-index: 26;
-      transition: background-color 0.12s, border-color 0.12s, transform 0.1s;
+      transition: background-color 0.1s, border-color 0.1s, transform 0.1s;
     }
 
     .hotspot-cell:active {
-      background: rgba(250, 204, 21, 0.6);
+      background: rgba(250, 204, 21, 0.65);
       border-color: #ca8a04;
-      transform: scale(0.9);
+      transform: scale(0.92);
     }
 
     .hotspot-cell.dimmed-out {
-      opacity: 0.1;
+      opacity: 0.04;
       pointer-events: none;
     }
 
     .hotspot-cell.target-spotlight {
       background: rgba(250, 204, 21, 0.55);
-      border: 2px solid var(--boxi-blue);
-      box-shadow: 0 0 14px var(--meli-yellow);
-      animation: neonPulse 0.8s infinite alternate;
+      border: 2.5px solid var(--boxi-blue);
+      box-shadow: 0 0 18px var(--meli-yellow);
+      animation: neonPulse 0.7s infinite alternate;
     }
 
     .hotspot-cell.show-numbers {
-      background: rgba(254, 240, 138, 0.55);
+      background: rgba(254, 240, 138, 0.75);
       border: 1.5px solid rgba(202, 138, 4, 0.9);
       color: #713f12;
-      font-size: 0.7rem;
+      font-size: 1.05rem;
       font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-shadow: 0 1px 1px #fff;
+      text-shadow: 0 1px 1px #ffffff;
     }
 
-    /* Efeitos de Toque e Dopamina */
-    .click-ripple-fx {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 3px solid var(--meli-yellow);
-      background: rgba(255, 230, 0, 0.35);
-      transform: translate(-50%, -50%) scale(0.2);
-      pointer-events: none;
-      z-index: 999;
-      animation: rippleBurst 0.4s ease-out forwards;
+    /* COLETOR (HANDHELD) NA BASE */
+    .address-card {
+      background: #ffffff;
+      border: 2.5px solid var(--meli-yellow);
+      border-radius: 18px;
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(255, 230, 0, 0.25);
+      position: relative;
     }
 
-    @keyframes rippleBurst {
-      to { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+    .address-sub-info {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
     }
 
-    .floating-dopamine-text {
-      position: fixed;
-      font-family: 'SF Mono', system-ui, sans-serif;
-      font-size: 1.1rem;
+    .address-hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .hero-cell {
+      background: var(--bg-subtle);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hero-cell.pop-anim {
+      animation: popCell 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popCell {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .hero-cell.modulo-box { border-color: #38bdf8; background: #f0f9ff; }
+    .hero-cell.andar-box { border-color: #fdba74; background: #fff7ed; }
+    .hero-cell.bin-box { border-color: #facc15; background: #fefce8; }
+
+    .hero-label {
+      font-size: 0.72rem;
       font-weight: 900;
-      color: #ea580c;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      pointer-events: none;
-      z-index: 1000;
-      transform: translate(-50%, -50%);
-      animation: floatUpFade 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    @keyframes floatUpFade {
-      0% { transform: translate(-50%, -20%) scale(0.7); opacity: 0; }
-      40% { transform: translate(-50%, -70%) scale(1.2); opacity: 1; }
-      100% { transform: translate(-50%, -120%) scale(1); opacity: 0; }
+    .hero-val {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.1;
     }
+
+    .hero-tag {
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 3px;
+    }
+
+    .tag-par { background: #dbeafe; color: #1e40af; }
+    .tag-impar { background: #fee2e2; color: #991b1b; }
 
     .timer-track {
       width: 100%;
-      height: 6px;
+      height: 7px;
       background: var(--bg-subtle);
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .timer-fill {
@@ -719,21 +669,20 @@
       transition: width 0.1s linear, background-color 0.25s;
     }
 
-    /* Botões */
     .btn {
       background: var(--shelf-blue);
       color: #ffffff;
       border: none;
-      padding: 13px 16px;
-      border-radius: 12px;
-      font-size: 0.92rem;
-      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(30, 58, 138, 0.2);
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
     }
 
     .btn:active { transform: translateY(1px); }
@@ -741,53 +690,51 @@
     .btn-yellow {
       background: var(--meli-yellow);
       color: #0f172a;
-      box-shadow: 0 3px 8px rgba(255, 230, 0, 0.35);
+      box-shadow: 0 4px 10px rgba(255, 230, 0, 0.35);
     }
 
     .btn-outline {
       background: transparent;
-      border: 1.5px solid var(--border-color);
+      border: 2px solid var(--border-color);
       color: var(--text-main);
       box-shadow: none;
     }
 
-    .btn-outline:active { background: var(--bg-subtle); }
-
     .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.78rem;
-      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      border-radius: 10px;
     }
 
-    /* Boxi Flutuante no Rodapé */
+    /* BOXI COACH */
     .boxi-side-coach {
       position: absolute;
-      bottom: 10px;
+      bottom: 12px;
       left: 10px;
       right: 10px;
       z-index: 100;
       background: #ffffff;
-      border: 2px solid var(--boxi-blue);
-      border-radius: 16px;
-      padding: 8px 12px;
+      border: 3px solid var(--boxi-blue);
+      border-radius: 18px;
+      padding: 12px 14px;
       display: none;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.25);
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(2, 132, 199, 0.3);
       cursor: pointer;
-      animation: slideUpSide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      animation: slideUpSide 0.25s ease-out;
     }
 
     @keyframes slideUpSide {
-      from { transform: translateY(30px); opacity: 0; }
+      from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .boxi-side-coach.active { display: flex; }
 
     .boxi-side-avatar {
-      width: 52px;
-      height: 52px;
+      width: 64px;
+      height: 64px;
       flex-shrink: 0;
       position: relative;
     }
@@ -797,57 +744,48 @@
       top: -8px;
       right: -6px;
       background: var(--meli-yellow);
-      border: 1px solid #ca8a04;
+      border: 1.5px solid #ca8a04;
       border-radius: 999px;
-      font-size: 0.85rem;
-      width: 22px;
-      height: 22px;
+      font-size: 1rem;
+      width: 26px;
+      height: 26px;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: emojiPop 0.8s infinite alternate;
-    }
-
-    @keyframes emojiPop {
-      from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-3px) scale(1.15); }
     }
 
     .boxi-side-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
 
     .boxi-side-title {
-      font-size: 0.82rem;
+      font-size: 1rem;
       font-weight: 900;
       color: var(--boxi-blue);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .boxi-side-text {
-      font-size: 0.76rem;
+      font-size: 1.05rem;
       color: var(--text-main);
       line-height: 1.35;
-      font-weight: 500;
+      font-weight: 700;
     }
 
     .boxi-side-hint {
-      font-size: 0.65rem;
-      font-weight: 800;
+      font-size: 0.85rem;
+      font-weight: 900;
       color: var(--boxi-blue);
       margin-top: 2px;
     }
 
-    /* Modal de Diálogo da Boxi */
+    /* DIÁLOGO CENTRAL DA BOXI */
     .boxi-story-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 300;
@@ -865,71 +803,56 @@
     .boxi-story-avatar {
       width: 120px;
       height: 120px;
-      margin-bottom: 16px;
-      animation: boxiFloat 2.4s ease-in-out infinite alternate;
-      position: relative;
+      margin-bottom: 18px;
+      animation: boxiFloat 2s ease-in-out infinite alternate;
     }
 
     @keyframes boxiFloat {
-      from { transform: translateY(0) rotate(-2deg); }
-      to { transform: translateY(-10px) rotate(2deg); }
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
     }
 
     .boxi-story-bubble {
       background: #ffffff;
-      border: 2px solid var(--boxi-blue);
-      border-radius: 18px;
-      padding: 18px;
+      border: 3px solid var(--boxi-blue);
+      border-radius: 20px;
+      padding: 20px;
       max-width: 420px;
       width: 100%;
-      box-shadow: 0 12px 30px rgba(2, 132, 199, 0.15);
-      margin-bottom: 16px;
+      box-shadow: 0 14px 35px rgba(2, 132, 199, 0.2);
+      margin-bottom: 18px;
     }
 
     .boxi-story-bubble h3 {
-      font-size: 1.15rem;
+      font-size: 1.4rem;
       color: var(--boxi-blue);
-      margin-bottom: 6px;
+      margin-bottom: 10px;
       font-weight: 900;
     }
 
     .boxi-story-bubble p {
-      font-size: 0.92rem;
+      font-size: 1.15rem;
       color: var(--text-main);
       line-height: 1.45;
-      font-weight: 500;
+      font-weight: 700;
     }
 
     .tap-hint {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.82rem;
-      font-weight: 800;
+      font-size: 1rem;
+      font-weight: 900;
       color: var(--boxi-blue);
-      animation: blinkHint 1s infinite alternate;
+      animation: pulseHint 0.8s infinite alternate;
     }
 
-    @keyframes blinkHint {
-      from { opacity: 0.5; transform: translateY(0); }
-      to { opacity: 1; transform: translateY(2px); }
-    }
-
-    .tour-spotlight-ring {
-      position: absolute;
-      border: 4px solid var(--boxi-blue);
-      border-radius: 16px;
-      box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.7), 0 0 15px var(--meli-yellow);
-      pointer-events: none;
-      z-index: 250;
-      transition: all 0.35s ease-out;
-      display: none;
+    @keyframes pulseHint {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
     }
 
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -941,21 +864,53 @@
 
     .modal-sheet {
       background: #ffffff;
-      border-radius: 20px 20px 0 0;
-      padding: 20px 16px;
+      border-radius: 24px 24px 0 0;
+      padding: 22px 18px;
       width: 100%;
       max-width: 480px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
-      animation: slideUp 0.2s ease-out;
+      gap: 14px;
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+    .modal-sheet h4 { font-size: 1.3rem; font-weight: 900; }
+    .modal-sheet p { font-size: 1.05rem; font-weight: 600; color: var(--text-muted); line-height: 1.4; }
+
+    .click-ripple-fx {
+      position: fixed;
+      width: 40px; height: 40px;
+      border-radius: 999px;
+      border: 3.5px solid var(--meli-yellow);
+      background: rgba(255, 230, 0, 0.4);
+      transform: translate(-50%, -50%) scale(0.2);
+      pointer-events: none;
+      z-index: 999;
+      animation: rippleBurst 0.4s ease-out forwards;
+    }
+
+    @keyframes rippleBurst {
+      to { transform: translate(-50%, -50%) scale(1.9); opacity: 0; }
+    }
+
+    .floating-dopamine-text {
+      position: fixed;
+      font-family: 'SF Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #ea580c;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      pointer-events: none;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      animation: floatUpFade 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes floatUpFade {
+      0% { transform: translate(-50%, -10%) scale(0.7); opacity: 0; }
+      40% { transform: translate(-50%, -60%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -120%) scale(1); opacity: 0; }
     }
   </style>
 </head>
@@ -964,7 +919,7 @@
   <div class="app-shell">
     <header>
       <div class="brand-box" onclick="App.handleMenuClick()">
-        <div id="miniBoxi" style="width:28px; height:28px;"></div>
+        <div id="miniBoxi" style="width:34px; height:34px;"></div>
         <div class="brand-text"><span>BOXI</span> PICKING</div>
       </div>
       <div class="header-badges">
@@ -980,44 +935,155 @@
     </header>
 
     <main>
-      <!-- View 1: Menu Principal -->
+      <!-- MENU -->
       <section id="screen-menu" class="screen active">
-        <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid #e0f2fe; border-radius:14px; padding:10px 12px; box-shadow:0 4px 12px rgba(2,132,199,0.08); margin-bottom:12px;">
-          <div id="boxiMenu" style="width:58px; height:58px; flex-shrink:0;"></div>
-          <div style="font-size:0.84rem; line-height:1.35; color:var(--text-main);">
-            <strong>Oi! Eu sou a Boxi. ^^</strong><br />
-            Vamos aprender a fazer picking do mais fácil até virar mestre!
+        <div style="display:flex; align-items:center; gap:14px; background:#fff; border:2px solid #e0f2fe; border-radius:18px; padding:14px; box-shadow:0 4px 15px rgba(2,132,199,0.08); margin-bottom:14px;">
+          <div id="boxiMenu" style="width:70px; height:70px; flex-shrink:0;"></div>
+          <div style="font-size:1.05rem; line-height:1.4; color:var(--text-main); font-weight:700;">
+            <strong>Oi, Picker! ^^</strong><br />
+            Vamos aprender as posições, o fluxo da esteira e a ler as ruas como no galpão real!
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
           <button class="btn btn-yellow" onclick="App.startEndless()">
-            ▶ CONTINUAR TREINAMENTO INFINITO
+            ▶ TREINAMENTO INFINITO
           </button>
           <button class="btn btn-outline" onclick="App.restartTutorial()">
-            ❓ REINICIAR / REVER TUTORIAL
+            ❓ REINICIAR TUTORIAL COMPLETO
           </button>
           <button class="btn btn-outline" onclick="App.nav('practice')">
-            🎯 TREINO LIVRE (COM DICAS)
+            🎯 TREINO LIVRE
           </button>
           <button class="btn btn-outline" onclick="App.nav('speed')">
             ⚡ DESAFIO DE VELOCIDADE
           </button>
           <button class="btn btn-outline" onclick="App.nav('stats')">
-            📊 MINHAS ESTATÍSTICAS
+            📊 ESTATÍSTICAS
           </button>
         </div>
       </section>
 
-      <!-- View 2: Treinamento Infinito, Tutorial e Treino Livre -->
+      <!-- JOGO -->
       <section id="screen-game" class="screen">
+        
+        <!-- ESTANTE NO TOPO -->
+        <div class="stage-card" id="gameStageCard">
+          
+          <!-- CORREDOR DAS ESTANTES -->
+          <div class="corridor-wrapper" id="gameCorridor">
+            <div class="corridor-horizon-scene" id="corridorHorizonScene">
+              <div id="horizonOutboundTrack" class="conveyor-straight-track">
+                <div class="conveyor-track-rollers"></div>
+              </div>
+
+              <div id="conveyorTotesContainer">
+                <div class="conveyor-box-runner box-1">
+                  <svg viewBox="0 0 70 54" width="100%" height="100%">
+                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
+                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                    <text x="35" y="38" font-family="monospace" font-size="6.5" font-weight="900" fill="#000" text-anchor="middle">ML-0B7</text>
+                  </svg>
+                </div>
+                <div class="conveyor-box-runner box-2">
+                  <svg viewBox="0 0 70 54" width="100%" height="100%">
+                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
+                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                    <text x="35" y="38" font-family="monospace" font-size="6.5" font-weight="900" fill="#000" text-anchor="middle">ML-A4F</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- IMAGEM DO CORREDOR -->
+            <div class="shelves-foreground-img"></div>
+
+            <!-- PLACAS SUSPENSAS DE RUA -->
+            <div class="street-signboard left" id="signboardLeft">
+              <div class="street-signboard-body">
+                <div class="sign-bar-line"></div>
+                <div class="sign-bar-line short"></div>
+              </div>
+              <div class="street-signboard-yellow-tag">
+                <span>RUA</span>
+                <strong id="signboardLeftNum">22</strong>
+              </div>
+            </div>
+
+            <div class="street-signboard right" id="signboardRight">
+              <div class="street-signboard-body">
+                <div class="sign-bar-line"></div>
+                <div class="sign-bar-line short"></div>
+              </div>
+              <div class="street-signboard-yellow-tag">
+                <span>RUA</span>
+                <strong id="signboardRightNum">21</strong>
+              </div>
+            </div>
+
+            <!-- BALÕES EMBAIXO COM APENAS O NOME DA ESTANTE -->
+            <div class="shelf-click-zone left" id="zoneShelfLeft" onclick="GameCore.pickSide('left')">
+              <div class="shelf-floating-badge" id="badgeShelfLeft">
+                <strong id="gamePillLeftType">ESTANTE DA ESQUERDA</strong>
+              </div>
+            </div>
+
+            <div class="shelf-click-zone right" id="zoneShelfRight" onclick="GameCore.pickSide('right')">
+              <div class="shelf-floating-badge" id="badgeShelfRight">
+                <strong id="gamePillRightType">ESTANTE DA DIREITA</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- ZOOM DA ESTANTE REAL -->
+          <div class="shelf-zoom-view" id="gameShelfZoom">
+            <div class="shelf-zoom-nav">
+              <div>
+                <strong style="color:var(--shelf-blue); font-size:1.05rem;" id="gameZoomTitle">ESTANTE</strong>
+                <span style="font-size:0.85rem; color:var(--text-muted); margin-left:6px;" id="gameZoomSub">Andares de baixo para cima</span>
+              </div>
+              <button class="btn btn-outline btn-sm" id="btnReturnToCorridor" onclick="GameCore.returnToCorridor()">⬅ Corredor</button>
+            </div>
+
+            <div class="shelf-perspective-stage" id="shelfPerspectiveStage">
+              <!-- ESTEIRA LATERAL -->
+              <div class="conveyor-lateral-straight side-right" id="conveyorLateralStraight">
+                <div class="conveyor-rollers-vert"></div>
+                <div class="conveyor-vertical-boxes">
+                  <div class="vert-tote-runner tote-1">
+                    <svg viewBox="0 0 62 46" width="100%" height="100%">
+                      <rect x="4" y="6" width="54" height="34" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.5"/>
+                      <rect x="2" y="2" width="58" height="6" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                      <rect x="20" y="16" width="22" height="14" rx="1.5" fill="#ffffff"/>
+                      <text x="31" y="27" font-family="monospace" font-size="7" font-weight="900" fill="#000" text-anchor="middle">ML</text>
+                    </svg>
+                  </div>
+                  <div class="vert-tote-runner tote-2">
+                    <svg viewBox="0 0 62 46" width="100%" height="100%">
+                      <rect x="4" y="6" width="54" height="34" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.5"/>
+                      <rect x="2" y="2" width="58" height="6" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
+                      <rect x="20" y="16" width="22" height="14" rx="1.5" fill="#ffffff"/>
+                      <text x="31" y="27" font-family="monospace" font-size="7" font-weight="900" fill="#000" text-anchor="middle">ML</text>
+                    </svg>
+                  </div>
+                </div>
+                <div class="conveyor-signboard-straight" id="conveyorLateralLabel">ESTEIRA ➔</div>
+              </div>
+
+              <!-- ESTANTE REAL PADRÃO -->
+              <div class="shelf-photo-container" id="gamePhotoContainer"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLETOR (HANDHELD) NA BASE -->
         <div class="address-card" id="gameAddressCard">
           <div class="address-sub-info" id="gameAddressSubInfo">
             <span>MEZANINO: <b id="gMz">1</b></span> • <span>RUA: <b id="gRua">45</b></span>
           </div>
           <div class="address-hero-grid" id="gameHeroGrid">
             <div class="hero-cell modulo-box" id="cellModulo">
-              <span class="hero-label">MÓDULO</span>
+              <span class="hero-label">PRÉDIO / MÓDULO</span>
               <span class="hero-val" id="gModulo">032</span>
               <span class="hero-tag tag-par" id="gModuloTag">PAR</span>
             </div>
@@ -1035,284 +1101,115 @@
           </div>
         </div>
 
-        <div class="stage-card" id="gameStageCard">
-          <div class="landmark-bar outbound" id="gameLandmark">OLHANDO PARA O OUTBOUND</div>
-
-          <!-- BANNER DE TRANSIÇÃO ULTRA VISÍVEL NO CENTRO -->
-          <div class="direction-center-flare" id="directionFlare">
-            <span id="flareIcon" style="font-size:1.8rem;">⬆️</span>
-            <strong id="flareTitle" style="font-size:1rem; color:#ffe600; letter-spacing:0.5px;">OLHANDO PARA O OUTBOUND</strong>
-            <span id="flareSub" style="font-size:0.75rem; color:#ffffff; margin-top:2px;">(ESTEIRA AO FUNDO)</span>
-          </div>
-
-          <!-- Corredor -->
-          <div class="corridor-wrapper" id="gameCorridor">
-            <!-- CAMADA DE FUNDO: REDE PRETA + GRADE AMARELA + NOVA ESTEIRA HORIZONTAL ALTA -->
-            <div class="corridor-horizon-scene" id="corridorHorizonScene">
-              <div class="horizon-mesh-net"></div>
-              <div class="horizon-yellow-fence"></div>
-              
-              <!-- Esteira e Caixas Amarelas Fiéis (OUTBOUND) -->
-              <div id="horizonOutboundTrack" class="conveyor-straight-track conveyor-pop-anim">
-                <div class="conveyor-track-rollers"></div>
-              </div>
-
-              <!-- Caixas Totes do Mercado Livre com etiqueta 0B7 passando -->
-              <div id="conveyorTotesContainer">
-                <div class="conveyor-box-runner box-1">
-                  <svg viewBox="0 0 70 54" width="100%" height="100%">
-                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
-                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
-                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
-                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
-                    <g transform="translate(27, 27.5)">
-                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
-                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
-                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
-                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
-                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
-                    </g>
-                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">0B7</text>
-                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
-                  </svg>
-                </div>
-
-                <div class="conveyor-box-runner box-2">
-                  <svg viewBox="0 0 70 54" width="100%" height="100%">
-                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
-                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
-                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
-                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
-                    <g transform="translate(27, 27.5)">
-                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
-                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
-                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
-                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
-                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
-                    </g>
-                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">A4F</text>
-                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
-                  </svg>
-                </div>
-
-                <div class="conveyor-box-runner box-3">
-                  <svg viewBox="0 0 70 54" width="100%" height="100%">
-                    <polygon points="6,8 64,8 58,15 12,15" fill="#b45309"/>
-                    <rect x="6" y="13" width="58" height="37" rx="3" fill="#facc15" stroke="#78350f" stroke-width="1.2"/>
-                    <rect x="4" y="9" width="62" height="7.5" rx="2" fill="#eab308" stroke="#78350f" stroke-width="1.2"/>
-                    <line x1="14" y1="9" x2="14" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="26" y1="9" x2="26" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="44" y1="9" x2="44" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <line x1="56" y1="9" x2="56" y2="16.5" stroke="#78350f" stroke-width="1"/>
-                    <rect x="15" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="45" y="18" width="10" height="3.5" rx="1.7" fill="#78350f" opacity="0.8"/>
-                    <rect x="25" y="26" width="20" height="19" rx="1.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.6"/>
-                    <g transform="translate(27, 27.5)">
-                      <rect x="0" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="11.5" y="0" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="12.7" y="1.2" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="0" y="6.5" width="4.5" height="4.5" fill="none" stroke="#000" stroke-width="0.8"/>
-                      <rect x="1.2" y="7.7" width="2.1" height="2.1" fill="#000"/>
-                      <rect x="7" y="1" width="1.2" height="2" fill="#000"/>
-                      <rect x="7" y="5" width="2" height="1.2" fill="#000"/>
-                      <rect x="10" y="6" width="1.5" height="2" fill="#000"/>
-                      <rect x="13" y="7" width="1.5" height="1.5" fill="#000"/>
-                      <rect x="7" y="9" width="2" height="2" fill="#000"/>
-                    </g>
-                    <text x="35" y="43" font-family="'SF Mono', Menlo, monospace" font-size="4.8" font-weight="900" fill="#000000" text-anchor="middle">1C9</text>
-                    <path d="M 58 30 L 58 35 L 56.5 35 L 59 38 L 61.5 35 L 60 35 L 60 30 Z" fill="#b45309" opacity="0.7"/>
-                  </svg>
-                </div>
-              </div>
-
-              <div class="inbound-wall-hub" id="horizonInboundWall" style="display:none;">
-                ÁREA DO INBOUND (RECEIVING / PA)
-              </div>
-            </div>
-
-            <!-- CAMADA DA FRENTE: IMAGEM DAS ESTANTES -->
-            <div class="shelves-foreground-img"></div>
-
-            <!-- ZONAS INTERATIVAS DE TOQUE -->
-            <div class="shelf-click-zone left" id="zoneShelfLeft" onclick="GameCore.pickSide('left')">
-              <div class="shelf-floating-badge" id="badgeShelfLeft">
-                <span id="gamePillLeftType">LADO ESQUERDO</span>
-                <strong id="gamePillLeftSpec">Módulo</strong>
-              </div>
-            </div>
-
-            <div class="shelf-click-zone right" id="zoneShelfRight" onclick="GameCore.pickSide('right')">
-              <div class="shelf-floating-badge" id="badgeShelfRight">
-                <span id="gamePillRightType">LADO DIREITO</span>
-                <strong id="gamePillRightSpec">Módulo</strong>
-              </div>
-            </div>
-          </div>
-
-          <!-- MZ TOP VIEW -->
-          <div id="mzTopViewContainer" style="display:none; position:absolute; inset:0; background:#0b1120; z-index:22; flex-direction:column; padding:8px 8px 75px 8px; overflow:hidden;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; padding:0 4px;">
-              <strong style="color:var(--meli-yellow); font-size:0.8rem; letter-spacing:0.5px;">MAPA SUPERIOR DO MEZANINO (MZ)</strong>
-              <span style="font-size:0.65rem; color:#94a3b8;">66 Ruas • 110 Módulos • 3 Avenidas</span>
-            </div>
-            <div id="mzSvgStage" style="flex:1; width:100%; border:2px solid #334155; border-radius:10px; background:#020617; position:relative; overflow:hidden;"></div>
-          </div>
-
-          <!-- Zoom da Estante Real (estante.jpg - 1792x2390) -->
-          <div class="shelf-zoom-view" id="gameShelfZoom">
-            <div class="shelf-zoom-nav">
-              <div>
-                <strong style="color:var(--shelf-blue); font-size:0.85rem;" id="gameZoomTitle">ESTANTE</strong>
-                <span style="font-size:0.7rem; color:var(--text-muted); margin-left:6px;" id="gameZoomSub">Andares de baixo para cima</span>
-              </div>
-              <button class="btn btn-outline btn-sm" id="btnReturnToCorridor" onclick="GameCore.returnToCorridor()">⬅ Corredor</button>
-            </div>
-            <div class="shelf-photo-container" id="gamePhotoContainer">
-              <div class="shelf-top-arrow-bar" id="shelfTopArrow">
-                <span id="shelfTopArrowText">➔ 1 ➔ 6 (Esq ➔ Dir) ➔</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-          <button class="btn btn-outline btn-sm" id="btnPauseOrQuit" onclick="App.handlePauseOrQuit()">Pausar</button>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted);" id="gameTimerText">60.0s</span>
+        <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
+          <button class="btn btn-outline btn-sm" id="btnPauseOrQuit" onclick="App.handlePauseOrQuit()">Menu</button>
+          <span style="font-size:0.95rem; font-weight:900; color:var(--text-muted);" id="gameTimerText">60.0s</span>
         </div>
       </section>
 
-      <!-- View 3: Treino Livre -->
+      <!-- TREINO LIVRE -->
       <section id="screen-practice" class="screen">
-        <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:14px; padding:16px;">
-          <h3 style="color:var(--shelf-blue); font-size:1rem; margin-bottom:12px;">Configurar Treino Livre</h3>
+        <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:16px; padding:16px;">
+          <h3 style="color:var(--shelf-blue); font-size:1.15rem; margin-bottom:12px;">Treino Livre</h3>
 
-          <label style="font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Mezanino Alvo:</label>
-          <select id="selPracticeMz" style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:8px; font-size:0.9rem; margin-bottom:14px; background:#fff;">
-            <option value="any">Qualquer Mezanino (MZ0 a MZ3)</option>
-            <option value="0">MZ0 — Térreo (Inbound / Esteira)</option>
-            <option value="1">MZ1 — Nível 1</option>
-            <option value="2">MZ2 — Nível 2</option>
-            <option value="3">MZ3 — Nível 3</option>
+          <label style="font-size:0.9rem; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Mezanino Alvo:</label>
+          <select id="selPracticeMz" style="width:100%; padding:10px; border:2px solid var(--border-color); border-radius:10px; font-size:1rem; margin-bottom:14px; background:#fff;">
+            <option value="any">Qualquer Mezanino (0 a 3)</option>
+            <option value="0">MZ0 — Térreo</option>
+            <option value="1">MZ1 — Mezanino 1</option>
+            <option value="2">MZ2 — Mezanino 2</option>
+            <option value="3">MZ3 — Mezanino 3</option>
           </select>
 
           <div style="margin-bottom:16px;">
-            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:1rem; cursor:pointer;">
               <input type="checkbox" id="chkShowNumbers" checked />
-              <span><strong>Exibir números por cima das gavetas</strong></span>
+              <span><strong>Exibir números das Bins</strong></span>
             </label>
           </div>
 
           <button class="btn btn-yellow" style="width:100%;" onclick="PracticeCore.start()">
-            Iniciar Treino Livre
+            Iniciar Treino
           </button>
         </div>
       </section>
 
-      <!-- View 4: Desafio de Velocidade -->
+      <!-- VELOCIDADE -->
       <section id="screen-speed" class="screen">
-        <h3 style="color:var(--shelf-blue); font-size:1rem; margin-bottom:12px;">Desafio de Velocidade</h3>
-        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:14px;">
-          Encontre os endereços no menor tempo possível sem ajuda visual!
+        <h3 style="color:var(--shelf-blue); font-size:1.2rem; margin-bottom:10px;">Desafio de Velocidade</h3>
+        <p style="font-size:1rem; color:var(--text-muted); margin-bottom:14px; font-weight:600;">
+          Encontre as BINs no menor tempo possível sem numeração impressa!
         </p>
 
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <button class="btn btn-yellow" onclick="SpeedCore.start(10)">Sprint: 10 Endereços</button>
-          <button class="btn btn-outline" onclick="SpeedCore.start(25)">Padrão: 25 Endereços</button>
-          <button class="btn btn-outline" onclick="SpeedCore.start(50)">Maratona: 50 Endereços</button>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <button class="btn btn-yellow" onclick="SpeedCore.start(10)">Sprint: 10 Bipadas</button>
+          <button class="btn btn-outline" onclick="SpeedCore.start(25)">Padrão: 25 Bipadas</button>
+          <button class="btn btn-outline" onclick="SpeedCore.start(50)">Maratona: 50 Bipadas</button>
         </div>
       </section>
 
-      <!-- View 5: Estatísticas -->
+      <!-- ESTATÍSTICAS -->
       <section id="screen-stats" class="screen">
-        <h3 style="font-size:1.1rem; color:var(--shelf-blue); margin-bottom:10px;">Histórico de Desempenho</h3>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
-            <span style="font-size:0.7rem; color:var(--text-muted);">MELHOR SEQUÊNCIA</span>
-            <div style="font-size:1.5rem; font-weight:900; color:#ea580c;" id="stStreak">🔥 0</div>
+        <h3 style="font-size:1.25rem; color:var(--shelf-blue); margin-bottom:14px;">Estatísticas do Picker</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+          <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:14px; padding:12px; text-align:center;">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:800;">MELHOR COMBO</span>
+            <div style="font-size:1.8rem; font-weight:900; color:#ea580c;" id="stStreak">🔥 0</div>
           </div>
-          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
-            <span style="font-size:0.7rem; color:var(--text-muted);">PRECISÃO</span>
-            <div style="font-size:1.5rem; font-weight:900; color:var(--success);" id="stAcc">100%</div>
+          <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:14px; padding:12px; text-align:center;">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:800;">PRECISÃO</span>
+            <div style="font-size:1.8rem; font-weight:900; color:var(--success);" id="stAcc">100%</div>
           </div>
-          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
-            <span style="font-size:0.7rem; color:var(--text-muted);">BIPES TOTAIS</span>
-            <div style="font-size:1.5rem; font-weight:900;" id="stTotal">0</div>
+          <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:14px; padding:12px; text-align:center;">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:800;">TOTAL BIPADO</span>
+            <div style="font-size:1.8rem; font-weight:900;" id="stTotal">0</div>
           </div>
-          <div style="background:#ffffff; border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center;">
-            <span style="font-size:0.7rem; color:var(--text-muted);">TEMPO MÉDIO</span>
-            <div style="font-size:1.5rem; font-weight:900; color:#0284c7;" id="stAvg">0.0s</div>
+          <div style="background:#ffffff; border:2px solid var(--border-color); border-radius:14px; padding:12px; text-align:center;">
+            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:800;">TEMPO MÉDIO</span>
+            <div style="font-size:1.8rem; font-weight:900; color:#0284c7;" id="stAvg">0.0s</div>
           </div>
         </div>
 
-        <button class="btn btn-outline" style="width:100%; margin-bottom:8px; border-color:var(--danger); color:var(--danger);" onclick="App.resetProgress()">
-          🗑️ Resetar Todo o Progresso
+        <button class="btn btn-outline" style="width:100%; margin-bottom:10px; border-color:var(--danger); color:var(--danger);" onclick="App.resetProgress()">
+          🗑️ Resetar Progresso
         </button>
         <button class="btn btn-outline btn-sm" onclick="App.nav('menu')">Voltar ao Menu</button>
       </section>
     </main>
 
-    <!-- BOXI NO CANTINHO (WIDGET FLUTUANTE) -->
-    <div class="boxi-side-coach" id="boxiSideCoach" onclick="TutorialEngine.advanceSideCoach()">
+    <!-- BOXI COACH NO RODAPÉ -->
+    <div class="boxi-side-coach" id="boxiSideCoach">
       <div class="boxi-side-avatar">
         <div id="boxiSideAvatarGraphic" style="width:100%; height:100%;"></div>
         <div class="boxi-emoji-bubble" id="boxiEmojiBubble">💡</div>
       </div>
       <div class="boxi-side-content">
         <div class="boxi-side-title">
-          <span id="sideCoachTitle">Boxi Instrutora</span>
-          <span style="font-size:0.7rem; font-weight:normal; color:var(--text-muted);">Toque ➔</span>
+          <span id="sideCoachTitle">Boxi</span>
         </div>
         <div class="boxi-side-text" id="sideCoachText">Explicação aqui...</div>
-        <div class="boxi-side-hint" id="sideCoachHint">Toque para avançar ➔</div>
+        <div class="boxi-side-hint" id="sideCoachHint">Toque na estante acima ➔</div>
       </div>
     </div>
 
-    <!-- TELA CHEIA PARA DIÁLOGOS DA BOXI -->
+    <!-- DIÁLOGO CENTRAL DA BOXI -->
     <div class="boxi-story-overlay" id="boxiStoryOverlay" onclick="TutorialEngine.advanceDialogue()">
       <div class="boxi-story-avatar">
         <div id="boxiBigAvatar" style="width:100%; height:100%;"></div>
-        <div class="boxi-emoji-bubble" style="top:-12px; right:-8px; font-size:1.2rem; width:32px; height:32px;" id="storyEmojiBubble">🎉</div>
       </div>
       <div class="boxi-story-bubble">
-        <h3 id="storyBubbleTitle">Oi, operador!</h3>
+        <h3 id="storyBubbleTitle">Oi, Picker!</h3>
         <p id="storyBubbleText">Texto da Boxi...</p>
       </div>
-      <div class="tap-hint" id="storyTapHint">Toque na tela para continuar ➔</div>
+      <div class="tap-hint">Toque na tela para continuar ➔</div>
     </div>
 
-    <div class="tour-spotlight-ring" id="tourRing"></div>
-
-    <!-- Modal Padrão / Confirmação -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal-sheet">
-        <div id="boxiModal" style="width:62px; height:62px;"></div>
-        <h4 id="modalTitle" style="font-size:1.15rem;">Mensagem</h4>
-        <p id="modalBody" style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;"></p>
+        <div id="boxiModal" style="width:70px; height:70px;"></div>
+        <h4 id="modalTitle">Mensagem</h4>
+        <p id="modalBody"></p>
         <div id="modalButtons" style="display:flex; flex-direction:column; gap:8px; width:100%;">
           <button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar</button>
         </div>
@@ -1320,7 +1217,7 @@
     </div>
   </div>
 
-  <!-- Audio Core & Feedback Háptico -->
+  <!-- MOTOR DE ÁUDIO -->
   <script>
     const AudioEngine = {
       enabled: true,
@@ -1349,7 +1246,7 @@
           const gain = this.ctx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
@@ -1364,17 +1261,8 @@
         setTimeout(() => this.playTone(base * 1.33, 0.12, 'triangle'), 60);
       },
 
-      error() {
-        this.playTone(220, 0.22, 'sawtooth');
-      },
-
-      scanner() {
-        this.playTone(2400, 0.04, 'square');
-      },
-
-      swoosh() {
-        this.playTone(320, 0.15, 'sine');
-      }
+      error() { this.playTone(220, 0.22, 'sawtooth'); },
+      scanner() { this.playTone(2400, 0.04, 'square'); }
     };
 
     const FeedbackEngine = {
@@ -1402,7 +1290,7 @@
         floater.style.color = color;
         floater.textContent = text;
         document.body.appendChild(floater);
-        setTimeout(() => floater.remove(), 700);
+        setTimeout(() => floater.remove(), 750);
       }
     };
 
@@ -1411,7 +1299,7 @@
     });
   </script>
 
-  <!-- Boxi Visual Engine -->
+  <!-- SVG DA BOXI -->
   <script>
     const BoxiDrawer = {
       draw(containerId, mood = 'normal') {
@@ -1419,50 +1307,38 @@
         if (!el) return;
 
         let eyeMarkup = '';
-
         if (mood === 'joy') {
           eyeMarkup = `
-            <path d="M 20 40 Q 27 22 34 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
-            <path d="M 46 40 Q 53 22 60 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+            <path d="M 22 40 Q 28 26 34 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+            <path d="M 46 40 Q 52 26 58 40" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none"/>
           `;
         } else if (mood === 'wink') {
           eyeMarkup = `
-            <path d="M 20 38 Q 27 24 34 38" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-            <circle cx="53" cy="36" r="6" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
-          `;
-        } else if (mood === 'curious') {
-          eyeMarkup = `
-            <circle cx="27" cy="36" r="8" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
-            <circle cx="53" cy="36" r="5" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
-          `;
-        } else if (mood === 'oops') {
-          eyeMarkup = `
-            <ellipse cx="27" cy="40" rx="5" ry="8" fill="#ffffff" transform="rotate(-15 27 40)"/>
-            <ellipse cx="53" cy="40" rx="5" ry="8" fill="#ffffff" transform="rotate(15 53 40)"/>
+            <path d="M 22 38 Q 28 26 34 38" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+            <path d="M 52 24 C 47 31, 47 41, 52 45 C 57 41, 57 31, 52 24 Z" fill="#ffffff"/>
           `;
         } else {
           eyeMarkup = `
-            <path d="M 22 36 C 22 24, 32 24, 32 36 C 32 48, 22 48, 22 36 Z" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
-            <path d="M 48 36 C 48 24, 58 24, 58 36 C 58 48, 48 48, 48 36 Z" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+            <path d="M 28 24 C 23 31, 23 41, 28 45 C 33 41, 33 31, 28 24 Z" fill="#ffffff"/>
+            <path d="M 52 24 C 47 31, 47 41, 52 45 C 57 41, 57 31, 52 24 Z" fill="#ffffff"/>
           `;
         }
 
-        const svg = `
+        el.innerHTML = `
           <svg viewBox="0 0 80 80" width="100%" height="100%">
             <ellipse cx="40" cy="74" rx="26" ry="4" fill="#cbd5e1" opacity="0.6"/>
             <rect x="12" y="14" width="56" height="54" rx="12" fill="#0284c7" stroke="#0369a1" stroke-width="2.5"/>
-            <rect x="34" y="14" width="12" height="10" rx="2" fill="#ffe600" opacity="0.95"/>
+            <rect x="34" y="14" width="12" height="10" rx="2" fill="#ffe600"/>
             ${eyeMarkup}
-            <circle cx="18" cy="48" r="4" fill="#38bdf8" opacity="0.45"/>
-            <circle cx="62" cy="48" r="4" fill="#38bdf8" opacity="0.45"/>
+            <circle cx="18" cy="48" r="3.5" fill="#38bdf8" opacity="0.45"/>
+            <circle cx="62" cy="48" r="3.5" fill="#38bdf8" opacity="0.45"/>
           </svg>
         `;
-        el.innerHTML = svg;
       }
     };
   </script>
 
-  <!-- Warehouse Engine -->
+  <!-- MOTOR DA ESTANTE E ANDARES -->
   <script>
     const WarehouseEngine = {
       floorLevels: [
@@ -1475,12 +1351,11 @@
 
       generate(options = {}) {
         const mz = options.mz !== undefined && options.mz !== 'any' ? parseInt(options.mz) : Math.floor(Math.random() * 4);
-        const rua = options.rua || (Math.floor(Math.random() * 66) + 1);
+        const rua = options.rua || (Math.floor(Math.random() * 58) + 4);
         const modulo = options.modulo || (Math.floor(Math.random() * 110) + 1);
         const andar = options.andar || (Math.floor(Math.random() * 5) + 1);
 
-        let maxBin = 6;
-        if (andar === 2 || andar === 3) maxBin = 12;
+        let maxBin = (andar === 2 || andar === 3) ? 12 : 6;
         const bin = Math.floor(Math.random() * maxBin) + 1;
         const facing = options.facing || (Math.random() > 0.5 ? 'OUTBOUND' : 'INBOUND');
 
@@ -1491,7 +1366,7 @@
           andar,
           bin,
           facing,
-          code: `MZ-${mz}-${String(rua).padStart(2, '0')}-${String(modulo).padStart(3, '0')}-${String(andar).padStart(2, '0')}-${String(bin).padStart(2, '0')}`,
+          code: `MZ-${mz}-${String(rua).padStart(3, '0')}-${String(modulo).padStart(3, '0')}-${String(andar).padStart(2, '0')}-${String(bin).padStart(2, '0')}`,
           isEven: modulo % 2 === 0
         };
       },
@@ -1502,7 +1377,7 @@
           : { left: 'EVEN', right: 'ODD' };
       },
 
-      buildFloorRowHotspots(containerId, onFloorClick) {
+      buildFloorRowHotspots(containerId, onFloorClick, showLabels = true) {
         const stage = document.getElementById(containerId);
         stage.querySelectorAll('.floor-row-zone').forEach(el => el.remove());
         stage.querySelectorAll('.hotspot-cell').forEach(el => el.remove());
@@ -1513,7 +1388,9 @@
           row.id = `floorRowZone_${f.level}`;
           row.style.top = `${f.top}%`;
           row.style.height = `${f.height}%`;
-          row.innerHTML = `<span class="floor-row-tag">ANDAR ${f.level}</span>`;
+          if (showLabels) {
+            row.innerHTML = `<span class="floor-row-tag">ANDAR ${f.level}</span>`;
+          }
 
           row.onclick = (e) => {
             e.stopPropagation();
@@ -1524,7 +1401,7 @@
         });
       },
 
-      buildImageHotspots(containerId, isEvenBuilding, onBinClick, showNumbers = false, targetFloorOnly = null) {
+      buildImageHotspots(containerId, isLeftToRight, onBinClick, showNumbers = false, targetFloorOnly = null) {
         const stage = document.getElementById(containerId);
         stage.querySelectorAll('.floor-row-zone').forEach(el => el.remove());
         stage.querySelectorAll('.hotspot-cell').forEach(el => el.remove());
@@ -1542,7 +1419,7 @@
             const h = 5.2;
 
             for (let c = 0; c < 6; c++) {
-              const effectiveCol = isEvenBuilding ? c : (5 - c);
+              const effectiveCol = isLeftToRight ? c : (5 - c);
               const binTop = effectiveCol * 2 + 1;
               const binBot = effectiveCol * 2 + 2;
               const x = colStart + c * (colWidth + colGap);
@@ -1557,7 +1434,7 @@
             if (l === 5) { y = 14.5; h = 9.0; }
 
             for (let c = 0; c < 6; c++) {
-              const binNum = isEvenBuilding ? (c + 1) : (6 - c);
+              const binNum = isLeftToRight ? (c + 1) : (6 - c);
               const x = colStart + c * (colWidth + colGap);
               stage.appendChild(this.createHotspot(l, binNum, x, y, colWidth, h, onBinClick, showNumbers, isDimmed));
             }
@@ -1587,34 +1464,32 @@
         return spot;
       },
 
-      updateShelfTopArrow(elementId, isEven) {
-        const arrow = document.getElementById(elementId);
-        if (!arrow) return;
-        arrow.style.display = 'flex';
-        if (isEven) {
-          arrow.innerHTML = `<span style="color:var(--meli-yellow); font-size:1rem;">➔</span> <strong>1 ➔ 6</strong> (Esq ➔ Dir) <span style="color:var(--meli-yellow); font-size:1rem;">➔</span>`;
+      updateLateralStraightConveyor(isRightSide) {
+        const conveyor = document.getElementById('conveyorLateralStraight');
+        if (!conveyor) return;
+        conveyor.style.display = 'flex';
+
+        if (isRightSide) {
+          conveyor.className = 'conveyor-lateral-straight side-right';
+          document.getElementById('conveyorLateralLabel').textContent = 'ESTEIRA ➔';
         } else {
-          arrow.innerHTML = `<span style="color:var(--meli-yellow); font-size:1rem;">⬅</span> <strong>6 ⬅ 1</strong> (Dir ➔ Esq) <span style="color:var(--meli-yellow); font-size:1rem;">⬅</span>`;
+          conveyor.className = 'conveyor-lateral-straight side-left';
+          document.getElementById('conveyorLateralLabel').textContent = '⬅ ESTEIRA';
         }
       }
     };
   </script>
 
-  <!-- Gerenciador de Interface e Endereços -->
+  <!-- GERENCIADOR DE UI -->
   <script>
     const GameUI = {
       resetToCleanState() {
-        document.getElementById('mzTopViewContainer').style.display = 'none';
         document.getElementById('btnReturnToCorridor').style.display = 'block';
         document.getElementById('cellModulo').style.display = 'flex';
         document.getElementById('cellAndar').style.display = 'flex';
         document.getElementById('cellBin').style.display = 'flex';
         document.getElementById('gameTimerTrack').style.display = 'block';
-        document.getElementById('btnPauseOrQuit').textContent = "Pausar";
-
-        const photo = document.getElementById('gamePhotoContainer');
-        photo.style.transformOrigin = '50% 50%';
-        photo.style.transform = 'scale(1)';
+        document.getElementById('btnPauseOrQuit').textContent = "Menu";
 
         document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
         document.querySelectorAll('.hotspot-cell').forEach(el => {
@@ -1624,7 +1499,7 @@
       },
 
       renderAddress(addr) {
-        document.getElementById('gameAddressSubInfo').textContent = `MEZANINO: ${addr.mz} • RUA: ${String(addr.rua).padStart(2, '0')}`;
+        document.getElementById('gameAddressSubInfo').innerHTML = `MEZANINO: <b>${addr.mz}</b> • RUA: <b>${String(addr.rua).padStart(2, '0')}</b>`;
         document.getElementById('gModulo').textContent = String(addr.modulo).padStart(3, '0');
         document.getElementById('gAndar').textContent = String(addr.andar).padStart(2, '0');
         document.getElementById('gBin').textContent = String(addr.bin).padStart(2, '0');
@@ -1636,91 +1511,81 @@
         GameCore.bumpCell('cellModulo');
         GameCore.bumpCell('cellAndar');
         GameCore.bumpCell('cellBin');
+
+        let leftStreet, rightStreet;
+        if (addr.facing === 'OUTBOUND') {
+          leftStreet = addr.rua;
+          rightStreet = Math.max(1, addr.rua - 1);
+        } else {
+          leftStreet = Math.max(1, addr.rua - 1);
+          rightStreet = addr.rua;
+        }
+
+        document.getElementById('signboardLeftNum').textContent = String(leftStreet).padStart(2, '0');
+        document.getElementById('signboardRightNum').textContent = String(rightStreet).padStart(2, '0');
       }
     };
   </script>
 
-  <!-- Tutorial Engine (Com 2 Exemplos 100% Guiados e Explicados) -->
+  <!-- TUTORIAL -->
   <script>
     const TutorialEngine = {
       active: false,
-      stepIndex: 0,
-      floorStreak: 0,
-      floorTarget: 1,
-      aptStreak: 0,
-      currentAptLevel: 1,
-      currentAptBin: 1,
-      randomArrowIsEven: true,
-      topViewStep: 1,
-      tourStep: 0,
-      guidedExampleStep: 0, // 1 a 6
+      step: '',
+      streak: 0,
+      targetLevel: 1,
+      targetBin: 1,
+      conveyorRight: true,
+      interactiveFloorStep: 1,
 
       startProgressiveTutorial() {
         this.abort();
         this.active = true;
-        this.stepIndex = 0;
         App.nav('game');
-
-        document.getElementById('btnPauseOrQuit').textContent = "Sair do Treino";
+        document.getElementById('btnPauseOrQuit').textContent = "Sair";
 
         this.showStory(
-          "Oi, eu sou a Boxi! ^^",
-          "Vou te ensinar tintim por tintim como fazer picking no CAD do Mercado Livre!<br><br>Vou ficar no cantinho apontando cada parte na estante real, sem cobrir sua tela!",
+          "Oi, Picker! ^^",
+          "Eu sou a Boxi! Vou te ensinar tudo sobre a estante do CAD passo a passo.<br><br>Sem enrolação, letras grandes e direto ao ponto!",
           "joy",
-          "🚀"
+          () => this.introFloors()
         );
       },
 
       abort() {
         this.active = false;
-        this.stepIndex = 0;
-        this.floorStreak = 0;
-        this.aptStreak = 0;
         this.hideStory();
         this.hideSideCoach();
-        document.getElementById('tourRing').style.display = 'none';
         document.getElementById('badgeShelfLeft').classList.remove('target-highlight');
         document.getElementById('badgeShelfRight').classList.remove('target-highlight');
         GameUI.resetToCleanState();
       },
 
-      requestAbort() {
-        BoxiDrawer.draw('boxiModal', 'wink');
-        document.getElementById('modalTitle').textContent = "Sair do Tutorial?";
-        document.getElementById('modalBody').innerHTML = "Tem certeza de que deseja sair do tutorial agora? ^^<br><br>Você pode <strong>reiniciar ele do zero</strong> quando quiser pelo menu principal!";
-        
-        const container = document.getElementById('modalButtons');
-        container.innerHTML = `
-          <button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar Tutorial</button>
-          <button class="btn btn-outline" style="width:100%; border-color:var(--danger); color:var(--danger);" onclick="TutorialEngine.confirmAbort()">Sim, Sair do Treino</button>
-        `;
-
-        document.getElementById('modalOverlay').classList.add('active');
-      },
-
-      confirmAbort() {
-        App.closeModal();
-        this.abort();
-        App.nav('menu');
-      },
-
-      showStory(title, text, mood = 'normal', emoji = '💡') {
+      showStory(title, text, mood = 'normal', onContinue = null) {
         document.getElementById('storyBubbleTitle').textContent = title;
         document.getElementById('storyBubbleText').innerHTML = text;
-        document.getElementById('storyEmojiBubble').textContent = emoji;
         BoxiDrawer.draw('boxiBigAvatar', mood);
         document.getElementById('boxiStoryOverlay').classList.add('active');
+        this.storyCallback = onContinue;
       },
 
       hideStory() {
         document.getElementById('boxiStoryOverlay').classList.remove('active');
       },
 
-      showSideCoach(title, text, mood = 'normal', emoji = '👀', hint = "Toque para avançar ➔") {
+      advanceDialogue() {
+        this.hideStory();
+        if (this.storyCallback) {
+          const cb = this.storyCallback;
+          this.storyCallback = null;
+          cb();
+        }
+      },
+
+      showSideCoach(title, text, mood = 'normal', hint = "Toque na estante acima ➔") {
         document.getElementById('sideCoachTitle').textContent = title;
         document.getElementById('sideCoachText').innerHTML = text;
         document.getElementById('sideCoachHint').textContent = hint;
-        document.getElementById('boxiEmojiBubble').textContent = emoji;
         BoxiDrawer.draw('boxiSideAvatarGraphic', mood);
         document.getElementById('boxiSideCoach').classList.add('active');
       },
@@ -1729,837 +1594,388 @@
         document.getElementById('boxiSideCoach').classList.remove('active');
       },
 
-      advanceDialogue() {
-        if (!this.active) return;
-        this.stepIndex++;
-
-        if (this.stepIndex === 1) {
-          this.startFloorTour();
-        } else if (this.stepIndex === 2) {
-          this.startAptDrillL2R();
-        } else if (this.stepIndex === 3) {
-          this.startAptDrillR2L();
-        } else if (this.stepIndex === 4) {
-          this.startAptRandomArrowPhase();
-        } else if (this.stepIndex === 5) {
-          this.startTopViewPhase();
-        } else if (this.stepIndex === 6) {
-          // Inicia os 2 Exemplos 100% Guiados
-          this.startGuidedExamples();
-        } else if (this.stepIndex === 7) {
-          this.startCadAddressExplanation();
-        } else if (this.stepIndex === 8) {
-          this.startTourPhase();
-        } else if (this.stepIndex >= 9) {
-          this.abort();
-          App.state.tutorialCompleted = true;
-          App.save();
-          App.nav('menu');
-        }
-      },
-
-      advanceSideCoach() {
-        if (!this.active) return;
-        if (this.stepIndex === 1) {
-          this.nextFloorTourStep();
-        } else if (this.stepIndex === 5) {
-          this.nextTopViewTourStep();
-        }
-      },
-
-      /* PASSO 1: TOUR DOS ANDARES */
-      startFloorTour() {
-        this.hideStory();
+      /* FASE 1: ANDARES INTERATIVAMENTE */
+      introFloors() {
+        this.step = 'floor-interactive';
         document.getElementById('gameCorridor').style.display = 'none';
         document.getElementById('gameShelfZoom').classList.add('active');
         document.getElementById('btnReturnToCorridor').style.display = 'none';
-        document.getElementById('shelfTopArrow').style.display = 'none';
+        document.getElementById('conveyorLateralStraight').style.display = 'none';
 
-        document.getElementById('gameAddressSubInfo').textContent = "CONHECENDO OS ANDARES";
         document.getElementById('cellModulo').style.display = 'none';
         document.getElementById('cellBin').style.display = 'none';
         document.getElementById('cellAndar').style.display = 'flex';
         document.getElementById('gameTimerTrack').style.display = 'none';
-        document.getElementById('gameTimerText').textContent = "Explicação";
+        document.getElementById('gameTimerText').textContent = "Tutorial";
 
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', () => {});
-        this.floorExplainingStep = 1;
-        this.highlightFloorStep(1);
+        this.interactiveFloorStep = 1;
+        this.teachFloor(1);
       },
 
-      highlightFloorStep(level) {
+      teachFloor(lvl) {
+        this.interactiveFloorStep = lvl;
         document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
-        const targetRow = document.getElementById(`floorRowZone_${level}`);
-        if (targetRow) targetRow.classList.add('target-spotlight');
 
-        document.getElementById('gAndar').textContent = `0${level}`;
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clicked) => {
+          if (clicked === this.interactiveFloorStep) {
+            AudioEngine.success(1);
+            FeedbackEngine.vibrate([20, 30]);
+
+            if (this.interactiveFloorStep < 5) {
+              this.teachFloor(this.interactiveFloorStep + 1);
+            } else {
+              this.hideSideCoach();
+              this.showStory(
+                "Show de bola! 🎯",
+                "Você tocou em todos! <strong>Os andares contam de baixo para cima, do 1 ao 5!</strong><br><br>Agora acerte <strong>10 vezes</strong> o andar pedido no coletor abaixo!",
+                "joy",
+                () => this.startFloorChallenge()
+              );
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção, Picker!", `Toque exatamente no <strong>Andar 0${this.interactiveFloorStep}</strong> destacado em amarelo!`);
+          }
+        }, true);
+
+        const row = document.getElementById(`floorRowZone_${lvl}`);
+        if (row) row.classList.add('target-spotlight');
+
+        document.getElementById('gAndar').textContent = `0${lvl}`;
         GameCore.bumpCell('cellAndar');
 
-        if (level === 1) {
-          this.showSideCoach(
-            "Ó, esse é o Andar 1! 🟡",
-            "Ele fica rente ao chão, na base! Tem 6 gavetas grandes amarelas. <strong>Conte sempre de baixo para cima!</strong>",
-            "wink",
-            "👇"
-          );
-        } else if (level === 2) {
-          this.showSideCoach(
-            "Subindo: Andares 2 e 3! 📦",
-            "Logo acima ficam os Andares 2 e 3. Eles são divididos em <strong>12 gavetinhas</strong> (ímpares em cima, pares embaixo)!",
-            "curious",
-            "👀"
-          );
-        } else if (level === 4) {
-          this.showSideCoach(
-            "Mais acima: Andar 4! 🏬",
-            "O Andar 4 tem 6 posições com gavetas amarelas ou divisórias para produtos médios.",
-            "normal",
-            "⬆️"
-          );
-        } else if (level === 5) {
-          this.showSideCoach(
-            "Lá no alto: Andar 5! 🚀",
-            "O Andar 5 é <strong>aberto no topo</strong>, sem teto! Usado para produtos compridos que ultrapassam a altura.",
-            "joy",
-            "⭐"
-          );
+        if (lvl === 1) {
+          this.showSideCoach("Toque no Andar 1! 👇", "Fica na base, rente ao chão cinza. <strong>Toque nele acima!</strong>", "wink", "Toque no Andar 1 ➔");
+        } else if (lvl === 2) {
+          this.showSideCoach("Toque no Andar 2! 📦", "Logo acima. Andares 2 e 3 são divididos em 12 Bins!", "curious", "Toque no Andar 2 ➔");
+        } else if (lvl === 3) {
+          this.showSideCoach("Toque no Andar 3! 📦", "Bem no meio da estante. <strong>Toque no Andar 3!</strong>", "normal", "Toque no Andar 3 ➔");
+        } else if (lvl === 4) {
+          this.showSideCoach("Toque no Andar 4! ⬆️", "Quase no topo. Posições para caixas médias.", "normal", "Toque no Andar 4 ➔");
+        } else if (lvl === 5) {
+          this.showSideCoach("Toque no Andar 5! 🚀", "Lá no alto! Aberto sem teto para itens compridos!", "joy", "Toque no Andar 5 ➔");
         }
       },
 
-      nextFloorTourStep() {
-        if (this.floorExplainingStep === 1) {
-          this.floorExplainingStep = 2;
-          this.highlightFloorStep(2);
-        } else if (this.floorExplainingStep === 2) {
-          this.floorExplainingStep = 4;
-          this.highlightFloorStep(4);
-        } else if (this.floorExplainingStep === 4) {
-          this.floorExplainingStep = 5;
-          this.highlightFloorStep(5);
-        } else {
-          document.querySelectorAll('.floor-row-zone').forEach(el => el.classList.remove('target-spotlight'));
-          this.hideSideCoach();
-          this.startFloorChallenge10();
-        }
-      },
-
-      /* PASSO 2: DESAFIO DE 10 ANDARES */
-      startFloorChallenge10() {
-        this.floorStreak = 0;
-        document.getElementById('gameAddressSubInfo').textContent = "TREINO: SÓ O ANDAR";
-        document.getElementById('gameTimerText').textContent = "Passo 1: Fixando Andares";
-
-        App.showModal(
-          "Desafio dos Andares! 🎯",
-          "Agora que você sabe acertar os andares, <strong>vamos tentar acertar 10 seguidas!</strong><br><br>Não se preocupe com erros, esse momento é só para memorizar!",
-          () => {
-            this.nextFloorTarget();
-          }
-        );
+      startFloorChallenge() {
+        this.step = 'floor-drill';
+        this.streak = 0;
+        this.nextFloorTarget();
       },
 
       nextFloorTarget() {
-        let newLevel = Math.floor(Math.random() * 5) + 1;
-        while (newLevel === this.floorTarget) {
-          newLevel = Math.floor(Math.random() * 5) + 1;
+        let newLvl = Math.floor(Math.random() * 5) + 1;
+        while (newLvl === this.targetLevel) {
+          newLvl = Math.floor(Math.random() * 5) + 1;
         }
-        this.floorTarget = newLevel;
+        this.targetLevel = newLvl;
 
-        document.getElementById('gAndar').textContent = String(this.floorTarget).padStart(2, '0');
+        document.getElementById('gAndar').textContent = String(this.targetLevel).padStart(2, '0');
         GameCore.bumpCell('cellAndar');
 
-        document.getElementById('gameZoomTitle').textContent = `ACERTE O ANDAR (${this.floorStreak}/10)`;
-        document.getElementById('gameZoomSub').textContent = "Conte as barras laranjas de baixo para cima!";
+        const showNums = this.streak < 5;
+        document.getElementById('gameZoomTitle').textContent = `ACERTE O ANDAR (${this.streak}/10)`;
+        document.getElementById('gameZoomSub').textContent = showNums ? "Conte as barras laranjas de baixo para cima!" : "⚠️ As placas sumiram, conte de baixo para cima!";
 
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          this.checkFloorClick(clickedLevel);
-        });
-      },
+        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clicked) => {
+          if (clicked === this.targetLevel) {
+            this.streak++;
+            AudioEngine.success(this.streak);
+            FeedbackEngine.vibrate([20, 30]);
 
-      checkFloorClick(clickedLevel) {
-        if (clickedLevel === this.floorTarget) {
-          this.floorStreak++;
-          AudioEngine.success(this.floorStreak);
-          FeedbackEngine.vibrate([30, 40, 30]);
-
-          const rowEl = document.getElementById(`floorRowZone_${clickedLevel}`);
-          if (rowEl) {
-            const rect = rowEl.getBoundingClientRect();
-            FeedbackEngine.showDopamine(rect.left + rect.width / 2, rect.top, `+100 XP! ⭐`);
-          }
-
-          if (this.floorStreak >= 10) {
-            this.showStory(
-              "Uhuul! Você acertou 10/10! ^^",
-              "Mandou muito bem! Agora você já tem certeza absoluta de que os andares contam de 1 a 5, sempre <strong>DE BAIXO PARA CIMA</strong>.<br><br>Agora vamos complicar um pouquinho: <strong>adicionando os apartamentos (BINs)!</strong><br>Lembre-se: primeiro você escolhe o andar, e depois só as gavetas dele vão aparecer!",
-              "joy",
-              "🎯"
-            );
-          } else {
-            this.nextFloorTarget();
-          }
-        } else {
-          AudioEngine.error();
-          FeedbackEngine.vibrate(50);
-          App.showModal(
-            "Atenção ao Andar!",
-            `Você tocou no Andar ${clickedLevel}. O endereço pede o <strong>Andar ${this.floorTarget}</strong>! Lembre-se: o <strong>Andar 1 é a base</strong> de baixo para cima.`
-          );
-        }
-      },
-
-      /* PASSO 3: APARTAMENTOS ESQ -> DIR (10 ACERTOS) */
-      startAptDrillL2R() {
-        this.aptStreak = 0;
-        this.hideStory();
-        document.getElementById('cellBin').style.display = 'flex';
-        this.nextAptDrillTarget(true);
-      },
-
-      nextAptDrillTarget(isLeftToRight) {
-        this.currentAptLevel = Math.floor(Math.random() * 5) + 1;
-        let maxBin = (this.currentAptLevel === 2 || this.currentAptLevel === 3) ? 12 : 6;
-        this.currentAptBin = Math.floor(Math.random() * maxBin) + 1;
-
-        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', isLeftToRight);
-
-        document.getElementById('gameAddressSubInfo').textContent = `1º ESCOLHA O ANDAR (${this.aptStreak}/10)`;
-        document.getElementById('gAndar').textContent = String(this.currentAptLevel).padStart(2, '0');
-        document.getElementById('gBin').textContent = String(this.currentAptBin).padStart(2, '0');
-        GameCore.bumpCell('cellAndar');
-
-        document.getElementById('gameZoomTitle').textContent = `1º TOQUE NO ANDAR ${this.currentAptLevel}`;
-        document.getElementById('gameZoomSub').textContent = "Primeiro selecione a linha do andar!";
-
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          if (clickedLevel === this.currentAptLevel) {
-            AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.openBinsForTargetFloor(isLeftToRight);
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.currentAptLevel}!`);
-          }
-        });
-      },
-
-      openBinsForTargetFloor(isLeftToRight) {
-        document.getElementById('gameAddressSubInfo').textContent = isLeftToRight
-          ? `2º ESCOLHA A BIN (ESQ ➔ DIR) [${this.aptStreak}/10]`
-          : `2º ESCOLHA A BIN (DIR ➔ ESQ) [${this.aptStreak}/10]`;
-
-        GameCore.bumpCell('cellBin');
-        document.getElementById('gameZoomTitle').textContent = `2º TOQUE NA BIN ${String(this.currentAptBin).padStart(2, '0')}`;
-        document.getElementById('gameZoomSub').textContent = isLeftToRight 
-          ? "Conte da esquerda para a direita!"
-          : "Conte da direita para a esquerda!";
-
-        WarehouseEngine.buildImageHotspots('gamePhotoContainer', isLeftToRight, (lvl, bin, cx, cy) => {
-          if (lvl === this.currentAptLevel && bin === this.currentAptBin) {
-            this.aptStreak++;
-            AudioEngine.success(this.aptStreak);
-            FeedbackEngine.vibrate([20, 30, 20]);
-            FeedbackEngine.showDopamine(cx, cy, `🔥 ACERTOU! [${this.aptStreak}/10]`, '#16a34a');
-
-            if (this.aptStreak >= 10) {
-              if (isLeftToRight) {
-                this.showStory(
-                  "Uhuul! 10 de 10 seguidos! ^^",
-                  "Sensacional! Você já sabe achar o andar e contar da esquerda para a direita!<br><br>Mas sabia que no CAD muitas estantes são contadas <strong>DO OUTRO LADO</strong>: da <strong>DIREITA para a ESQUERDA</strong>?<br>Vamos treinar: acerte mais <strong>10 vezes</strong> desse outro lado!",
-                  "joy",
-                  "🔥"
-                );
-              } else {
-                this.showStory(
-                  "Sensacional! 10/10 de novo! ^^",
-                  "Você dominou os dois sentidos de contagem!<br><br>E olha no topo da estante: nossa <strong>SETA COMPACTA</strong> estará lá durante todo o jogo para te mostrar a direção!<br><br>Agora ela vai mudar aleatoriamente. Fique de olho nela, escolha o andar primeiro e acerte mais <strong>10 vezes</strong>!",
-                  "joy",
-                  "⭐"
-                );
-              }
-            } else {
-              setTimeout(() => this.nextAptDrillTarget(isLeftToRight), 300);
+            const row = document.getElementById(`floorRowZone_${clicked}`);
+            if (row) {
+              const r = row.getBoundingClientRect();
+              FeedbackEngine.showDopamine(r.left + r.width / 2, r.top, `+100 XP! ⭐`);
             }
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(60);
-            App.showModal("Atenção à BIN!", `Você está no Andar ${this.currentAptLevel}. Procure a BIN ${this.currentAptBin}!`);
-          }
-        }, true, this.currentAptLevel);
-      },
 
-      /* PASSO 4: 10 ACERTOS DIREITA -> ESQUERDA */
-      startAptDrillR2L() {
-        this.aptStreak = 0;
-        this.hideStory();
-        this.nextAptDrillTarget(false);
-      },
-
-      /* PASSO 5: 10 ACERTOS COM SETA ALEATÓRIA */
-      startAptRandomArrowPhase() {
-        this.aptStreak = 0;
-        this.hideStory();
-        this.nextAptRandomTarget();
-      },
-
-      nextAptRandomTarget() {
-        this.randomArrowIsEven = Math.random() > 0.5;
-        this.currentAptLevel = Math.floor(Math.random() * 5) + 1;
-        let maxBin = (this.currentAptLevel === 2 || this.currentAptLevel === 3) ? 12 : 6;
-        this.currentAptBin = Math.floor(Math.random() * maxBin) + 1;
-
-        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', this.randomArrowIsEven);
-
-        document.getElementById('gameAddressSubInfo').textContent = `1º ESCOLHA O ANDAR (${this.aptStreak}/10)`;
-        document.getElementById('gAndar').textContent = String(this.currentAptLevel).padStart(2, '0');
-        document.getElementById('gBin').textContent = String(this.currentAptBin).padStart(2, '0');
-        GameCore.bumpCell('cellAndar');
-
-        document.getElementById('gameZoomTitle').textContent = `1º TOQUE NO ANDAR ${this.currentAptLevel}`;
-        document.getElementById('gameZoomSub').textContent = "Primeiro selecione o andar pedido!";
-
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          if (clickedLevel === this.currentAptLevel) {
-            AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.openBinsForRandomArrow();
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.currentAptLevel}!`);
-          }
-        });
-      },
-
-      openBinsForRandomArrow() {
-        document.getElementById('gameAddressSubInfo').textContent = `2º VEJA A SETA E TOQUE NA BIN (${this.aptStreak}/10)`;
-        GameCore.bumpCell('cellBin');
-
-        const dirText = this.randomArrowIsEven ? "1 ➔ 6" : "6 ⬅ 1";
-        document.getElementById('gameZoomTitle').textContent = `2º TOQUE NA BIN ${String(this.currentAptBin).padStart(2, '0')}`;
-        document.getElementById('gameZoomSub').textContent = `Seta no topo: ${dirText}!`;
-
-        WarehouseEngine.buildImageHotspots('gamePhotoContainer', this.randomArrowIsEven, (lvl, bin, cx, cy) => {
-          if (lvl === this.currentAptLevel && bin === this.currentAptBin) {
-            this.aptStreak++;
-            AudioEngine.success(this.aptStreak);
-            FeedbackEngine.vibrate([20, 30, 20]);
-            FeedbackEngine.showDopamine(cx, cy, `🎯 COMBO x${this.aptStreak}!`, '#ca8a04');
-
-            if (this.aptStreak >= 10) {
+            if (this.streak >= 10) {
               this.showStory(
-                "Uhuul! 10/10 na leitura da seta! ^^",
-                "Agora que você já domina a estante, <strong>vamos falar dos Módulos (antigo prédio)!</strong><br><br>Vamos para o mezanino aprender a achar Módulos pares e ímpares e fazer <strong>2 EXEMPLOS COMPLETOS GUIADOS PASSO A PASSO</strong>!",
+                "Incrível, Picker! 10/10! 🎉",
+                "Você dominou os andares! Agora vamos focar <strong>somente na BIN</strong>.<br><br>Repare que a estante já abre direto no nível certo para você achar a BIN!",
                 "joy",
-                "🏬"
+                () => this.introBinsRight()
               );
             } else {
-              setTimeout(() => this.nextAptRandomTarget(), 300);
+              this.nextFloorTarget();
             }
           } else {
             AudioEngine.error();
             FeedbackEngine.vibrate(50);
-            const dir = this.randomArrowIsEven ? "da ESQUERDA para a DIREITA" : "da DIREITA para a ESQUERDA";
-            App.showModal("Olhe a Seta no Topo!", `A seta indica que a contagem é ${dir}!`);
+            App.showModal("Atenção!", `Você tocou no Andar ${clicked}. O coletor pede o <strong>Andar ${this.targetLevel}</strong>!`);
           }
-        }, true, this.currentAptLevel);
+        }, showNums);
       },
 
-      /* PASSO 6: VISÃO AÉREA DO MEZANINO (MZ TOP VIEW) */
-      startTopViewPhase() {
-        this.topViewStep = 1;
-        this.hideStory();
+      /* FASE 2: BINS CRESCENDO PARA A DIREITA */
+      introBinsRight() {
+        this.step = 'bins-r';
+        this.streak = 0;
+        document.getElementById('cellBin').style.display = 'flex';
+        WarehouseEngine.updateLateralStraightConveyor(true);
 
+        this.showStory(
+          "Treinamento de BIN 📦",
+          "Nesse lado, contamos da <strong>ESQUERDA PARA A DIREITA (1 ➔ 6)</strong>.<br>Nos níveis 2 e 3, ímpares em cima e pares embaixo!<br><br>Acerte <strong>10 vezes</strong> a BIN pedida!",
+          "wink",
+          () => this.nextBinRight()
+        );
+      },
+
+      nextBinRight() {
+        this.targetLevel = Math.floor(Math.random() * 5) + 1;
+        let max = (this.targetLevel === 2 || this.targetLevel === 3) ? 12 : 6;
+        this.targetBin = Math.floor(Math.random() * max) + 1;
+
+        document.getElementById('gAndar').textContent = String(this.targetLevel).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(this.targetBin).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+        GameCore.bumpCell('cellBin');
+
+        const showNums = this.streak < 5;
+        document.getElementById('gameZoomTitle').textContent = `TOQUE NA BIN ${String(this.targetBin).padStart(2, '0')} (${this.streak}/10)`;
+        document.getElementById('gameZoomSub').textContent = showNums ? "Contando da esquerda para a direita (1 ➔ 6)" : "⚠️ Números sumiram! Ache a BIN correta!";
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', true, (lvl, bin, cx, cy) => {
+          if (lvl === this.targetLevel && bin === this.targetBin) {
+            this.streak++;
+            AudioEngine.success(this.streak);
+            FeedbackEngine.vibrate([20, 30]);
+            FeedbackEngine.showDopamine(cx, cy, `🔥 ACERTOU!`, '#16a34a');
+
+            if (this.streak >= 10) {
+              this.showStory(
+                "10/10 na Direita! 🚀",
+                "Você pegou o jeito da contagem normal (1 ➔ 6).<br><br>Agora vamos aprender o <strong>LADO OPOSTO</strong>: as Bins começam a ser contadas pela outra ponta (6 ⬅ 1)!",
+                "joy",
+                () => this.introBinsLeft()
+              );
+            } else {
+              setTimeout(() => this.nextBinRight(), 250);
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção!", `Você tocou na BIN ${bin}. O coletor pede a <strong>BIN ${this.targetBin}</strong>!`);
+          }
+        }, showNums, this.targetLevel);
+      },
+
+      /* FASE 3: BINS CRESCENDO PARA A ESQUERDA */
+      introBinsLeft() {
+        this.streak = 0;
+        WarehouseEngine.updateLateralStraightConveyor(false);
+        this.nextBinLeft();
+      },
+
+      nextBinLeft() {
+        this.targetLevel = Math.floor(Math.random() * 5) + 1;
+        let max = (this.targetLevel === 2 || this.targetLevel === 3) ? 12 : 6;
+        this.targetBin = Math.floor(Math.random() * max) + 1;
+
+        document.getElementById('gAndar').textContent = String(this.targetLevel).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(this.targetBin).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+        GameCore.bumpCell('cellBin');
+
+        const showNums = this.streak < 5;
+        document.getElementById('gameZoomTitle').textContent = `TOQUE NA BIN ${String(this.targetBin).padStart(2, '0')} (${this.streak}/10)`;
+        document.getElementById('gameZoomSub').textContent = showNums ? "Contando da direita para a esquerda (6 ⬅ 1)" : "⚠️ Números sumiram! Ache a BIN!";
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', false, (lvl, bin, cx, cy) => {
+          if (lvl === this.targetLevel && bin === this.targetBin) {
+            this.streak++;
+            AudioEngine.success(this.streak);
+            FeedbackEngine.vibrate([20, 30]);
+            FeedbackEngine.showDopamine(cx, cy, `🔥 ACERTOU!`, '#16a34a');
+
+            if (this.streak >= 10) {
+              this.showStory(
+                "10/10 no Lado Oposto! 🎯",
+                "Sensacional! Mas no dia a dia ficamos girando de um lado para o outro.<br><br>Para nunca se perder, usamos nossa bússola: <strong>A ESTEIRA COM AS CAIXAS AMARELAS!</strong>",
+                "joy",
+                () => this.introConveyorCompass()
+              );
+            } else {
+              setTimeout(() => this.nextBinLeft(), 250);
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            App.showModal("Atenção!", `Você tocou na BIN ${bin}. O coletor pede a <strong>BIN ${this.targetBin}</strong>!`);
+          }
+        }, showNums, this.targetLevel);
+      },
+
+      /* FASE 4: BÚSSOLA DA ESTEIRA */
+      introConveyorCompass() {
+        this.streak = 0;
+        this.showStory(
+          "Nossa Bússola: A Esteira! 🧭",
+          "Repare na lateral: <strong>a esteira tem caixas amarelas passando</strong>!<br><br><strong>A REGRA É CLARA:</strong> <em>Para onde a esteira está, é para lá que os números crescem!</em> Se a esteira está na direita, o 6 fica na direita (descendo). Se estiver na esquerda, o 6 fica na esquerda (subindo)!",
+          "joy",
+          () => this.nextConveyorCompassTarget()
+        );
+      },
+
+      nextConveyorCompassTarget() {
+        this.conveyorRight = Math.random() > 0.5;
+        this.targetLevel = Math.floor(Math.random() * 5) + 1;
+        let max = (this.targetLevel === 2 || this.targetLevel === 3) ? 12 : 6;
+        this.targetBin = Math.floor(Math.random() * max) + 1;
+
+        WarehouseEngine.updateLateralStraightConveyor(this.conveyorRight);
+
+        document.getElementById('gAndar').textContent = String(this.targetLevel).padStart(2, '0');
+        document.getElementById('gBin').textContent = String(this.targetBin).padStart(2, '0');
+        GameCore.bumpCell('cellAndar');
+        GameCore.bumpCell('cellBin');
+
+        const showNums = this.streak < 10;
+        document.getElementById('gameZoomTitle').textContent = `TOQUE NA BIN ${String(this.targetBin).padStart(2, '0')} (${this.streak}/15)`;
+        document.getElementById('gameZoomSub').textContent = this.conveyorRight
+          ? (showNums ? "Esteira na DIREITA ➔ Os números crescem para lá!" : "⚠️ Números sumiram! Para onde a esteira está, os números crescem!")
+          : (showNums ? "⬅ Esteira na ESQUERDA ➔ Os números crescem para lá!" : "⚠️ Números sumiram! Para onde a esteira está, os números crescem!");
+
+        WarehouseEngine.buildImageHotspots('gamePhotoContainer', this.conveyorRight, (lvl, bin, cx, cy) => {
+          if (lvl === this.targetLevel && bin === this.targetBin) {
+            this.streak++;
+            AudioEngine.success(this.streak);
+            FeedbackEngine.vibrate([20, 30]);
+            FeedbackEngine.showDopamine(cx, cy, `🎯 COMBO x${this.streak}!`, '#ca8a04');
+
+            if (this.streak >= 15) {
+              this.showStory(
+                "Dominou a Esteira! 🏆",
+                "15/15 acertos! Você gravou a regra da esteira.<br><br>Agora vamos para o corredor entender os <strong>PRÉDIOS (MÓDULOS)</strong> e as <strong>RUAS</strong>!",
+                "joy",
+                () => this.introCorridorModules()
+              );
+            } else {
+              setTimeout(() => this.nextConveyorCompassTarget(), 250);
+            }
+          } else {
+            AudioEngine.error();
+            FeedbackEngine.vibrate(50);
+            const lado = this.conveyorRight ? "DIREITA" : "ESQUERDA";
+            App.showModal("Olhe a Esteira!", `A esteira está na <strong>${lado}</strong>! Lembre-se: para onde a esteira está, é para lá que os números crescem!`);
+          }
+        }, showNums, this.targetLevel);
+      },
+
+      /* FASE 5: PRÉDIOS E CORREDOR COM PLACAS DE RUA */
+      introCorridorModules() {
         document.getElementById('gameShelfZoom').classList.remove('active');
-        document.getElementById('gameCorridor').style.display = 'none';
-        document.getElementById('mzTopViewContainer').style.display = 'flex';
+        document.getElementById('gameCorridor').style.display = 'flex';
+        document.getElementById('cellModulo').style.display = 'flex';
 
-        this.renderSvgDiagram();
-        this.applyTopViewStep(1);
+        this.showStory(
+          "Prédios e Ruas no Corredor 🛣️",
+          "No CAD temos 4 mezaninos (0 a 3), 66 ruas e 110 prédios em cada rua!<br><br>No fundo do corredor, passando rente por trás das estantes, a <strong>esteira horizontal</strong> leva os pedidos prontos para o <strong>Outbound</strong>!",
+          "joy",
+          () => this.teachCorridorRules()
+        );
       },
 
-      renderSvgDiagram() {
-        const stage = document.getElementById('mzSvgStage');
-        stage.innerHTML = `
-          <svg viewBox="0 0 400 320" width="100%" height="100%" style="overflow:visible;">
-            <rect x="10" y="10" width="380" height="300" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-
-            <g id="svgGrpOutbound">
-              <rect x="15" y="15" width="370" height="32" rx="4" fill="#020617" stroke="#ca8a04" stroke-width="1.5"/>
-              <text x="200" y="36" fill="#ffe600" font-size="10.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">⬅ OUTBOUND (ESTEIRA PRETA • MÓDULO 110) ➡</text>
-            </g>
-
-            <g id="svgGrpStreets" stroke="#475569" stroke-width="1.2" opacity="0.6">
-              <line x1="45" y1="52" x2="45" y2="268"/>
-              <line x1="85" y1="52" x2="85" y2="268"/>
-              <line x1="125" y1="52" x2="125" y2="268"/>
-              <line x1="165" y1="52" x2="165" y2="268"/>
-              <line x1="205" y1="52" x2="205" y2="268"/>
-              <line x1="245" y1="52" x2="245" y2="268"/>
-              <line x1="285" y1="52" x2="285" y2="268"/>
-              <line x1="325" y1="52" x2="325" y2="268"/>
-              <line x1="365" y1="52" x2="365" y2="268"/>
-            </g>
-
-            <g id="svgGrpStreetLabels" fill="#38bdf8" font-size="8" font-weight="900" text-anchor="middle">
-              <text x="45" y="264">RUA 66</text>
-              <text x="205" y="264">⟵ AS RUAS AUMENTAM PARA A ESQUERDA (1 até 66) ⟶</text>
-              <text x="365" y="264">RUA 1</text>
-            </g>
-
-            <g id="svgGrpAvenues">
-              <rect x="15" y="98" width="370" height="18" fill="#334155" opacity="0.9"/>
-              <line x1="15" y1="107" x2="385" y2="107" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
-              <text x="35" y="111" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 1</text>
-
-              <rect x="15" y="162" width="370" height="18" fill="#334155" opacity="0.9"/>
-              <line x1="15" y1="171" x2="385" y2="171" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
-              <text x="35" y="175" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 2</text>
-
-              <rect x="15" y="226" width="370" height="18" fill="#334155" opacity="0.9"/>
-              <line x1="15" y1="235" x2="385" y2="235" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6"/>
-              <text x="35" y="239" fill="#ffffff" font-size="7.5" font-weight="900">AVENIDA 3</text>
-            </g>
-
-            <g id="svgGrpInbound">
-              <rect x="15" y="274" width="370" height="32" rx="4" fill="#0369a1" opacity="0.9"/>
-              <text x="200" y="294" fill="#ffffff" font-size="10.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">⬅ INBOUND (RECEIVING / PA • MÓDULO 001) ➡</text>
-            </g>
-
-            <g id="svgGrpOperator" transform="translate(205, 171)">
-              <polygon id="svgVisionCone" points="0,0 -40,-95 40,-95" fill="#ffe600" opacity="0.35"/>
-              <circle cx="0" cy="0" r="7" fill="#ffe600" stroke="#000" stroke-width="2"/>
-              <g id="svgSideBadges">
-                <rect x="-85" y="-14" width="62" height="26" rx="6" fill="#1e3a8a" stroke="#ffffff" stroke-width="1.5"/>
-                <text id="svgTextLeft" x="-54" y="2" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">PAR (2, 4..)</text>
-
-                <rect x="23" y="-14" width="62" height="26" rx="6" fill="#991b1b" stroke="#ffffff" stroke-width="1.5"/>
-                <text id="svgTextRight" x="54" y="2" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">ÍMPAR (1, 3..)</text>
-              </g>
-            </g>
-
-            <rect id="svgHighlightBox" x="0" y="0" width="0" height="0" rx="6" fill="none" stroke="#ffe600" stroke-width="3" style="display:none; filter: drop-shadow(0 0 8px #ffe600);"/>
-          </svg>
-        `;
+      teachCorridorRules() {
+        this.showStory(
+          "Pares e Ímpares 👀",
+          "Olhando para a esteira no fundo (Outbound):<br>• <strong>ESQUERDA = Prédios PARES</strong><br>• <strong>DIREITA = Prédios ÍMPARES</strong><br><br>Se virar de costas para a esteira (Inbound), inverte: Ímpares na esquerda e Pares na direita!",
+          "wink",
+          () => this.teachStreetPlates()
+        );
       },
 
-      applyTopViewStep(step) {
-        const box = document.getElementById('svgHighlightBox');
-        const opCone = document.getElementById('svgVisionCone');
-        const opBadges = document.getElementById('svgSideBadges');
-        const textLeft = document.getElementById('svgTextLeft');
-        const textRight = document.getElementById('svgTextRight');
-
-        if (step === 1) {
-          box.style.display = 'block';
-          box.setAttribute('x', '12');
-          box.setAttribute('y', '12');
-          box.setAttribute('width', '376');
-          box.setAttribute('height', '38');
-          opBadges.style.display = 'none';
-          opCone.style.display = 'none';
-
-          this.showSideCoach(
-            "1. A Esteira e o Outbound! 🏭",
-            "Aqui em cima fica o <strong>OUTBOUND</strong>! Repare na LINHA PRETA com roletes: é a ESTEIRA que leva os pedidos prontos. O <strong>módulo 110</strong> fica coladinho nela!",
-            "curious",
-            "🏭",
-            "Avançar para o Inbound ➔"
-          );
-        } else if (step === 2) {
-          box.setAttribute('x', '12');
-          box.setAttribute('y', '271');
-          box.setAttribute('width', '376');
-          box.setAttribute('height', '38');
-
-          this.showSideCoach(
-            "2. O Inbound (Receiving/PA)! 📦",
-            "Aqui embaixo fica o <strong>INBOUND</strong>, onde chegam as mercadorias. Os módulos <strong>sempre começam no número 1</strong> aqui e aumentam em direção à esteira (1 até 110)!",
-            "wink",
-            "📦",
-            "Avançar para as Ruas ➔"
-          );
-        } else if (step === 3) {
-          box.setAttribute('x', '35');
-          box.setAttribute('y', '46');
-          box.setAttribute('width', '340');
-          box.setAttribute('height', '226');
-
-          this.showSideCoach(
-            "3. As 66 Ruas do Picking! 🛣️",
-            "Essas linhas verticais são as <strong>RUAS</strong>! Elas vão da <strong>Rua 66 na esquerda até a Rua 1 na direita</strong>! Olhando para a esteira, as ruas aumentam para a esquerda!",
-            "normal",
-            "🛣️",
-            "Ver as Avenidas ➔"
-          );
-        } else if (step === 4) {
-          box.setAttribute('x', '12');
-          box.setAttribute('y', '92');
-          box.setAttribute('width', '376');
-          box.setAttribute('height', '158');
-
-          this.showSideCoach(
-            "4. As 3 Grandes Avenidas! 🚦",
-            "Esses 3 caminhos horizontais largos cortam as ruas perpendicularmente: são as <strong>3 AVENIDAS</strong>! Graças a elas você atravessa o galpão sem precisar andar 110 módulos inteiros!",
-            "joy",
-            "🚦",
-            "Ver Par e Ímpar ➔"
-          );
-        } else if (step === 5) {
-          box.style.display = 'none';
-          opCone.style.display = 'block';
-          opBadges.style.display = 'block';
-          opCone.setAttribute('points', '0,0 -40,-95 40,-95');
-          textLeft.textContent = 'PAR (2, 4..)';
-          textRight.textContent = 'ÍMPAR (1, 3..)';
-
-          this.showSideCoach(
-            "5. Olhando para a Esteira (Outbound)! 👀",
-            "Olhando para a esteira lá na frente:<br>• <strong>Esquerda = Módulos PARES</strong> (contagem 1 ➔ 6)<br>• <strong>Direita = Módulos ÍMPARES</strong> (contagem 6 ⬅ 1)",
-            "wink",
-            "👀",
-            "E se virar para trás? ➔"
-          );
-        } else if (step === 6) {
-          opCone.setAttribute('points', '0,0 -40,95 40,95');
-          textLeft.textContent = 'ÍMPAR (1, 3..)';
-          textRight.textContent = 'PAR (2, 4..)';
-
-          this.showSideCoach(
-            "6. Virado para o Inbound! 🔄",
-            "Se virar 180° de costas para a esteira, tudo inverte:<br>• <strong>Esquerda = ÍMPARES</strong><br>• <strong>Direita = PARES</strong>",
-            "joy",
-            "🔄",
-            "Fazer os 2 Exemplos Guiados! ➔"
-          );
-        } else {
-          this.hideSideCoach();
-          document.getElementById('mzTopViewContainer').style.display = 'none';
-          this.advanceDialogue();
-        }
+      teachStreetPlates() {
+        this.showStory(
+          "As Ruas e os Prédios Pares 🪧",
+          "Olhe no alto das estantes: as <strong>placas de rua</strong> mostram o número da rua!<br><br><strong>REGRA ESSENCIAL:</strong> As ruas sempre aumentam para o lado dos prédios pares!<br>Se estamos olhando para a esteira (Outbound), a esquerda é PAR, então o <strong>número maior da rua sempre fica na esquerda</strong>!",
+          "joy",
+          () => this.runCorridorTest1()
+        );
       },
 
-      nextTopViewTourStep() {
-        this.topViewStep++;
-        this.applyTopViewStep(this.topViewStep);
-      },
-
-      /* NOVO PASSO: 2 EXEMPLOS DE ENDEREÇO COMPLETO 100% GUIADOS E EXPLICADOS */
-      startGuidedExamples() {
-        this.hideStory();
-        this.hideSideCoach();
-
-        document.getElementById('mzTopViewContainer').style.display = 'none';
-        document.getElementById('gameShelfZoom').classList.remove('active');
-        document.getElementById('gameCorridor').style.display = 'block';
-
-        this.guidedExampleStep = 1;
-        this.runGuidedExample1_Corridor();
-      },
-
-      /* EXEMPLO 1: MÓDULO PAR (032) - OUTBOUND */
-      runGuidedExample1_Corridor() {
-        const addrEx1 = {
-          mz: 1, rua: 22, modulo: 32, andar: 2, bin: 4, isEven: true, facing: 'OUTBOUND'
-        };
-
-        GameUI.renderAddress(addrEx1);
-        document.getElementById('gameAddressSubInfo').textContent = "EXEMPLO 1: MÓDULO PAR (GUIADO 100%)";
-        document.getElementById('gameLandmark').textContent = "OLHANDO PARA O OUTBOUND (ESTEIRA NO MEIO)";
-
-        document.getElementById('horizonOutboundTrack').style.display = 'flex';
-        document.getElementById('conveyorTotesContainer').style.display = 'block';
-        document.getElementById('horizonInboundWall').style.display = 'none';
-
-        document.getElementById('gamePillLeftSpec').textContent = "LADO PAR";
-        document.getElementById('gamePillRightSpec').textContent = "LADO ÍMPAR";
+      runCorridorTest1() {
+        const randomRua = Math.floor(Math.random() * 50) + 10;
+        const addr = { mz: 1, rua: randomRua, modulo: 32, andar: 2, bin: 4, isEven: true, facing: 'OUTBOUND' };
+        GameUI.renderAddress(addr);
 
         document.getElementById('badgeShelfLeft').classList.add('target-highlight');
 
         this.showSideCoach(
-          "Exemplo 1: Escolha a Estante! 💡",
-          "O endereço pede <strong>Módulo 032</strong> (PAR)! Como estamos virados para o <strong>OUTBOUND (esteira no fundo)</strong>, os pares ficam à <strong>ESQUERDA</strong>!<br>Toque na estante da <strong>ESQUERDA</strong>!",
+          `Prédio 032 é PAR (Rua ${randomRua})! 💡`,
+          `Olhando para a esteira no fundo, as ruas sobem para os pares na <strong>ESQUERDA</strong> (repare na placa da esquerda: Rua ${randomRua}). Toque na estante da esquerda!`,
           "wink",
-          "👈",
-          "Toque na Estante Esquerda"
+          "Toque na Estante da Esquerda ➔"
         );
+        this.step = 'corridor-test-1';
       },
 
-      runGuidedExample1_Floor() {
-        document.getElementById('badgeShelfLeft').classList.remove('target-highlight');
-        document.getElementById('gameCorridor').style.display = 'none';
-        document.getElementById('gameShelfZoom').classList.add('active');
-
-        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 1 — 1º PASSO: O ANDAR";
-        document.getElementById('gameZoomSub').textContent = "Regra de ouro: primeiro selecione o andar!";
-
-        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', true);
-
-        // Destaca a linha do Andar 2
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          if (clickedLevel === 2) {
-            AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.runGuidedExample1_Bin();
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Atenção ao Andar!", "O endereço pede o <strong>Andar 02</strong>! Toque no segundo nível de baixo para cima!");
-          }
-        });
-
-        const r2 = document.getElementById('floorRowZone_2');
-        if (r2) r2.classList.add('target-spotlight');
-
-        this.showSideCoach(
-          "1º Passo: Toque no Andar 02! 🟡",
-          "Na estante, <strong>primeiro a gente acha o andar</strong>! O endereço pede <strong>Andar 02</strong>. Toque na barra destacada!",
-          "curious",
-          "2️⃣",
-          "Toque no Andar 2"
-        );
-      },
-
-      runGuidedExample1_Bin() {
-        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 1 — 2º PASSO: A BIN";
-        document.getElementById('gameZoomSub').textContent = "Módulo PAR = Seta Esq ➔ Dir. Ache a BIN 04!";
-
-        // Revela apenas as gavetas do andar 2 e destaca a BIN 4
-        WarehouseEngine.buildImageHotspots('gamePhotoContainer', true, (lvl, bin, cx, cy) => {
-          if (lvl === 2 && bin === 4) {
-            AudioEngine.success(1);
-            FeedbackEngine.vibrate([20, 30, 20]);
-            FeedbackEngine.showDopamine(cx, cy, "PERFEITO! +100 XP! ⭐", "#16a34a");
-
-            this.showStory(
-              "Sensacional! Exemplo 1 Concluído! ^^",
-              "Viu como tudo se encaixou?<br><br>1. Módulo <strong>032 é PAR</strong> ➔ estante da esquerda olhando para a esteira.<br>2. Primeiro o <strong>Andar 02</strong>.<br>3. Módulo Par tem <strong>seta da Esquerda para a Direita</strong> ➔ BIN 04 localizada!<br><br>Agora vamos para o <strong>Exemplo 2: Módulo ÍMPAR!</strong>",
-              "joy",
-              "🎯"
-            );
-            this.guidedExampleStep = 2;
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(60);
-            App.showModal("Ache a BIN 04!", "Módulo PAR conta da esquerda para a direita. Toque na gaveta 04 destacada!");
-          }
-        }, true, 2);
-
-        const b4 = document.querySelector('.hotspot-cell[data-level="2"][data-bin="4"]');
-        if (b4) b4.classList.add('target-spotlight');
-
-        this.showSideCoach(
-          "2º Passo: Toque na BIN 04! 🎯",
-          "Como o <strong>Módulo 032 é PAR</strong>, a seta aponta da <strong>esquerda para a direita</strong>! Toque na gaveta <strong>04</strong> destacada!",
-          "joy",
-          "4️⃣",
-          "Toque na BIN 4"
-        );
-      },
-
-      /* EXEMPLO 2: MÓDULO ÍMPAR (015) - OUTBOUND */
-      runGuidedExample2_Corridor() {
-        this.hideStory();
+      runCorridorTest2() {
         this.hideSideCoach();
+        document.getElementById('badgeShelfLeft').classList.remove('target-highlight');
 
-        document.getElementById('gameShelfZoom').classList.remove('active');
-        document.getElementById('gameCorridor').style.display = 'block';
+        const randomRua = Math.floor(Math.random() * 50) + 10;
+        const addr = { mz: 1, rua: randomRua, modulo: 15, andar: 4, bin: 3, isEven: false, facing: 'OUTBOUND' };
+        GameUI.renderAddress(addr);
 
-        const addrEx2 = {
-          mz: 1, rua: 22, modulo: 15, andar: 4, bin: 3, isEven: false, facing: 'OUTBOUND'
-        };
-
-        GameUI.renderAddress(addrEx2);
-        document.getElementById('gameAddressSubInfo').textContent = "EXEMPLO 2: MÓDULO ÍMPAR (GUIADO 100%)";
         document.getElementById('badgeShelfRight').classList.add('target-highlight');
 
         this.showSideCoach(
-          "Exemplo 2: Módulo Ímpar! 💡",
-          "O endereço agora pede <strong>Módulo 015</strong> (ÍMPAR)! Ainda olhando para o <strong>OUTBOUND (esteira)</strong>, os ímpares ficam na estante da <strong>DIREITA</strong>!<br>Toque na estante da <strong>DIREITA</strong>!",
+          `Prédio 015 é ÍMPAR (Rua ${randomRua})! 💡`,
+          `Olhando para a esteira, os prédios ímpares ficam na <strong>DIREITA</strong> (o lado onde a rua não sobe). Toque na estante da direita!`,
           "wink",
-          "👉",
-          "Toque na Estante Direita"
+          "Toque na Estante da Direita ➔"
         );
-      },
-
-      runGuidedExample2_Floor() {
-        document.getElementById('badgeShelfRight').classList.remove('target-highlight');
-        document.getElementById('gameCorridor').style.display = 'none';
-        document.getElementById('gameShelfZoom').classList.add('active');
-
-        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 2 — 1º PASSO: O ANDAR";
-        document.getElementById('gameZoomSub').textContent = "Primeiro o andar: ache o Andar 04!";
-
-        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', false);
-
-        // Destaca a linha do Andar 4
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          if (clickedLevel === 4) {
-            AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.runGuidedExample2_Bin();
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Atenção ao Andar!", "O endereço pede o <strong>Andar 04</strong>! Toque no quarto nível de baixo para cima!");
-          }
-        });
-
-        const r4 = document.getElementById('floorRowZone_4');
-        if (r4) r4.classList.add('target-spotlight');
-
-        this.showSideCoach(
-          "1º Passo: Andar 04! 🏬",
-          "O endereço pede <strong>Andar 04</strong>! Toque na barra do Andar 04 de baixo para cima!",
-          "curious",
-          "4️⃣",
-          "Toque no Andar 4"
-        );
-      },
-
-      runGuidedExample2_Bin() {
-        document.getElementById('gameZoomTitle').textContent = "EXEMPLO 2 — 2º PASSO: A BIN";
-        document.getElementById('gameZoomSub').textContent = "Módulo ÍMPAR = Seta Dir ⬅ Esq! A gaveta 01 começa na direita!";
-
-        // Revela apenas as gavetas do andar 4 e destaca a BIN 3
-        WarehouseEngine.buildImageHotspots('gamePhotoContainer', false, (lvl, bin, cx, cy) => {
-          if (lvl === 4 && bin === 3) {
-            AudioEngine.success(1);
-            FeedbackEngine.vibrate([20, 30, 20]);
-            FeedbackEngine.showDopamine(cx, cy, "EXCELENTE! +100 XP! ⭐", "#16a34a");
-
-            this.showStory(
-              "Espetacular! Você dominou o picking! ^^",
-              "Olha como tudo ficou claro:<br><br>1. Módulo <strong>015 é ÍMPAR</strong> ➔ estante da direita olhando para a esteira.<br>2. Primeiro o <strong>Andar 04</strong>.<br>3. Módulo Ímpar tem <strong>seta da Direita para a Esquerda</strong> (gaveta 01 na ponta direita) ➔ BIN 03 localizada!<br><br>Agora vou te mostrar como ler a etiqueta real do CAD!",
-              "joy",
-              "🏆"
-            );
-            this.guidedExampleStep = 3;
-          } else {
-            AudioEngine.error();
-            FeedbackEngine.vibrate(60);
-            App.showModal("Ache a BIN 03!", "Lembre-se: Módulo ÍMPAR começa a gaveta 01 na ponta direita! Toque na gaveta 03 destacada!");
-          }
-        }, true, 4);
-
-        const b3 = document.querySelector('.hotspot-cell[data-level="4"][data-bin="3"]');
-        if (b3) b3.classList.add('target-spotlight');
-
-        this.showSideCoach(
-          "2º Passo: BIN 03 com Seta Invertida! 🎯",
-          "Como o <strong>Módulo 015 é ÍMPAR</strong>, a seta no topo aponta da <strong>direita para a esquerda</strong>! A gaveta 01 fica na ponta direita. Toque na gaveta <strong>03</strong>!",
-          "joy",
-          "3️⃣",
-          "Toque na BIN 3"
-        );
+        this.step = 'corridor-test-2';
       },
 
       handleCorridorPick(side) {
         if (!this.active) return false;
 
-        if (this.guidedExampleStep === 1) {
+        if (this.step === 'corridor-test-1') {
           if (side === 'left') {
             AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.runGuidedExample1_Floor();
+            FeedbackEngine.vibrate([20, 30]);
+            this.runCorridorTest2();
             return true;
           } else {
             AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Atenção!", "Módulo 032 é PAR! Olhando para a esteira, os pares ficam na estante da ESQUERDA!");
+            App.showModal("Atenção!", "Prédio 032 é PAR! Fica na estante da ESQUERDA olhando para a esteira!");
             return true;
           }
-        } else if (this.guidedExampleStep === 2) {
+        } else if (this.step === 'corridor-test-2') {
           if (side === 'right') {
             AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.runGuidedExample2_Floor();
+            FeedbackEngine.vibrate([20, 30]);
+            document.getElementById('badgeShelfRight').classList.remove('target-highlight');
+            this.hideSideCoach();
+
+            this.showStory(
+              "Parabéns, Picker Fera! 🎉",
+              "Você concluiu todo o treinamento!<br><br>Agora você sabe tudo: prédio pelo par/ímpar e placas de rua, o andar de baixo para cima e a BIN seguindo a esteira com caixas amarelas.<br><br>Bora treinar no modo infinito!",
+              "joy",
+              () => {
+                this.abort();
+                App.state.tutorialCompleted = true;
+                App.save();
+                App.nav('menu');
+              }
+            );
             return true;
           } else {
             AudioEngine.error();
-            FeedbackEngine.vibrate(50);
-            App.showModal("Atenção!", "Módulo 015 é ÍMPAR! Olhando para a esteira, os ímpares ficam na estante da DIREITA!");
+            App.showModal("Atenção!", "Prédio 015 é ÍMPAR! Fica na estante da DIREITA olhando para a esteira!");
             return true;
           }
         }
         return false;
-      },
-
-      /* PASSO 7: EXPLICAÇÃO DO ENDEREÇO REAL DO CAD */
-      startCadAddressExplanation() {
-        this.hideSideCoach();
-        this.showStory(
-          "O Endereço Real no CAD 📱",
-          "No dia a dia do CAD, o handheld vai mostrar os QR Codes assim:<br><br>" +
-          "<strong style='font-size:1.1rem; color:#0284c7;'>MZ-1-45-005-03-01</strong><br><br>" +
-          "• <strong>MZ-1:</strong> Mezanino 1<br>" +
-          "• <strong>45:</strong> Rua 45<br>" +
-          "• <strong>005:</strong> Módulo 5 (Ímpar)<br>" +
-          "• <strong>03:</strong> Andar 3 da estante<br>" +
-          "• <strong>01:</strong> Apartamento/BIN 1<br><br>" +
-          "<em>Por enquanto, no nosso treino, vamos focar sempre em: saber se o Módulo é par ou ímpar, o andar e então o apartamento!</em>",
-          "joy",
-          "💡"
-        );
-      },
-
-      /* PASSO 8: TOUR FINAL */
-      startTourPhase() {
-        this.tourStep = 0;
-        this.hideStory();
-
-        document.getElementById('gMz').textContent = "1";
-        document.getElementById('gRua').textContent = "45";
-        document.getElementById('gModulo').textContent = "005";
-        document.getElementById('gModuloTag').className = "hero-tag tag-impar";
-        document.getElementById('gModuloTag').textContent = "ÍMPAR";
-        document.getElementById('gAndar').textContent = "03";
-        document.getElementById('gBin').textContent = "01";
-
-        this.nextTourStep();
-      },
-
-      nextTourStep() {
-        const ring = document.getElementById('tourRing');
-        const card = document.getElementById('gameAddressCard');
-        const corridor = document.getElementById('gameCorridor');
-
-        if (this.tourStep === 0) {
-          this.highlightElement(card, "1. Painel de Foco Operacional", "Aqui você bate o olho rápido: Módulo, Andar e BIN sempre em destaque para máxima agilidade!");
-        } else if (this.tourStep === 1) {
-          const track = document.getElementById('gameTimerTrack');
-          track.style.display = 'block';
-          this.highlightElement(track, "2. Barra de Tempo e Combo", "Seu tempo por bipada! Conforme você acerta sem errar, ganha combos 🔥 e sobe de nível!");
-        } else if (this.tourStep === 2) {
-          this.highlightElement(corridor, "3. As Estantes do Corredor", "Aqui você escolhe a estante do Módulo, entra nela, toca no andar e retira na BIN!");
-        } else {
-          ring.style.display = 'none';
-          this.showStory(
-            "Tudo Pronto! Você é fera! 🎉 ^^",
-            "Tutorial concluído com sucesso! Agora você está pronto para o <strong>Treinamento Infinito</strong> e o <strong>Desafio de Velocidade</strong>!",
-            "joy",
-            "⭐"
-          );
-        }
-        this.tourStep++;
-      },
-
-      highlightElement(el, title, text) {
-        const rect = el.getBoundingClientRect();
-        const ring = document.getElementById('tourRing');
-        ring.style.display = 'block';
-        ring.style.top = `${rect.top - 4}px`;
-        ring.style.left = `${rect.left - 4}px`;
-        ring.style.width = `${rect.width + 8}px`;
-        ring.style.height = `${rect.height + 8}px`;
-
-        this.showStory(title, text, 'joy', '🔍');
       }
     };
   </script>
 
-  <!-- Game Core -->
+  <!-- MOTOR PRINCIPAL DO JOGO -->
   <script>
     const GameCore = {
       mode: 'endless',
@@ -2570,8 +1986,6 @@
       maxTime: 60,
       startTime: 0,
       showNumbers: false,
-      shelfStep: 'floor',
-      lastFacing: 'OUTBOUND',
 
       start(mode = 'endless', showNumbers = false) {
         TutorialEngine.abort();
@@ -2597,26 +2011,6 @@
         }
       },
 
-      triggerDirectionFlare(facing) {
-        const flare = document.getElementById('directionFlare');
-        flare.className = 'direction-center-flare';
-        void flare.offsetWidth;
-
-        if (facing === 'OUTBOUND') {
-          document.getElementById('flareIcon').textContent = '⬆️';
-          document.getElementById('flareTitle').textContent = 'OLHANDO PARA O OUTBOUND';
-          document.getElementById('flareSub').textContent = '(ESTEIRA HORIZONTAL AO FUNDO)';
-          flare.classList.add('show-outbound');
-        } else {
-          document.getElementById('flareIcon').textContent = '⬇️';
-          document.getElementById('flareTitle').textContent = 'OLHANDO PARA O INBOUND';
-          document.getElementById('flareSub').textContent = '(SEM ESTEIRA • RECEIVING)';
-          flare.classList.add('show-inbound');
-        }
-
-        AudioEngine.swoosh();
-      },
-
       next() {
         this.returnToCorridor();
 
@@ -2629,41 +2023,18 @@
         this.addr = WarehouseEngine.generate(opts);
         this.sides = WarehouseEngine.getSides(this.addr.facing);
 
-        if (this.addr.facing !== this.lastFacing) {
-          this.triggerDirectionFlare(this.addr.facing);
-          this.lastFacing = this.addr.facing;
-        }
-
         GameUI.renderAddress(this.addr);
 
         const outboundTrack = document.getElementById('horizonOutboundTrack');
         const totesContainer = document.getElementById('conveyorTotesContainer');
-        const inboundWall = document.getElementById('horizonInboundWall');
-        const landmark = document.getElementById('gameLandmark');
 
         if (this.addr.facing === 'OUTBOUND') {
-          landmark.className = 'landmark-bar outbound';
-          landmark.textContent = 'OLHANDO PARA O OUTBOUND (ESTEIRA NO HORIZONTE)';
           outboundTrack.style.display = 'flex';
-          outboundTrack.classList.add('conveyor-pop-anim');
           totesContainer.style.display = 'block';
-          inboundWall.style.display = 'none';
-          document.getElementById('gamePillLeftSpec').textContent = "LADO PAR";
-          document.getElementById('gamePillRightSpec').textContent = "LADO ÍMPAR";
         } else {
           outboundTrack.style.display = 'none';
           totesContainer.style.display = 'none';
-          inboundWall.style.display = 'block';
-          document.getElementById('gamePillLeftSpec').textContent = "LADO ÍMPAR";
-          document.getElementById('gamePillRightSpec').textContent = "LADO PAR";
         }
-
-        document.getElementById('badgeShelfLeft').classList.add('swap-anim');
-        document.getElementById('badgeShelfRight').classList.add('swap-anim');
-        setTimeout(() => {
-          document.getElementById('badgeShelfLeft').classList.remove('swap-anim');
-          document.getElementById('badgeShelfRight').classList.remove('swap-anim');
-        }, 400);
 
         clearInterval(this.timer);
         if (this.mode !== 'practice') {
@@ -2696,7 +2067,7 @@
       },
 
       pickSide(side) {
-        if (TutorialEngine.active && TutorialEngine.guidedExampleStep > 0) {
+        if (TutorialEngine.active) {
           TutorialEngine.handleCorridorPick(side);
           return;
         }
@@ -2710,43 +2081,19 @@
           FeedbackEngine.vibrate(25);
           this.zoomShelf();
         } else {
-          FeedbackEngine.vibrate(60);
-          this.fail(
-            `O Módulo ${this.addr.modulo} é ${this.addr.isEven ? 'PAR' : 'ÍMPAR'}. ` +
-            `Olhando para o ${this.addr.facing}, este lado fica à ${targetSide === 'left' ? 'ESQUERDA' : 'DIREITA'}.`
-          );
+          FeedbackEngine.vibrate(50);
+          this.fail(`O Prédio ${this.addr.modulo} é ${this.addr.isEven ? 'PAR' : 'ÍMPAR'}. Ficava na ${targetSide === 'left' ? 'ESTANTE DA ESQUERDA' : 'ESTANTE DA DIREITA'}.`);
         }
       },
 
-      /* DOIS PASSOS DENTRO DA ESTANTE (1º ANDAR, 2º GAVETAS DELE) */
       zoomShelf() {
         document.getElementById('gameCorridor').style.display = 'none';
-        const zoom = document.getElementById('gameShelfZoom');
-        zoom.classList.add('active');
+        document.getElementById('gameShelfZoom').classList.add('active');
 
-        this.shelfStep = 'floor';
-        document.getElementById('gameZoomTitle').textContent = `MÓDULO ${String(this.addr.modulo).padStart(3, '0')} — 1º ESCOLHA O ANDAR`;
-        document.getElementById('gameZoomSub').textContent = `Toque na linha do Andar ${this.addr.andar}!`;
+        document.getElementById('gameZoomTitle').textContent = `PRÉDIO ${String(this.addr.modulo).padStart(3, '0')} — TOQUE NA BIN`;
+        document.getElementById('gameZoomSub').textContent = `Andar 0${this.addr.andar} • Ache a BIN ${this.addr.bin}`;
 
-        WarehouseEngine.updateShelfTopArrow('shelfTopArrow', this.addr.isEven);
-
-        WarehouseEngine.buildFloorRowHotspots('gamePhotoContainer', (clickedLevel) => {
-          if (clickedLevel === this.addr.andar) {
-            AudioEngine.scanner();
-            FeedbackEngine.vibrate(20);
-            this.openFloorBins();
-          } else {
-            FeedbackEngine.vibrate(50);
-            AudioEngine.error();
-            App.showModal("Escolha o Andar!", `Primeiro toque no Andar 0${this.addr.andar} de baixo para cima!`);
-          }
-        });
-      },
-
-      openFloorBins() {
-        this.shelfStep = 'bin';
-        document.getElementById('gameZoomTitle').textContent = `MÓDULO ${String(this.addr.modulo).padStart(3, '0')} — 2º TOQUE NA BIN`;
-        document.getElementById('gameZoomSub').textContent = `Andar 0${this.addr.andar} confirmado! Ache a BIN ${this.addr.bin}`;
+        WarehouseEngine.updateLateralStraightConveyor(this.addr.isEven);
 
         WarehouseEngine.buildImageHotspots('gamePhotoContainer', this.addr.isEven, (l, b, cx, cy) => {
           this.checkBin(l, b, cx, cy);
@@ -2754,7 +2101,7 @@
       },
 
       returnToCorridor() {
-        document.getElementById('gameCorridor').style.display = 'block';
+        document.getElementById('gameCorridor').style.display = 'flex';
         document.getElementById('gameShelfZoom').classList.remove('active');
       },
 
@@ -2762,7 +2109,7 @@
         if (level === this.addr.andar && binNum === this.addr.bin) {
           clearInterval(this.timer);
           AudioEngine.success(App.state.streak + 1);
-          FeedbackEngine.vibrate([20, 30, 20]);
+          FeedbackEngine.vibrate([20, 30]);
           FeedbackEngine.showDopamine(cx, cy, `🔥 +${25 + App.state.streak * 2} XP!`, '#16a34a');
 
           const secs = Math.max(0.5, (Date.now() - this.startTime) / 1000);
@@ -2772,12 +2119,10 @@
             SpeedCore.onSuccess();
             return;
           }
-
           setTimeout(() => this.next(), 350);
         } else {
-          FeedbackEngine.vibrate(60);
-          const dirMsg = this.addr.isEven ? "1 ➔ 6 (Esq ➔ Dir)" : "6 ⬅ 1 (Dir ➔ Esq)";
-          this.fail(`Você tocou na BIN ${binNum}, mas o endereço pede a BIN ${this.addr.bin}. Olhe a seta: ${dirMsg}!`);
+          FeedbackEngine.vibrate(50);
+          this.fail(`Você tocou na BIN ${binNum}. O coletor pedia a BIN ${this.addr.bin}!`);
         }
       },
 
@@ -2785,19 +2130,19 @@
         clearInterval(this.timer);
         AudioEngine.error();
         App.addError();
-        App.showModal("Atenção ao Picking!", reason, () => this.next());
+        App.showModal("Atenção, Picker!", reason, () => this.next());
       },
 
       onTimeout() {
         clearInterval(this.timer);
         AudioEngine.error();
         App.addError();
-        App.showModal("Tempo Esgotado! ⏱️", `O endereço era: ${this.addr.code}`, () => this.next());
+        App.showModal("Tempo Esgotado! ⏱️", `Endereço pedido: ${this.addr.code}`, () => this.next());
       }
     };
   </script>
 
-  <!-- Speed Core -->
+  <!-- VELOCIDADE & PRÁTICA -->
   <script>
     const SpeedCore = {
       target: 10,
@@ -2818,8 +2163,8 @@
           const secs = ((Date.now() - this.startT) / 1000).toFixed(1);
           const avg = (secs / this.target).toFixed(2);
           App.showModal(
-            "Desafio Concluído! 🏁 ^^",
-            `Você completou ${this.target} endereços em ${secs}s (Média: ${avg}s por BIN)!`,
+            "Desafio Concluído! 🏁",
+            `Você completou ${this.target} endereços em ${secs}s (Média: ${avg}s por item)!`,
             () => App.nav('menu')
           );
         } else {
@@ -2827,10 +2172,7 @@
         }
       }
     };
-  </script>
 
-  <!-- Practice Core -->
-  <script>
     const PracticeCore = {
       start() {
         TutorialEngine.abort();
@@ -2840,7 +2182,7 @@
     };
   </script>
 
-  <!-- App Main Orchestrator -->
+  <!-- APP ORQUESTRADOR -->
   <script>
     const App = {
       state: {
@@ -2852,7 +2194,6 @@
         errorCount: 0,
         totalTime: 0
       },
-
       modalCb: null,
 
       init() {
@@ -2872,22 +2213,22 @@
 
       load() {
         try {
-          const d = localStorage.getItem('boxi_meli_cad_v18');
+          const d = localStorage.getItem('boxi_meli_cad_v29');
           if (d) this.state = Object.assign(this.state, JSON.parse(d));
         } catch(e) {}
       },
 
       save() {
         try {
-          localStorage.setItem('boxi_meli_cad_v18', JSON.stringify(this.state));
+          localStorage.setItem('boxi_meli_cad_v29', JSON.stringify(this.state));
         } catch(e) {}
         this.updateHeader();
       },
 
       getLevel(xp) {
-        if (xp >= 2000) return "Mestre CAD";
+        if (xp >= 2000) return "Mestre Picker";
         if (xp >= 1000) return "Especialista";
-        if (xp >= 450) return "Operador";
+        if (xp >= 450) return "Picker Ágil";
         if (xp >= 150) return "Aprendiz";
         return "Novato";
       },
@@ -2901,13 +2242,19 @@
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         const sc = document.getElementById(`screen-${id}`);
         if (sc) sc.classList.add('active');
-
         if (id === 'stats') this.renderStats();
       },
 
       handleMenuClick() {
         if (TutorialEngine.active) {
-          TutorialEngine.requestAbort();
+          App.showModal(
+            "Sair do Tutorial?",
+            "Você pode reiniciar o tutorial a qualquer momento pelo menu!",
+            () => {
+              TutorialEngine.abort();
+              this.nav('menu');
+            }
+          );
         } else {
           this.nav('menu');
         }
@@ -2915,7 +2262,8 @@
 
       handlePauseOrQuit() {
         if (TutorialEngine.active) {
-          TutorialEngine.requestAbort();
+          TutorialEngine.abort();
+          this.nav('menu');
         } else {
           this.nav('menu');
         }
@@ -2961,8 +2309,8 @@
       },
 
       resetProgress() {
-        if (confirm("Deseja realmente resetar todas as suas estatísticas e progresso?")) {
-          localStorage.removeItem('boxi_meli_cad_v18');
+        if (confirm("Deseja realmente resetar todas as suas estatísticas?")) {
+          localStorage.removeItem('boxi_meli_cad_v29');
           location.reload();
         }
       },
@@ -2970,10 +2318,6 @@
       showModal(title, msg, onOk = null) {
         document.getElementById('modalTitle').textContent = title;
         document.getElementById('modalBody').innerHTML = msg;
-        
-        const container = document.getElementById('modalButtons');
-        container.innerHTML = `<button class="btn btn-yellow" style="width:100%;" onclick="App.closeModal()">Continuar</button>`;
-
         document.getElementById('modalOverlay').classList.add('active');
         this.modalCb = onOk;
       },
